@@ -30,10 +30,10 @@ namespace WebApi
             app.UseOAuthBearerTokens(OAuthOptions);
 
             //Shibboleth middleware, test metadata
-            SSOAuthenticationExtensions.UseShibbolethAuthentication(app, "testShib");
+            //SSOAuthenticationExtensions.UseShibbolethAuthentication(app, "testShib");
 
             //local
-            //SSOAuthenticationExtensions.UseShibbolethAuthentication(app, "local");
+            SSOAuthenticationExtensions.UseShibbolethAuthentication(app, "local");
 
             //Shibboleth middleware, localhost metadata metadata
             //SSOAuthenticationExtensions.UseShibbolethAuthentication(app, "imperial.ac.uk");

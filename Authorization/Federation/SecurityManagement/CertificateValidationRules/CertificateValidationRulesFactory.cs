@@ -12,7 +12,7 @@ namespace SecurityManagement.CertificateValidationRules
         public static IEnumerable<ICertificateValidationRule> GetRules(CertificateValidationConfiguration configuration)
         {
             var rules = ReflectionHelper.GetAllTypes(new[] { typeof(CertificateValidationRule).Assembly }, t =>
-            !t.IsAbstract && t.IsInterface && typeof(ICertificateValidationRule).IsAssignableFrom(t))
+            !t.IsAbstract && !t.IsInterface && typeof(ICertificateValidationRule).IsAssignableFrom(t))
             .Select(t => (ICertificateValidationRule)Activator.CreateInstance(t));
             return rules;
         }

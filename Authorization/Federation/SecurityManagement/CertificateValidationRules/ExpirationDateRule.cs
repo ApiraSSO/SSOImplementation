@@ -9,7 +9,7 @@ namespace SecurityManagement.CertificateValidationRules
         {
             var certificate = context.Certificate;
             var expirationDateString = certificate.GetExpirationDateString();
-            var EffectiveDateString = certificate.GetEffectiveDateString();
+            
             DateTime date;
             DateTime.TryParse(expirationDateString, out date);
             if (date < DateTime.Now)
