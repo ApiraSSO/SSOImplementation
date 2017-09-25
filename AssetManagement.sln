@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{11854441-8BA2-4F92-876A-C21E1C392328}"
 EndProject
@@ -94,6 +94,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{5D045FCD-BBE8-4543-B16B-00C8579E6861}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{40A28D14-9B34-4000-BB7B-99BB0FD5BDF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WsMetadataSerialisation.Test", "Serialisation\WsMetadataSerialisation.Test\WsMetadataSerialisation.Test.csproj", "{52847132-FB66-4611-A321-581391DDB57F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -241,6 +243,10 @@ Global
 		{40A28D14-9B34-4000-BB7B-99BB0FD5BDF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40A28D14-9B34-4000-BB7B-99BB0FD5BDF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40A28D14-9B34-4000-BB7B-99BB0FD5BDF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52847132-FB66-4611-A321-581391DDB57F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52847132-FB66-4611-A321-581391DDB57F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52847132-FB66-4611-A321-581391DDB57F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52847132-FB66-4611-A321-581391DDB57F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -283,6 +289,7 @@ Global
 		{40277502-BEE5-4E57-986E-8C6C851A8913} = {59620518-6260-4F87-87AF-3142CEE75C35}
 		{B3B5D17F-9B2C-4B26-90E5-8AB0C1A3074A} = {59620518-6260-4F87-87AF-3142CEE75C35}
 		{40A28D14-9B34-4000-BB7B-99BB0FD5BDF7} = {5D045FCD-BBE8-4543-B16B-00C8579E6861}
+		{52847132-FB66-4611-A321-581391DDB57F} = {0AFE6D2B-E3B2-455F-9776-70D5C39629A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E4F5021-8BA2-4CB0-959B-4E49D190605D}
