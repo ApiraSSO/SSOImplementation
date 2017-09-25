@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Selectors;
 using System.Linq;
 using System.Net.Security;
@@ -14,6 +13,8 @@ namespace SecurityManagement
 {
     internal class CertificateValidator : X509CertificateValidator, ICertificateValidator
     {
+        private CertificateValidationConfiguration _configuration;
+
         private readonly ICertificateValidationConfigurationProvider _configurationProvider;
         public CertificateValidator(ICertificateValidationConfigurationProvider configurationProvider)
         {
@@ -22,7 +23,7 @@ namespace SecurityManagement
 
             this._configurationProvider = configurationProvider;
         }
-
+        
         public X509CertificateValidationMode X509CertificateValidationMode
         {
             get
@@ -37,10 +38,17 @@ namespace SecurityManagement
 
         public bool Validate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
+            var configiration = this.GetConfiguration();
             var context = new BackchannelCertificateValidationContext(certificate, chain, sslPolicyErrors);
-            Func<BackchannelCertificateValidationContext, Task> seed = x => Task.CompletedTask;
 
-            var rules = this.GetBackchannelCertificateValidationRules();
+            //default rule. No validation
+            Func<BackchannelCertificateValidationContext, Task> seed = x =>
+            {
+                x.Validated();
+                return Task.CompletedTask;
+            };
+
+            var rules = BackchannelCertificateValidationRulesFactory.GetRules(configiration);
             var validationDelegate = rules.Aggregate(seed, (f, next) => new Func<BackchannelCertificateValidationContext, Task>(c => next.Validate(c, f)));
             var task = validationDelegate(context);
             task.Wait();
@@ -49,7 +57,7 @@ namespace SecurityManagement
         
         public override void Validate(X509Certificate2 certificate)
         {
-            var configiration = this._configurationProvider.GetConfiguration();
+            var configiration = this.GetConfiguration();
             var context = new CertificateValidationContext(certificate);
             Func<CertificateValidationContext, Task> seed = x => Task.CompletedTask;
 
@@ -58,11 +66,17 @@ namespace SecurityManagement
             var task = validationDelegate(context);
             task.Wait();
         }
-
-        //ToDo: use factory or DI container
-        private ICollection<IBackchannelCertificateValidationRule> GetBackchannelCertificateValidationRules()
+        
+        private CertificateValidationConfiguration GetConfiguration()
         {
-            return new IBackchannelCertificateValidationRule[] {new BackchannelNoValidationRule(), new BackchannelChainTrustValidationRule() };
+            if (this._configuration == null)
+            {
+                this._configuration = this._configurationProvider.GetConfiguration();
+            }
+            if (this._configuration == null)
+                throw new InvalidOperationException("CertificateValidationConfiguration is null!");
+
+            return this._configuration;
         }
     }
 }

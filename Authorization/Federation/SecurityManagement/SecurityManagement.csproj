@@ -43,9 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackchannelCertificateValidationRules\BackchannelChainTrustValidationRule.cs" />
     <Compile Include="BackchannelCertificateValidationRules\BackchannelValidationRule.cs" />
-    <Compile Include="BackchannelCertificateValidationRules\BackchannelNoValidationRule.cs" />
+    <Compile Include="BackchannelCertificateValidationRules\BackchannelCertificateValidationRulesFactory.cs" />
     <Compile Include="CertificateManager.cs" />
     <Compile Include="CertificateValidationRules\CertificateValidationRulesFactory.cs" />
     <Compile Include="CertificateValidationRules\EffectiveDateRule.cs" />
