@@ -8,6 +8,12 @@ namespace SecurityManagement.CertificateValidationRules
     {
         public Task Validate(CertificateValidationContext context, Func<CertificateValidationContext, Task> next)
         {
+            if (context == null)
+                throw new ArgumentNullException("context");
+
+            if (context.Certificate == null)
+                throw new ArgumentNullException("certificate");
+
             this.Internal(context);
             return next(context);
         }

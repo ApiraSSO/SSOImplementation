@@ -1,16 +1,18 @@
-﻿using Kernel.Cryptography.Validation;
+﻿using System;
+using Kernel.Cryptography.Validation;
 
 namespace SecurityManagement.Tests.Mock
 {
     internal class CertificateValidationConfigurationProvider : ICertificateValidationConfigurationProvider
     {
+        Func<CertificateValidationConfiguration> _func;
+        public CertificateValidationConfigurationProvider(Func<CertificateValidationConfiguration> func)
+        {
+            this._func = func;
+        }
         public CertificateValidationConfiguration GetConfiguration()
         {
-            return new CertificateValidationConfiguration
-            {
-                UsePinningValidation = false,
-                X509CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom
-            };
+            return this._func();
         }
         public void Dispose()
         {

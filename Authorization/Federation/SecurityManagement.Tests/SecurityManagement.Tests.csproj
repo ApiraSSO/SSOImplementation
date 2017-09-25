@@ -49,8 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CertificateStoreTests.cs" />
+    <Compile Include="BackchannelCertificateValidatorTests.cs" />
+    <Compile Include="CertificateValidationRulesFactoryTest.cs" />
     <Compile Include="CertificateValidatorTests.cs" />
     <Compile Include="Mock\CertificateValidationConfigurationProvider.cs" />
+    <Compile Include="Mock\CertificateValidationRuleFailedMock.cs" />
+    <Compile Include="Mock\CertificateValidationRuleMock1.cs" />
+    <Compile Include="Mock\CertificateValidationRuleMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
