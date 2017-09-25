@@ -46,7 +46,6 @@
     <Compile Include="Exceptions\FederationException.cs" />
     <Compile Include="Exceptions\TimeRestrictionViolationException.cs" />
     <Compile Include="FederationConfiguration\IAllowedAudienceConfiguration.cs" />
-    <Compile Include="FederationConfiguration\IConfiguration.cs" />
     <Compile Include="IRelayState.cs" />
     <Compile Include="RelyingParty\IRelyingPartyContextBuilder.cs" />
     <Compile Include="RelyingParty\RelyingPartyContext.cs" />

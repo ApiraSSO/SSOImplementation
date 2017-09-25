@@ -24,7 +24,6 @@ namespace Federation.Protocols.Request
 
         public Uri BuildRedirectUri(AuthnRequestContext authnRequestContext)
         {
-            var configuration = authnRequestContext.Configuration;
             var authnRequest = new AuthnRequest
             {
                 Id = "Imperial.flowz.co.uk",

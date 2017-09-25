@@ -44,8 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CertificateProviderImplementation\CertificateProvider.cs" />
-    <Compile Include="CertificateProviderImplementation\SertificateCachePopulator.cs" />
     <Compile Include="Initialisation\WsFederationMetadataProviderInitialiser.cs" />
     <Compile Include="Metadata\DescriptorBuilders\DescriptorBuildersHelper.cs" />
     <Compile Include="Metadata\DescriptorBuilders\ServiceProviderSingleSignOnDescriptorBuilder.cs" />

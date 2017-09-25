@@ -76,7 +76,7 @@ namespace SSOOwinMiddleware.Handlers
                     .Location;
             }
 
-            var requestContext = new AuthnRequestContext(null, signInUrl);
+            var requestContext = new AuthnRequestContext(signInUrl);
             var redirectUriBuilder = this._resolver.Resolve<AuthnRequestBuilder>();
             var redirectUri = redirectUriBuilder.BuildRedirectUri(requestContext);
             
