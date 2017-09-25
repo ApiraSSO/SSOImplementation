@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CertificateDefaultRulesTests.cs" />
     <Compile Include="CertificateStoreTests.cs" />
     <Compile Include="BackchannelCertificateValidatorTests.cs" />
     <Compile Include="CertificateValidationRulesFactoryTest.cs" />
