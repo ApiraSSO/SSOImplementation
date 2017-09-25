@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetManagement", "AssetManagement\AssetManagement.csproj", "{A9458503-8BFC-47AC-997F-A3ED9A3F53CA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{11854441-8BA2-4F92-876A-C21E1C392328}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModels", "Infrastructure\DataModels\DataModels.csproj", "{213F6BCC-8330-4494-8F4B-5EB7FE8EC4D9}"
@@ -135,10 +133,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A9458503-8BFC-47AC-997F-A3ED9A3F53CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9458503-8BFC-47AC-997F-A3ED9A3F53CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9458503-8BFC-47AC-997F-A3ED9A3F53CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9458503-8BFC-47AC-997F-A3ED9A3F53CA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{213F6BCC-8330-4494-8F4B-5EB7FE8EC4D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{213F6BCC-8330-4494-8F4B-5EB7FE8EC4D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{213F6BCC-8330-4494-8F4B-5EB7FE8EC4D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -340,7 +334,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A9458503-8BFC-47AC-997F-A3ED9A3F53CA} = {5D045FCD-BBE8-4543-B16B-00C8579E6861}
 		{213F6BCC-8330-4494-8F4B-5EB7FE8EC4D9} = {11854441-8BA2-4F92-876A-C21E1C392328}
 		{FA2CD1BF-A890-4306-9EDB-A1B10042E57E} = {11854441-8BA2-4F92-876A-C21E1C392328}
 		{83384F8F-4611-4FB6-88D0-C1D89D0D070A} = {9DE2C92F-7899-4F55-8790-B26CB9160C22}
