@@ -68,10 +68,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Infrastructure\DataModels\DataModels.csproj">
-      <Project>{213f6bcc-8330-4494-8f4b-5eb7fe8ec4d9}</Project>
-      <Name>DataModels</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Infrastructure\Shared\Shared.csproj">
       <Project>{fa2cd1bf-a890-4306-9edb-a1b10042e57e}</Project>
       <Name>Shared</Name>
