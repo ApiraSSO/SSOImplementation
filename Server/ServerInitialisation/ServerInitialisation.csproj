@@ -44,14 +44,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AuthenticationProviders\Microsoft.AspNet.Identity.Owin.Provider\Microsoft.AspNet.Identity.Owin.Provider.csproj">
-      <Project>{2d6ad899-ddcf-4457-97b4-27acc61929af}</Project>
-      <Name>Microsoft.AspNet.Identity.Owin.Provider</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\AuthenticationProviders\Microsoft.AspNet.Identity.Providers\AspNet.EntityFramework.IdentityProvider\AspNet.EntityFramework.IdentityProvider.csproj">
-      <Project>{b7bb0207-1471-4a4f-a939-9addb99f8249}</Project>
-      <Name>AspNet.EntityFramework.IdentityProvider</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Authorization\Federation\Federation.Metadata.Consumer\Federation.Metadata.RelyingParty.csproj">
       <Project>{EEC53E9A-3970-4EEC-8FFC-6B1AEA371A77}</Project>
       <Name>Federation.Metadata.RelyingParty</Name>

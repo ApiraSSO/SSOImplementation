@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using AspNet.EntityFramework.IdentityProvider.Initialisation;
-using Federation.Metadata.HttpRetriever.Initialisation;
+﻿using Federation.Metadata.HttpRetriever.Initialisation;
 using Federation.Metadata.RelyingParty.Initialisation;
 using Kernel.DependancyResolver;
 using Kernel.Initialisation;
 using Kernel.Logging;
 using Kernel.Reflection;
 using MemoryCacheProvider.Initialisation;
-using Microsoft.AspNet.Identity.Owin.Provider.Initialisation;
 using OAuthAuthorisationService.Initialisation;
 using ORMMetadataContextProvider.Initialisation;
 using Provider.EntityFramework.Initialisation;
 using SecurityManagement.Initialisation;
 using Serialisation.Xml.Initialisation;
 using Shared.Initialisation;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using WebClientMetadataWriter.Initialisation;
 using WsFederationMetadataProvider.Initialisation;
 using WsMetadataSerialisation.Initialisation;
@@ -31,8 +29,6 @@ namespace ServerInitialisation
         {
             get
             {
-                yield return typeof(IdentityInitialiser).Assembly;
-                yield return typeof(OwinIdentityInitialiser).Assembly;
                 yield return typeof(SecurityInitialiser).Assembly;
                 yield return typeof(WsFederationMetadataProviderInitialiser).Assembly;
                 yield return typeof(WebClientMetadataWriterInitialiser).Assembly;
