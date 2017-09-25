@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{47FE8E9F-CCF6-46B7-BA75-CBA1D1F56D7A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kernel.Federation</RootNamespace>
+    <AssemblyName>Kernel.Federation</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audience\AudienceUriMode.cs" />
+    <Compile Include="Exceptions\AudienceRestrictionException.cs" />
+    <Compile Include="Exceptions\FederationException.cs" />
+    <Compile Include="Exceptions\TimeRestrictionViolationException.cs" />
+    <Compile Include="FederationConfiguration\IAllowedAudienceConfiguration.cs" />
+    <Compile Include="FederationConfiguration\IConfiguration.cs" />
+    <Compile Include="IRelayState.cs" />
+    <Compile Include="RelyingParty\IRelyingPartyContextBuilder.cs" />
+    <Compile Include="RelyingParty\RelyingPartyContext.cs" />
+    <Compile Include="MetaData\Configuration\Cryptography\FileSystemStore.cs" />
+    <Compile Include="MetaData\Configuration\Cryptography\KeyDescriptorConfiguration.cs" />
+    <Compile Include="MetaData\Configuration\Cryptography\KeyTarget.cs" />
+    <Compile Include="MetaData\Configuration\Cryptography\KeyUsage.cs" />
+    <Compile Include="MetaData\Configuration\Cryptography\FileStoreCertificateConfiguration.cs" />
+    <Compile Include="MetaData\Configuration\Cryptography\MetadataSigningContext.cs" />
+    <Compile Include="MetaData\Configuration\Cryptography\X509StoreCertificateConfiguration.cs" />
+    <Compile Include="MetaData\Configuration\EndPoint\EndPointConfiguration.cs" />
+    <Compile Include="MetaData\Configuration\EndPoint\IndexedEndPointConfiguration.cs" />
+    <Compile Include="MetaData\Configuration\IMetadataContextProvider.cs" />
+    <Compile Include="MetaData\Configuration\MetadataContext.cs" />
+    <Compile Include="MetaData\Configuration\IMetadataContextBuilder.cs" />
+    <Compile Include="MetaData\Configuration\Organisation\ContactConfiguration.cs" />
+    <Compile Include="MetaData\Configuration\Organisation\ContactType.cs" />
+    <Compile Include="MetaData\Configuration\EntityDescriptors\EntityDesriptorConfiguration.cs" />
+    <Compile Include="MetaData\Configuration\MetadataConfigurationEntry.cs" />
+    <Compile Include="MetaData\Configuration\Organisation\OrganisationConfiguration.cs" />
+    <Compile Include="MetaData\Configuration\Miscellaneous\OtherName.cs" />
+    <Compile Include="MetaData\Configuration\Organisation\ContactPerson.cs" />
+    <Compile Include="MetaData\Configuration\RoleDescriptors\RoleDescriptorConfiguration.cs" />
+    <Compile Include="MetaData\Configuration\RoleDescriptors\SPSSODescriptorConfiguration.cs" />
+    <Compile Include="MetaData\Configuration\RoleDescriptors\SSODescriptorConfiguration.cs" />
+    <Compile Include="MetaData\IDescriptorBuilder.cs" />
+    <Compile Include="MetaData\IMetadataGenerator.cs" />
+    <Compile Include="MetaData\IIdMetadataGenerator.cs" />
+    <Compile Include="MetaData\ISPMetadataGenerator.cs" />
+    <Compile Include="MetaData\IMetadataSerialiser.cs" />
+    <Compile Include="MetaData\IFederationMetadataWriter.cs" />
+    <Compile Include="MetaData\MetadataType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CertificateProvider\ICertificateCachePopulator.cs" />
+    <Compile Include="Protocols\AuthnRequestContext.cs" />
+    <Compile Include="Protocols\IAuthnRequestBuilder.cs" />
+    <Compile Include="RelyingParty\IConfigurationManager.cs" />
+    <Compile Include="RelyingParty\IConfigurationRetriever.cs" />
+    <Compile Include="RelyingParty\IDocumentRetriever.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kernel.Cache\Kernel.Cache.csproj">
+      <Project>{5A1D47F4-B15F-4F42-8EAF-24F1474FE503}</Project>
+      <Name>Kernel.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kernel.Cryptography\Kernel.Cryptography.csproj">
+      <Project>{857217F2-B265-4154-883F-568285643238}</Project>
+      <Name>Kernel.Cryptography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kernel.Data\Kernel.Data.csproj">
+      <Project>{58F76882-5E21-452F-A070-76D468D6E27C}</Project>
+      <Name>Kernel.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kernel\Kernel.csproj">
+      <Project>{E198C691-91A6-4082-9976-F5F006F24960}</Project>
+      <Name>Kernel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MetaData\Configuration\Discovery\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

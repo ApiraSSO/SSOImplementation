@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{220407EA-E1E1-4BC6-BEC3-3ABFE5070DF5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WsFederationMetadataProvider</RootNamespace>
+    <AssemblyName>WsFederationMetadataProvider</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CertificateProviderImplementation\CertificateProvider.cs" />
+    <Compile Include="CertificateProviderImplementation\SertificateCachePopulator.cs" />
+    <Compile Include="Initialisation\WsFederationMetadataProviderInitialiser.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\DescriptorBuildersHelper.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\ServiceProviderSingleSignOnDescriptorBuilder.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\DescriptorBuilderBase.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorMemberBulders\MiscellaneousRoleDescriptorMemberBuilder.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorMemberBulders\ProtocolsSupportedBuilder.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorMemberBulders\MemberBuilderFactory.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorMemberBulders\PersonContactBuilder.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorMemberBulders\OrganisationBuilder.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorMemberBulders\NameIdentifierFormatsBuilder.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorMemberBulders\KeysBuilder.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorMemberBulders\SingleLogoutServicesBuilder.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorMemberBulders\ArtifactResolutionServicesBuilder.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorMemberBulders\RoleDescriptorMemberBuilder.cs" />
+    <Compile Include="Metadata\DescriptorBuilders\SSODescriptorBuilderHelper.cs" />
+    <Compile Include="Metadata\MetadataGeneratorBase.cs" />
+    <Compile Include="Metadata\SPSSOMetadataProvider.cs" />
+    <Compile Include="Metadata\SSOMetadataFileWriter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Cache\MemoryCacheProvider\MemoryCacheProvider.csproj">
+      <Project>{5647CA93-FE6C-4247-93C6-5617D16BE29B}</Project>
+      <Name>MemoryCacheProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Infrastructure\Shared\Shared.csproj">
+      <Project>{fa2cd1bf-a890-4306-9edb-a1b10042e57e}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Cache\Kernel.Cache.csproj">
+      <Project>{5A1D47F4-B15F-4F42-8EAF-24F1474FE503}</Project>
+      <Name>Kernel.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Cryptography\Kernel.Cryptography.csproj">
+      <Project>{857217F2-B265-4154-883F-568285643238}</Project>
+      <Name>Kernel.Cryptography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Federation\Kernel.Federation.csproj">
+      <Project>{47FE8E9F-CCF6-46B7-BA75-CBA1D1F56D7A}</Project>
+      <Name>Kernel.Federation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Reflection\Kernel.Reflection.csproj">
+      <Project>{2A6BA5FB-DBAA-457A-9CB3-9BA74A96551B}</Project>
+      <Name>Kernel.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel\Kernel.csproj">
+      <Project>{e198c691-91a6-4082-9976-f5f006f24960}</Project>
+      <Name>Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Serialisation\WsMetadataSerialisation\WsMetadataSerialisation.csproj">
+      <Project>{D63B92B8-863B-493D-8117-0960DB06B554}</Project>
+      <Name>WsMetadataSerialisation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Federation.Protocols\Federation.Protocols.csproj">
+      <Project>{33862A55-E53A-45EF-85C4-A9E1DEF4181C}</Project>
+      <Name>Federation.Protocols</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

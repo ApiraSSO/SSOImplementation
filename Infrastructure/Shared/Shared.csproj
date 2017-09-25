@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FA2CD1BF-A890-4306-9EDB-A1B10042E57E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Shared</RootNamespace>
+    <AssemblyName>Shared</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Initialisation\Initialiser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Command\ICommandService.cs" />
+    <Compile Include="Services\Query\Assets\IAssetQueryService.cs" />
+    <Compile Include="Services\Query\Authentication\IAuthenticationQueryService.cs" />
+    <Compile Include="Services\Query\Location\ILocationQueryService.cs" />
+    <Compile Include="Services\Requests\Query\AuthenticateUserRequest.cs" />
+    <Compile Include="Services\Responses\Query\AbstractResponse.cs" />
+    <Compile Include="Services\Responses\Query\AuthenticateUserResponse.cs" />
+    <Compile Include="Services\Responses\Query\BaseAuthenticateUserResponse.cs" />
+    <Compile Include="Services\Responses\Query\ResponseStatuses.cs" />
+    <Compile Include="Services\Responses\ResponseMessage.cs" />
+    <Compile Include="Services\Responses\ResponseMessageCollection.cs" />
+    <Compile Include="Services\Responses\ResponseMessageTypes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+    <Folder Include="Data\Repository\" />
+    <Folder Include="Logging\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Kernel\Kernel.Authentication\Kernel.Authentication.csproj">
+      <Project>{9492C7B7-6584-4FFF-A68F-8F0AEFD8077E}</Project>
+      <Name>Kernel.Authentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kernel\Kernel.Configuration\Kernel.Configuration.csproj">
+      <Project>{b78beaba-813a-4c65-ba17-2207e5f37b66}</Project>
+      <Name>Kernel.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kernel\Kernel.CQRS\Kernel.CQRS.csproj">
+      <Project>{dbe9a282-f646-41c9-896d-00abdc5b9aad}</Project>
+      <Name>Kernel.CQRS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kernel\Kernel.Reflection\Kernel.Reflection.csproj">
+      <Project>{2a6ba5fb-dbaa-457a-9cb3-9ba74a96551b}</Project>
+      <Name>Kernel.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kernel\Kernel\Kernel.csproj">
+      <Project>{e198c691-91a6-4082-9976-f5f006f24960}</Project>
+      <Name>Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRS.Infrastructure\CQRS.Infrastructure.csproj">
+      <Project>{496E6B52-33D0-4E4E-945F-692E97642506}</Project>
+      <Name>CQRS.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataModels\DataModels.csproj">
+      <Project>{213f6bcc-8330-4494-8f4b-5eb7fe8ec4d9}</Project>
+      <Name>DataModels</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

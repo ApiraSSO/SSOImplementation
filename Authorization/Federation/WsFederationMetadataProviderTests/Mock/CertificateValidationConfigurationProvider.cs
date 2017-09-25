@@ -1,0 +1,19 @@
+﻿using Kernel.Cryptography.Validation;
+
+namespace WsFederationMetadataProviderTests.Mock
+{
+    internal class CertificateValidationConfigurationProvider : ICertificateValidationConfigurationProvider
+    {
+        public CertificateValidationConfiguration GetConfiguration()
+        {
+            return new CertificateValidationConfiguration
+            {
+                UsePinningValidation = false,
+                X509CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom
+            };
+        }
+        public void Dispose()
+        {
+        }
+    }
+}

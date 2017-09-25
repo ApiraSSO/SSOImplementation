@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\librdkafka.redist.0.9.4\build\librdkafka.redist.props" Condition="Exists('..\..\packages\librdkafka.redist.0.9.4\build\librdkafka.redist.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{23052996-85F5-40E7-8009-D28D963F2A10}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DragonCMS.KafkaClient.Tests</RootNamespace>
+    <AssemblyName>DragonCMS.KafkaClient.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Confluent.Kafka, Version=0.9.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Confluent.Kafka.0.9.4\lib\net451\Confluent.Kafka.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DispatcherTests.cs" />
+    <Compile Include="Factories\PersonAggregateFactory.cs" />
+    <Compile Include="MockData\ChildClass.cs" />
+    <Compile Include="MockData\DependencyResolverMock.cs" />
+    <Compile Include="MockData\DocumentControllerMock.cs" />
+    <Compile Include="MockData\ParentTestClass.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DragonCMS.CMSSearchAdapter.Models\DragonCMS.CMSSearchAdapter.Models.csproj">
+      <Project>{FB9106B1-8B63-49C5-B650-0F372C2FD2C7}</Project>
+      <Name>DragonCMS.CMSSearchAdapter.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DragonCMS.Common\DragonCMS.Common.csproj">
+      <Project>{1B3E9B7A-3137-41EA-A486-A578D55692C9}</Project>
+      <Name>DragonCMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DragonCMS.Directory.Messages\DragonCMS.Directory.Messages.csproj">
+      <Project>{07200A1D-8D5B-4206-BA1D-CE8378B18C7C}</Project>
+      <Name>DragonCMS.Directory.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KafkaAPI\DragonCMS.KafkaClient.csproj">
+      <Project>{4d29102b-5b04-4727-9f39-d06ed82f8312}</Project>
+      <Name>DragonCMS.KafkaClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\librdkafka.redist.0.9.4\build\librdkafka.redist.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\librdkafka.redist.0.9.4\build\librdkafka.redist.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

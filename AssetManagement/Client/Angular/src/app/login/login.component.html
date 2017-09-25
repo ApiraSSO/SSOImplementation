@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-xs-6 col-xs-offset-5">      
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="form-horizontal" id="login-form">
+            <div class="form-group has-feedback"
+                 [ngClass]="{ 'has-success': emailInput.valid && !emailInput.pristine, 'has-error': !emailInput.valid && !emailInput.pristine }">
+                <label for="email" class="control-label">Email</label>
+                <input type="text" class="form-control" id="email"
+                       #emailInput="ngModel"
+                       required
+                       [(ngModel)]="email" name="email">
+                <span *ngIf="emailInput.valid && !emailInput.pristine" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                <span *ngIf="!emailInput.valid && !emailInput.pristine" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            </div>
+            <div class="form-group has-feedback"
+                 [ngClass]="{ 'has-success': passwordInput.valid && !passwordInput.pristine, 'has-error': !passwordInput.valid && !passwordInput.pristine }">
+                <label for="password" class="control-label">Password</label>    
+                <input type="password" class="form-control" id="password"
+                       #passwordInput="ngModel"
+                       required
+                       [(ngModel)]="password" name="password">
+                <span *ngIf="passwordInput.valid && !passwordInput.pristine" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                <span *ngIf="!passwordInput.valid && !passwordInput.pristine" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default"
+                        [disabled]="!loginForm.form.valid">
+                    Login
+                </button>                    
+            </div>
+
+            <div [hidden]="!showWarningMessage" class="alert alert-warning" role="alert">The email address and password combination did not match. Please re-enter and try again</div>
+            <div [hidden]="!showErrorMessage" class="alert alert-danger" role="alert">Sorry, there was a problem. Please try again or if the problem persists contact the Digital Team on xxxxx TODO AH.</div>
+        </form>
+    </div>
+</div>

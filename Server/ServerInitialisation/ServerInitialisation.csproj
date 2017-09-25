@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9670D9D3-7652-42AC-80A7-B9B5D07A0B4C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ServerInitialisation</RootNamespace>
+    <AssemblyName>ServerInitialisation</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ServerInitialiser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AuthenticationProviders\Microsoft.AspNet.Identity.Owin.Provider\Microsoft.AspNet.Identity.Owin.Provider.csproj">
+      <Project>{2d6ad899-ddcf-4457-97b4-27acc61929af}</Project>
+      <Name>Microsoft.AspNet.Identity.Owin.Provider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AuthenticationProviders\Microsoft.AspNet.Identity.Providers\AspNet.EntityFramework.IdentityProvider\AspNet.EntityFramework.IdentityProvider.csproj">
+      <Project>{b7bb0207-1471-4a4f-a939-9addb99f8249}</Project>
+      <Name>AspNet.EntityFramework.IdentityProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Authorization\Federation\Federation.Metadata.Consumer\Federation.Metadata.RelyingParty.csproj">
+      <Project>{EEC53E9A-3970-4EEC-8FFC-6B1AEA371A77}</Project>
+      <Name>Federation.Metadata.RelyingParty</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Authorization\Federation\Federation.Metadata.HttpRetriever\Federation.Metadata.HttpRetriever.csproj">
+      <Project>{99B877E4-7B04-4490-9163-C7A41FEE0097}</Project>
+      <Name>Federation.Metadata.HttpRetriever</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Authorization\Federation\ORMMetadataContextBuilder\ORMMetadataContextProvider.csproj">
+      <Project>{3A8DF840-5A87-4CD3-915E-07ABF10B065A}</Project>
+      <Name>ORMMetadataContextProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Authorization\Federation\SecurityManagement\SecurityManagement.csproj">
+      <Project>{F194D759-AE81-488C-8230-EF63836B44C9}</Project>
+      <Name>SecurityManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Authorization\Federation\SPMetadataProvider\WsFederationMetadataProvider.csproj">
+      <Project>{220407EA-E1E1-4BC6-BEC3-3ABFE5070DF5}</Project>
+      <Name>WsFederationMetadataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Authorization\Federation\WebClientMetadataWriter\WebClientMetadataWriter.csproj">
+      <Project>{D9CD2A65-E454-403C-A36D-1BEEB4FB047B}</Project>
+      <Name>WebClientMetadataWriter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Authorization\OAuthAuthorisationService\OAuthAuthorisationService.csproj">
+      <Project>{b0d92407-e135-4ce6-8250-51ac8846ed0c}</Project>
+      <Name>OAuthAuthorisationService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Cache\MemoryCacheProvider\MemoryCacheProvider.csproj">
+      <Project>{5647CA93-FE6C-4247-93C6-5617D16BE29B}</Project>
+      <Name>MemoryCacheProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Shared\Shared.csproj">
+      <Project>{fa2cd1bf-a890-4306-9edb-a1b10042e57e}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kernel\Kernel.Logging\Kernel.Logging.csproj">
+      <Project>{7DA939D6-5443-498F-AAA1-3CE3134BC3EB}</Project>
+      <Name>Kernel.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kernel\Kernel.Reflection\Kernel.Reflection.csproj">
+      <Project>{2a6ba5fb-dbaa-457a-9cb3-9ba74a96551b}</Project>
+      <Name>Kernel.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kernel\Kernel\Kernel.csproj">
+      <Project>{e198c691-91a6-4082-9976-f5f006f24960}</Project>
+      <Name>Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ORM\Providers\Provider.EntityFramework\Provider.EntityFramework.csproj">
+      <Project>{8CE800B3-084A-4900-BEC3-27B81707ADC9}</Project>
+      <Name>Provider.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Serialisation\Serialisation.Xml\Serialisation.Xml.csproj">
+      <Project>{CAAA3B30-55E9-4F50-8F09-89CA54DF9614}</Project>
+      <Name>Serialisation.Xml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Serialisation\WsMetadataSerialisation\WsMetadataSerialisation.csproj">
+      <Project>{D63B92B8-863B-493D-8117-0960DB06B554}</Project>
+      <Name>WsMetadataSerialisation</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
