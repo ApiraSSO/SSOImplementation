@@ -57,10 +57,6 @@
       <Project>{b78beaba-813a-4c65-ba17-2207e5f37b66}</Project>
       <Name>Kernel.Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Kernel\Kernel.CQRS\Kernel.CQRS.csproj">
-      <Project>{dbe9a282-f646-41c9-896d-00abdc5b9aad}</Project>
-      <Name>Kernel.CQRS</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Kernel\Kernel.Reflection\Kernel.Reflection.csproj">
       <Project>{2a6ba5fb-dbaa-457a-9cb3-9ba74a96551b}</Project>
       <Name>Kernel.Reflection</Name>
