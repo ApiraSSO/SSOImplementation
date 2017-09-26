@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Kernel.Cache;
 using Kernel.Data.ORM;
 using Kernel.Federation.MetaData.Configuration;
@@ -19,13 +20,21 @@ namespace ORMMetadataContextProvider
         }
         public MetadataContext BuildContext()
         {
-            var entityDescriptor = this._dbContext.Set<EntityDescriptorSettings>()
-                .First();
+            var relyingPartyId = RelyingPartyIdentifierHelper.GetRelyingPartyIdFromRequestOrDefault();
 
+            var metadataSettings = this._dbContext.Set<RelyingPartySettings>()
+                .Where(x => x.RelyingPartyId == relyingPartyId)
+                .Select(r => r.MetadataSettings)
+                .FirstOrDefault();
+                
+
+            if (metadataSettings is null)
+                throw new InvalidOperationException(String.Format("No relyingParty configuration found for relyingPartyId: {0}", relyingPartyId));
+
+            var entityDescriptor = metadataSettings.SPDescriptorSettings;
             var entityDescriptorConfiguration = MetadataHelper.BuildEntityDesriptorConfiguration(entityDescriptor);
-            var signing = this._dbContext.Set<SigningCredential>()
-                .First();
-
+            var signing = metadataSettings.SigningCredential;
+            
             var signingContext = new MetadataSigningContext(signing.SignatureAlgorithm, signing.DigestAlgorithm);
             signingContext.KeyDescriptors.Add(MetadataHelper.BuildKeyDescriptorConfiguration(signing.Certificates.First(x => x.Use == KeyUsage.Signing && x.IsDefault)));
             return new MetadataContext

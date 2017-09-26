@@ -3,6 +3,7 @@ using System.Linq;
 using Kernel.Cache;
 using Kernel.Cryptography.Validation;
 using Kernel.Data.ORM;
+using ORMMetadataContextProvider.Models;
 using ORMMetadataContextProvider.Models.GlobalConfiguration;
 
 namespace ORMMetadataContextProvider.Security
@@ -20,8 +21,15 @@ namespace ORMMetadataContextProvider.Security
         
         public CertificateValidationConfiguration GetConfiguration()
         {
-            var settings = this._dbContext.Set<SecuritySettings>()
-                .First();
+            var relyingPartyId = RelyingPartyIdentifierHelper.GetRelyingPartyIdFromRequestOrDefault();
+            var settings = this._dbContext.Set<RelyingPartySettings>()
+                .Where(x => x.RelyingPartyId == relyingPartyId)
+                .Select(r => r.SecuritySettings)
+                .FirstOrDefault();
+
+            if (settings is null)
+                throw new InvalidOperationException(String.Format("No relyingParty configuration found for relyingPartyId: {0}", relyingPartyId));
+
             var configuration = new CertificateValidationConfiguration
             {
                 X509CertificateValidationMode = settings.X509CertificateValidationMode,
