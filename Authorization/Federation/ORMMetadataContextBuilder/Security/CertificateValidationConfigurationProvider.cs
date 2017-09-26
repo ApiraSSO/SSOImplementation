@@ -4,7 +4,6 @@ using Kernel.Cache;
 using Kernel.Cryptography.Validation;
 using Kernel.Data.ORM;
 using ORMMetadataContextProvider.Models;
-using ORMMetadataContextProvider.Models.GlobalConfiguration;
 
 namespace ORMMetadataContextProvider.Security
 {
