@@ -53,7 +53,9 @@
     <Compile Include="Mock\DbCustomConfigurationMock.cs" />
     <Compile Include="Mock\GlobalConnectionStringProviderMock.cs" />
     <Compile Include="Mock\MetadataConnectionStringProviderMock.cs" />
+    <Compile Include="Mock\TestMetadatWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SPMetadataTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -62,6 +64,10 @@
     <ProjectReference Include="..\..\..\Kernel\Kernel.Cache\Kernel.Cache.csproj">
       <Project>{5A1D47F4-B15F-4F42-8EAF-24F1474FE503}</Project>
       <Name>Kernel.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Cryptography\Kernel.Cryptography.csproj">
+      <Project>{857217F2-B265-4154-883F-568285643238}</Project>
+      <Name>Kernel.Cryptography</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Kernel\Kernel.Data\Kernel.Data.csproj">
       <Project>{58F76882-5E21-452F-A070-76D468D6E27C}</Project>
@@ -79,9 +85,17 @@
       <Project>{8ce800b3-084a-4900-bec3-27b81707adc9}</Project>
       <Name>Provider.EntityFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Serialisation\WsMetadataSerialisation\WsMetadataSerialisation.csproj">
+      <Project>{D63B92B8-863B-493D-8117-0960DB06B554}</Project>
+      <Name>WsMetadataSerialisation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ORMMetadataContextBuilder\ORMMetadataContextProvider.csproj">
       <Project>{3a8df840-5a87-4cd3-915e-07abf10b065a}</Project>
       <Name>ORMMetadataContextProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecurityManagement\SecurityManagement.csproj">
+      <Project>{F194D759-AE81-488C-8230-EF63836B44C9}</Project>
+      <Name>SecurityManagement</Name>
     </ProjectReference>
     <ProjectReference Include="..\SPMetadataProvider\WsFederationMetadataProvider.csproj">
       <Project>{220407EA-E1E1-4BC6-BEC3-3ABFE5070DF5}</Project>

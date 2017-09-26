@@ -16,7 +16,7 @@ namespace ORMMetadataContextProvider.Tests.Mock
 
         public bool Contains(string key)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public object Delete(string key)
@@ -31,7 +31,7 @@ namespace ORMMetadataContextProvider.Tests.Mock
 
         public T Get<T>(string key)
         {
-            throw new NotImplementedException();
+            return default(T);
         }
 
         public void Initialise()
@@ -41,22 +41,22 @@ namespace ORMMetadataContextProvider.Tests.Mock
 
         public void Post(string key, object value)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Post(string key, object value, ICacheItemPolicy policy)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Put(string key, object value)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Put(string key, object value, ICacheItemPolicy policy)
         {
-            throw new NotImplementedException();
+            
         }
 
         public IDictionary<string, T> TypeOf<T>()
