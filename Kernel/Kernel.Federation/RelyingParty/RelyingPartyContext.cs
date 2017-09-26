@@ -1,4 +1,5 @@
 ﻿using System;
+using Kernel.Federation.MetaData.Configuration;
 
 namespace Kernel.Federation.RelyingParty
 {
@@ -38,6 +39,7 @@ namespace Kernel.Federation.RelyingParty
         }
         public string MetadataAddress { get; }
         public string RelyingPartyId { get; }
+        public MetadataContext MetadataContext { get; set; }
         public TimeSpan AutomaticRefreshInterval
         {
             get
