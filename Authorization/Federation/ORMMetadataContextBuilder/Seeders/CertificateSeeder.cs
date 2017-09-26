@@ -31,6 +31,7 @@ namespace ORMMetadataContextProvider.Seeders
             certificate.StoreSearchCriteria.Add(storeCriterion);
             context.Add<Certificate>(certificate);
             Seeder._cache.Add(Seeder.CertificatesKey, new[] { certificate });
+            Seeder._cache.Add(Seeder.Signing, signingCritencials);
         }
     }
 }

@@ -73,6 +73,7 @@
     <Compile Include="RelyingParty\RelyingPartyContextBuilder.cs" />
     <Compile Include="Security\CertificateValidationConfigurationProvider.cs" />
     <Compile Include="Seeders\EntityDescriptorSeeder.cs" />
+    <Compile Include="Seeders\MetadataSettingsSeeder.cs" />
     <Compile Include="Seeders\OrganisationSeeder.cs" />
     <Compile Include="Seeders\SecuritySettingsSeeder.cs" />
     <Compile Include="Seeders\SPDescriptorSeeder.cs" />

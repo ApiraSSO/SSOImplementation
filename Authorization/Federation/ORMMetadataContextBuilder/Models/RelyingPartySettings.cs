@@ -1,4 +1,5 @@
 ﻿using Kernel.Data;
+using ORMMetadataContextProvider.Models.GlobalConfiguration;
 
 namespace ORMMetadataContextProvider.Models
 {
@@ -9,5 +10,7 @@ namespace ORMMetadataContextProvider.Models
         public string MetadataLocation { get; set; }
         public int AutoRefreshInterval { get; set; }
         public int RefreshInterval { get; set; }
+        public virtual SecuritySettings SecuritySettings { get; set; }
+        public virtual MetadataSettings MetadataSettings { get; set; }
     }
 }

@@ -29,6 +29,7 @@ namespace ORMMetadataContextProvider.Seeders
             spDescriptors.Aggregate(descriptor, (d, next) => { d.RoleDescriptors.Add(next); return d; });
 
             context.Add<EntityDescriptorSettings>(descriptor);
+            Seeder._cache[Seeder.EntityDescriptor] = descriptor;
         }
     }
 }

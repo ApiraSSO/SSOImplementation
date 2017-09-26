@@ -10,6 +10,10 @@ namespace ORMMetadataContextProvider.Seeders
         internal const string BindingsKey = "bindings";
         internal const string SPDescriptorsKey = "spDescriptor";
         internal const string Organisation = "organisation";
+        internal const string EntityDescriptor = "entityDescriptor";
+        internal const string Signing = "signing";
+        internal const string Metadata = "metadata";
+        internal const string Security = "security";
 
         internal static IDictionary<string, object> _cache = new Dictionary<string, object>();
 

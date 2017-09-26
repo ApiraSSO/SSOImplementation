@@ -7,12 +7,13 @@ namespace ORMMetadataContextProvider.Seeders
     {
         public override void Seed(IDbContext context)
         {
-            var settings = new SecuritySettings
+            var securitySettings = new SecuritySettings
             {
                 X509CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom,
                 PinnedValidation = false
             };
-            context.Add<SecuritySettings>(settings);
+            context.Add<SecuritySettings>(securitySettings);
+            Seeder._cache[Seeder.Security] = securitySettings;
             
         }
     }
