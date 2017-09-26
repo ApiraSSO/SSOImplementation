@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Web;
 using System.Xml;
 using Kernel.Federation.MetaData;
@@ -11,15 +12,13 @@ namespace WebClientMetadataWriter
         {
             if (HttpContext.Current == null || HttpContext.Current.Response == null)
                 return;
-
-            var sb = new StringBuilder();
-            using (var w = XmlWriter.Create(sb))
+            HttpContext.Current.Response.ContentType = "text/xml";
+            
+            var writer = new StreamWriter(HttpContext.Current.Response.OutputStream);
+            using (var w = XmlWriter.Create(writer, new XmlWriterSettings { Encoding = Encoding.UTF8 }))
             {
                 xml.WriteTo(w);
             }
-
-            HttpContext.Current.Response.ContentType = "text/xml";
-            HttpContext.Current.Response.Write(sb.ToString());
         }
     }
 }
