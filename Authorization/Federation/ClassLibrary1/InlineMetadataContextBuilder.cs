@@ -12,8 +12,7 @@ namespace InlineMetadataContextProvider
             var entityDescriptorConfiguration = MetadataHelper.BuildEntityDesriptorConfiguration();
 
             var keyDescriptorConfiguration = MetadataHelper.BuildKeyDescriptorConfiguration();
-            entityDescriptorConfiguration.KeyDescriptors.Add(keyDescriptorConfiguration);
-
+            
             var spDescriptorConfigurtion = MetadataHelper.BuildSPSSODescriptorConfiguration();
             entityDescriptorConfiguration.RoleDescriptors.Add(spDescriptorConfigurtion);
             

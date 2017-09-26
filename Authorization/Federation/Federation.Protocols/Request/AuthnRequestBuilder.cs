@@ -33,9 +33,8 @@ namespace Federation.Protocols.Request
         {
             var metadataContext = this._metadaContextBuilder.BuildContext(new MetadataGenerateRequest(MetadataType.SP, authnRequestContext.RelyingPartyId));
             var entityDescriptor = metadataContext.EntityDesriptorConfiguration;
-            //var kd = entityDescriptor.KeyDescriptors.First(x => x.IsDefault && x.Use == Kernel.Federation.MetaData.Configuration.Cryptography.KeyUsage.Signing)
-            //    .CertificateContext;
-            var kd = metadataContext.MetadataSigningContext.KeyDescriptors.First(x => x.IsDefault && x.Use == Kernel.Federation.MetaData.Configuration.Cryptography.KeyUsage.Signing)
+            var spDescriptor = entityDescriptor.SPSSODescriptors.First();
+            var kd = spDescriptor.KeyDescriptors.First(x => x.IsDefault && x.Use == Kernel.Federation.MetaData.Configuration.Cryptography.KeyUsage.Signing)
                 .CertificateContext;
 
             var cert = this._certificateManager.GetCertificateFromContext(kd);
