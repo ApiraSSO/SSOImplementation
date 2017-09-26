@@ -34,7 +34,8 @@ namespace WsFederationMetadataProviderTests
 
 
             var contextBuilder = new InlineMetadataContextBuilder();
-            var context = contextBuilder.BuildContext();
+            var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
+            var context = contextBuilder.BuildContext(metadataRequest);
 
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certificateValidator = new CertificateValidator(configurationProvider);
@@ -45,7 +46,7 @@ namespace WsFederationMetadataProviderTests
             var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataWriter, ssoCryptoProvider, metadataSerialiser, g => context);
             
             //ACT
-            sPSSOMetadataProvider.CreateMetadata(MetadataType.SP);
+            sPSSOMetadataProvider.CreateMetadata(metadataRequest);
             //ASSERT
             Assert.IsFalse(String.IsNullOrWhiteSpace(result));
         }
@@ -73,7 +74,8 @@ namespace WsFederationMetadataProviderTests
 
 
             var contextBuilder = new InlineMetadataContextBuilder();
-            var context = contextBuilder.BuildContext();
+            var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
+            var context = contextBuilder.BuildContext(metadataRequest);
 
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certificateValidator = new CertificateValidator(configurationProvider);
@@ -84,7 +86,7 @@ namespace WsFederationMetadataProviderTests
             var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataWriter, ssoCryptoProvider, metadataSerialiser, g => context);
 
             //ACT
-            sPSSOMetadataProvider.CreateMetadata(MetadataType.SP);
+            sPSSOMetadataProvider.CreateMetadata(metadataRequest);
             //ASSERT
             Assert.IsTrue(result);
         }
@@ -98,7 +100,8 @@ namespace WsFederationMetadataProviderTests
             var metadataWriter = new TestMetadatWriter(el => metadataXml = el.OuterXml);
             
             var contextBuilder = new InlineMetadataContextBuilder();
-            var context = contextBuilder.BuildContext();
+            var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
+            var context = contextBuilder.BuildContext(metadataRequest);
 
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certificateValidator = new CertificateValidator(configurationProvider);
@@ -109,7 +112,7 @@ namespace WsFederationMetadataProviderTests
             var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataWriter, ssoCryptoProvider, metadataSerialiser, g => context);
             
             //ACT
-            sPSSOMetadataProvider.CreateMetadata(MetadataType.SP);
+            sPSSOMetadataProvider.CreateMetadata(metadataRequest);
             var xmlReader = XmlReader.Create(new StringReader(metadataXml));
             var deserialisedMetadata = metadataSerialiser.ReadMetadata(xmlReader) as EntityDescriptor;
             //ASSERT

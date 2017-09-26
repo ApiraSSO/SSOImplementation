@@ -20,9 +20,10 @@ namespace SSOOwinMiddleware.Extensions
             {
                 a.Run(c =>
                 {
+                    var relyingParty = RelyingPartyIdentifierHelper.GetRelyingPartyIdFromRequestOrDefault(c);
                     var metadataGenerator = SSOAuthenticationExtensions.ResolveMetadataGenerator<ISPMetadataGenerator>();
-                    return metadataGenerator.CreateMetadata(MetadataType.SP);
-
+                    var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, relyingParty);
+                    return metadataGenerator.CreateMetadata(metadataRequest);
                 });
             });
             return app;

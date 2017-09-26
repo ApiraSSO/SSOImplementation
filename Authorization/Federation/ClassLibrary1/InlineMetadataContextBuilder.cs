@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens;
+using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.MetaData.Configuration.Cryptography;
 
@@ -6,7 +7,7 @@ namespace InlineMetadataContextProvider
 {
     internal class InlineMetadataContextBuilder : IMetadataContextBuilder
     {
-        public MetadataContext BuildContext()
+        public MetadataContext BuildContext(MetadataGenerateRequest metadataGenerateContext)
         {
             var entityDescriptorConfiguration = MetadataHelper.BuildEntityDesriptorConfiguration();
 

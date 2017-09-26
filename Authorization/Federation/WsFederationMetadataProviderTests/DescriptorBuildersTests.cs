@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using InlineMetadataContextProvider;
+using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration.RoleDescriptors;
 using NUnit.Framework;
 using WsFederationMetadataProvider.Metadata.DescriptorBuilders;
@@ -14,7 +15,8 @@ namespace WsFederationMetadataProviderTests
         {
             //ARRANGE
             var contextBuilder = new InlineMetadataContextBuilder();
-            var context = contextBuilder.BuildContext();
+            var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
+            var context = contextBuilder.BuildContext(metadataRequest);
             var spDescriptorConfigurtion = context.EntityDesriptorConfiguration.RoleDescriptors.First() as SPSSODescriptorConfiguration;
             var descriptorBuilder = new ServiceProviderSingleSignOnDescriptorBuilder();
             //ACT

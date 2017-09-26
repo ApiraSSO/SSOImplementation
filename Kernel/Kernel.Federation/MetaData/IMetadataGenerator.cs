@@ -6,6 +6,6 @@ namespace Kernel.Federation.MetaData
     public interface IMetadataGenerator
     {
         Task CreateMetadata(MetadataContext metadataContext);
-        Task CreateMetadata(MetadataType metadataType);
+        Task CreateMetadata(MetadataGenerateRequest context);
     }
 }

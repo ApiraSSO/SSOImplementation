@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using InlineMetadataContextProvider;
+using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration.RoleDescriptors;
 using NUnit.Framework;
 using SecurityManagement;
@@ -21,7 +22,8 @@ namespace WsMetadataSerialisation.Test
         {
             //ARRANGE
             var contextBuilder = new InlineMetadataContextBuilder();
-            var context = contextBuilder.BuildContext();
+            var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
+            var context = contextBuilder.BuildContext(metadataRequest);
 
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certificateValidator = new CertificateValidator(configurationProvider);

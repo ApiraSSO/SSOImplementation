@@ -2,6 +2,7 @@
 using System.Linq;
 using Kernel.Cache;
 using Kernel.Data.ORM;
+using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.MetaData.Configuration.Cryptography;
 using ORMMetadataContextProvider.Models;
@@ -18,18 +19,19 @@ namespace ORMMetadataContextProvider
             this._cacheProvider = cacheProvider;
             this._dbContext = dbContext;
         }
-        public MetadataContext BuildContext()
+        public MetadataContext BuildContext(MetadataGenerateRequest metadataGenerateContext)
         {
-            var relyingPartyId = RelyingPartyIdentifierHelper.GetRelyingPartyIdFromRequestOrDefault();
+            if (metadataGenerateContext == null)
+                throw new ArgumentNullException("metadataGenerateContext");
 
             var metadataSettings = this._dbContext.Set<RelyingPartySettings>()
-                .Where(x => x.RelyingPartyId == relyingPartyId)
+                .Where(x => x.RelyingPartyId == metadataGenerateContext.RelyingPartyId)
                 .Select(r => r.MetadataSettings)
                 .FirstOrDefault();
                 
 
             if (metadataSettings is null)
-                throw new InvalidOperationException(String.Format("No relyingParty configuration found for relyingPartyId: {0}", relyingPartyId));
+                throw new InvalidOperationException(String.Format("No relyingParty configuration found for relyingPartyId: {0}", metadataGenerateContext.RelyingPartyId));
 
             var entityDescriptor = metadataSettings.SPDescriptorSettings;
             var entityDescriptorConfiguration = MetadataHelper.BuildEntityDesriptorConfiguration(entityDescriptor);

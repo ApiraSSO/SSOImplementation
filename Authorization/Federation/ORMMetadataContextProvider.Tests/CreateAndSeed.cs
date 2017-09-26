@@ -2,6 +2,7 @@
 using System.Linq;
 using Kernel.Data;
 using Kernel.Data.ORM;
+using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration.RoleDescriptors;
 using Kernel.Reflection;
 using NUnit.Framework;
@@ -35,8 +36,9 @@ namespace ORMMetadataContextProvider.Tests
             object context = new DBContext(connectionStringProvider, customConfiguration);
             
             var metadataContextBuilder = new MetadataContextBuilder((IDbContext)context, cacheProvider);
+            var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
             //ACT
-            var metadata = metadataContextBuilder.BuildContext();
+            var metadata = metadataContextBuilder.BuildContext(metadataRequest);
             //ASSERT
         }
 
@@ -61,7 +63,8 @@ namespace ORMMetadataContextProvider.Tests
             object dbcontext = new DBContext(connectionStringProvider, customConfiguration);
 
             var metadataContextBuilder = new MetadataContextBuilder((IDbContext)dbcontext, cacheProvider);
-            var context = metadataContextBuilder.BuildContext();
+            var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
+            var context = metadataContextBuilder.BuildContext(metadataRequest);
             var spDescriptorConfigurtion = context.EntityDesriptorConfiguration.RoleDescriptors.First() as SPSSODescriptorConfiguration;
             var descriptorBuilder = new ServiceProviderSingleSignOnDescriptorBuilder();
             //ACT

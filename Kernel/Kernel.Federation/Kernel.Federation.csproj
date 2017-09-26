@@ -47,6 +47,7 @@
     <Compile Include="Exceptions\TimeRestrictionViolationException.cs" />
     <Compile Include="FederationConfiguration\IAllowedAudienceConfiguration.cs" />
     <Compile Include="IRelayState.cs" />
+    <Compile Include="MetaData\MetadataGenerateRequest.cs" />
     <Compile Include="RelyingParty\IRelyingPartyContextBuilder.cs" />
     <Compile Include="RelyingParty\RelyingPartyContext.cs" />
     <Compile Include="MetaData\Configuration\Cryptography\FileSystemStore.cs" />

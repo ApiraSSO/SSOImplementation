@@ -1,4 +1,5 @@
 ﻿using System;
+using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Serialisation;
 
@@ -12,7 +13,7 @@ namespace JsonMetadataContextProvider
         {
 
         }
-        public MetadataContext BuildContext()
+        public MetadataContext BuildContext(MetadataGenerateRequest metadataGenerateContext)
         {
             throw new NotImplementedException();
         }

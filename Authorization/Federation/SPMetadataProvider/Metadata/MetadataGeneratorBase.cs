@@ -21,8 +21,8 @@ namespace WsFederationMetadataProvider.Metadata
 
         protected readonly ICertificateManager _certificateManager;
         protected readonly IMetadataSerialiser<MetadataBase> _serialiser;
-        protected readonly Func<MetadataType , MetadataContext> _contextFactory;
-        public MetadataGeneratorBase(IFederationMetadataWriter federationMetadataWriter, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataType, MetadataContext> contextFactory)
+        protected readonly Func<MetadataGenerateRequest, MetadataContext> _contextFactory;
+        public MetadataGeneratorBase(IFederationMetadataWriter federationMetadataWriter, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, MetadataContext> contextFactory)
         {
             this._federationMetadataWriter = federationMetadataWriter;
             this._certificateManager = certificateManager;
@@ -30,9 +30,9 @@ namespace WsFederationMetadataProvider.Metadata
             this._contextFactory = contextFactory;
         }
 
-        public Task CreateMetadata(MetadataType metadataType)
+        public Task CreateMetadata(MetadataGenerateRequest context)
         {
-            var configuration = this._contextFactory(metadataType);
+            var configuration = this._contextFactory(context);
             return ((IMetadataGenerator)this).CreateMetadata(configuration);
         }
 

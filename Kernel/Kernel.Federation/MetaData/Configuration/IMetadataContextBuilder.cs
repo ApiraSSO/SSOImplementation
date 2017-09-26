@@ -4,6 +4,6 @@ namespace Kernel.Federation.MetaData.Configuration
 {
     public interface IMetadataContextBuilder : IDisposable
     {
-        MetadataContext BuildContext();
+        MetadataContext BuildContext(MetadataGenerateRequest metadataGenerateContext);
     }
 }
