@@ -51,7 +51,6 @@ namespace Kernel.Federation.RelyingParty
                 this._automaticRefreshInterval = value;
             }
         }
-        
         public TimeSpan RefreshInterval
         {
             get

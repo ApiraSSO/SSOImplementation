@@ -28,8 +28,7 @@ namespace ORMMetadataContextProvider
                 .Where(x => x.RelyingPartyId == metadataGenerateContext.RelyingPartyId)
                 .Select(r => r.MetadataSettings)
                 .FirstOrDefault();
-                
-
+            
             if (metadataSettings is null)
                 throw new InvalidOperationException(String.Format("No relyingParty configuration found for relyingPartyId: {0}", metadataGenerateContext.RelyingPartyId));
 
