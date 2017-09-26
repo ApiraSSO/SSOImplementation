@@ -52,7 +52,7 @@ namespace SSOOwinMiddleware.Handlers
             //ToDo: shoudn't need those. The tests don't so probably reletated to IIS express etc
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var relyingPartyId = base.Options.Wtrealm;
+            var relyingPartyId = RelyingPartyIdentifierHelper.GetRelyingPartyIdFromRequestOrDefault(Request.Context);
             if (this._configuration == null)
                 this._configuration = await this.Options.ConfigurationManager.GetConfigurationAsync(relyingPartyId, new System.Threading.CancellationToken());
             
@@ -75,8 +75,8 @@ namespace SSOOwinMiddleware.Handlers
                 signInUrl = idDescpritor.SingleSignOnServices.FirstOrDefault(x => x.Binding == new Uri("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"))
                     .Location;
             }
-
-            var requestContext = new AuthnRequestContext(signInUrl, "local");
+            
+            var requestContext = new AuthnRequestContext(signInUrl, relyingPartyId);
             var redirectUriBuilder = this._resolver.Resolve<AuthnRequestBuilder>();
             var redirectUri = redirectUriBuilder.BuildRedirectUri(requestContext);
             

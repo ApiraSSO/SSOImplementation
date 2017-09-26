@@ -29,11 +29,18 @@ namespace SSOOwinMiddleware.Extensions
             return app;
         }
 
-        public static IAppBuilder UseShibbolethAuthentication(this IAppBuilder app, string wtrealm)
+        //public static IAppBuilder UseSSOAuthentication(this IAppBuilder app, string wtrealm)
+        //{
+        //    return app.UseShibbolethAuthentication(new SSOAuthenticationOptions()
+        //    {
+        //        //ToDo
+        //        //Wtrealm = wtrealm
+        //    });
+        //}
+        public static IAppBuilder UseSSOAuthentication(this IAppBuilder app)
         {
             return app.UseShibbolethAuthentication(new SSOAuthenticationOptions()
             {
-                Wtrealm = wtrealm
             });
         }
         private static TMetadatGenerator ResolveMetadataGenerator<TMetadatGenerator>() where TMetadatGenerator : IMetadataGenerator

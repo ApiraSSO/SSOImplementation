@@ -22,11 +22,13 @@ namespace Federation.Protocols.Request
     {
         private readonly ICertificateManager _certificateManager;
         private readonly IMetadataContextBuilder _metadaContextBuilder;
+        private readonly IXmlSerialiser _serialiser;
 
-        public AuthnRequestBuilder(ICertificateManager certificateManager, IMetadataContextBuilder metadatContextBuilder)
+        public AuthnRequestBuilder(ICertificateManager certificateManager, IMetadataContextBuilder metadatContextBuilder, IXmlSerialiser serialiser)
         {
             this._certificateManager = certificateManager;
             this._metadaContextBuilder = metadatContextBuilder;
+            this._serialiser = serialiser;
         }
 
         public Uri BuildRedirectUri(AuthnRequestContext authnRequestContext)
@@ -43,24 +45,24 @@ namespace Federation.Protocols.Request
                 Id = entityDescriptor.EntityId,//"Imperial.flowz.co.uk",
                 IsPassive = false,
                 Destination = authnRequestContext.Destination.AbsoluteUri,
-                Version = "2.0",
+                Version = authnRequestContext.Version,
                 IssueInstant = DateTime.UtcNow
             };
-            authnRequest.Issuer = new NameId { Value = "Imperial.flowz.co.uk" };
+
+            authnRequest.Issuer = new NameId { Value = entityDescriptor.EntityId };
             var audienceRestrictions = new List<ConditionAbstract>();
-            var audienceRestriction = new AudienceRestriction { Audience = new List<string>() { "Imperial.flowz.co.uk" } };
+            var audienceRestriction = new AudienceRestriction { Audience = new List<string>() { entityDescriptor.EntityId } };
             audienceRestrictions.Add(audienceRestriction);
 
             authnRequest.Conditions = new Conditions { Items = audienceRestrictions };
-            
-            var serialiser = new XMLSerialiser();
-            
-            serialiser.XmlNamespaces.Add("samlp", Saml20Constants.Protocol);
-            serialiser.XmlNamespaces.Add("saml", Saml20Constants.Assertion);
+             
+            this._serialiser.XmlNamespaces.Add("samlp", Saml20Constants.Protocol);
+            this._serialiser.XmlNamespaces.Add("saml", Saml20Constants.Assertion);
+
             var sb = new StringBuilder();
             using (var ms = new MemoryStream())
             {
-                serialiser.Serialize(ms, new[] { authnRequest });
+                this._serialiser.Serialize(ms, new[] { authnRequest });
                 ms.Position = 0;
                 var streamReader = new StreamReader(ms);
                 var xmlString = streamReader.ReadToEnd();
