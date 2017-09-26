@@ -68,6 +68,10 @@
     <Compile Include="Validation\ValidationScope.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kernel.Data\Kernel.Data.csproj">
+      <Project>{58F76882-5E21-452F-A070-76D468D6E27C}</Project>
+      <Name>Kernel.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kernel.Reflection\Kernel.Reflection.csproj">
       <Project>{2A6BA5FB-DBAA-457A-9CB3-9BA74A96551B}</Project>
       <Name>Kernel.Reflection</Name>

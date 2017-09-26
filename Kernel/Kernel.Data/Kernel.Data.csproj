@@ -56,9 +56,14 @@
     <Compile Include="ORM\IDbRepository%271.cs" />
     <Compile Include="ORM\IDbRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeDescriptor.cs" />
     <Compile Include="_BaseModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kernel.Reflection\Kernel.Reflection.csproj">
+      <Project>{2A6BA5FB-DBAA-457A-9CB3-9BA74A96551B}</Project>
+      <Name>Kernel.Reflection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kernel\Kernel.csproj">
       <Project>{E198C691-91A6-4082-9976-F5F006F24960}</Project>
       <Name>Kernel</Name>

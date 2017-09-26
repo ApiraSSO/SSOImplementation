@@ -33,8 +33,16 @@ namespace ORMMetadataContextProvider.Security
             var configuration = new CertificateValidationConfiguration
             {
                 X509CertificateValidationMode = settings.X509CertificateValidationMode,
-                UsePinningValidation = settings.PinnedValidation
+                UsePinningValidation = settings.PinnedValidation,
+                BackchannelPinningValidator = new Kernel.Data.TypeDescriptor(settings.PinnedTypeValidator)
             };
+            var rules = settings.CertificateValidationRules.Where(x => x.Type != null)
+                .ToList();
+            rules.Aggregate(configuration.ValidationRules, (t, next) =>
+            {
+                t.Add(new ValidationRuleDescriptor(next.Type));
+                return t;
+            });
             return configuration;
         }
         public void Dispose()
