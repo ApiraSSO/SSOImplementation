@@ -27,7 +27,8 @@ namespace Federation.Protocols.Test
             var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext, relyingPartyContextBuilder);
 
             //ACT
-            var request = AuthnRequestHelper.SerialiseAndSign(authnRequest, authnRequestContext, serialiser, relyingPartyContextBuilder, certManager);
+            var request = AuthnRequestHelper.Serialise(authnRequest, serialiser);
+            //var request = AuthnRequestHelper.SerialiseAndSign(authnRequest, authnRequestContext, serialiser, relyingPartyContextBuilder, certManager);
             //ASSERT
         }
     }

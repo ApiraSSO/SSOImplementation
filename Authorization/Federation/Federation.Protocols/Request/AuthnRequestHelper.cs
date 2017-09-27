@@ -54,7 +54,7 @@ namespace Federation.Protocols.Request
             return sb.ToString();
         }
 
-        private static StringBuilder Serialise(AuthnRequest request, IXmlSerialiser serialiser)
+        public static StringBuilder Serialise(AuthnRequest request, IXmlSerialiser serialiser)
         {
             serialiser.XmlNamespaces.Add("samlp", Saml20Constants.Protocol);
             serialiser.XmlNamespaces.Add("saml", Saml20Constants.Assertion);
