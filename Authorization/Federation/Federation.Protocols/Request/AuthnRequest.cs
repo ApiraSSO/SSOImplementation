@@ -1,6 +1,6 @@
-﻿using Federation.Protocols.Request.Elements;
-using System;
+﻿using System;
 using System.Xml.Serialization;
+using Federation.Protocols.Request.Elements;
 
 namespace Federation.Protocols.Request
 {
@@ -33,46 +33,7 @@ namespace Federation.Protocols.Request
         /// </summary>
         public const string ElementName = "AuthnRequest";
 
-        /// <summary>
-        /// Gets or sets a value indicating whether [assertion consumer service index specified].
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if [assertion consumer service index specified]; otherwise, <c>false</c>.
-        /// </value>
-        [XmlIgnore]
-        public bool AssertionConsumerServiceIndexSpecified { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [attribute consuming service index specified].
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if [attribute consuming service index specified]; otherwise, <c>false</c>.
-        /// </value>
-        [XmlIgnore]
-        public bool AttributeConsumingServiceIndexSpecified { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether force authentication.
-        /// A Boolean value. If "true", the identity provider MUST authenticate the presenter directly rather than
-        /// rely on a previous security context. If a value is not provided, the default is "false". However, if both
-        /// <c>ForceAuthn</c> and <c>IsPassive</c> are "true", the identity provider MUST NOT freshly authenticate the
-        /// presenter unless the constraints of IsPassive can be met.
-        /// </summary>
-        /// <value><c>true</c> if force authentication; otherwise, <c>false</c>.</value>
-        [XmlIgnore]
-        public bool? ForceAuthn { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is passive.
-        /// A Boolean value. If "true", the identity provider and the user agent itself MUST NOT visibly take control
-        /// of the user interface from the requester and interact with the presenter in a noticeable fashion. If a
-        /// value is not provided, the default is "false".
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is passive; otherwise, <c>false</c>.
-        /// </value>
-        [XmlIgnore]
-        public bool? IsPassive { get; set; }
+        
 
         #region Attributes
 
@@ -123,20 +84,7 @@ namespace Federation.Protocols.Request
         /// </summary>
         /// <value><c>true</c> if force authentication specified; otherwise, <c>false</c>.</value>
         [XmlAttribute("ForceAuthn")]
-        public string ForceAuthnString
-        {
-            get { return ForceAuthn.HasValue ? ForceAuthn.Value.ToString().ToLower() : null; }
-            set
-            {
-                bool val;
-                if (!bool.TryParse(value, out val))
-                {
-                    return;
-                }
-
-                ForceAuthn = val;
-            }
-        }
+        public bool ForceAuthn { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is passive specified.
@@ -145,21 +93,7 @@ namespace Federation.Protocols.Request
         /// <c>true</c> if this instance is passive specified; otherwise, <c>false</c>.
         /// </value>
         [XmlAttribute("IsPassive")]
-        public string IsPassiveString
-        {
-            get { return IsPassive.HasValue ? IsPassive.Value.ToString().ToLower() : "false"; }
-            set
-            {
-                bool val;
-                if (!bool.TryParse(value, out val))
-                {
-                    return;
-                }
-
-                IsPassive = val;
-            }
-        }
-
+        public bool IsPassive { get; set; }
         /// <summary>
         /// Gets or sets the protocol binding.
         /// A URI reference that identifies a SAML protocol binding to be used when returning the &lt;Response&gt;

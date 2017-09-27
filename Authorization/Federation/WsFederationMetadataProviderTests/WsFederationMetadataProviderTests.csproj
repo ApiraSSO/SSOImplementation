@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthnRequestTests.cs" />
     <Compile Include="DescriptorBuildersTests.cs" />
     <Compile Include="Mock\CertificateValidationConfigurationProvider.cs" />
     <Compile Include="Mock\TestMetadatWriter.cs" />

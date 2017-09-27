@@ -5,7 +5,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Security.Cryptography.Xml;
 using System.Text;
-using System.Threading.Tasks;
 using Federation.Protocols.Request.ClauseBuilders;
 using Kernel.Cryptography.CertificateManagement;
 using Kernel.Federation.Protocols;
@@ -24,6 +23,7 @@ namespace Federation.Protocols.Request
             var request = new AuthnRequest
             {
                 IsPassive = false,
+                ForceAuthn = false,
                 Destination = authnRequestContext.Destination.AbsoluteUri,
                 Version = authnRequestContext.Version,
                 IssueInstant = DateTime.UtcNow
