@@ -24,7 +24,7 @@ namespace Federation.Protocols.Request.Elements
         /// </summary>
         /// <value><c>true</c> if [allow create]; otherwise, <c>false</c>.</value>
         //[XmlIgnore]
-        public bool? AllowCreate { get; set; }
+        //public bool? AllowCreate { get; set; }
 
         #region Attributes
 
@@ -33,11 +33,7 @@ namespace Federation.Protocols.Request.Elements
         /// </summary>
         /// <value>The AllowCreate string.</value>
         [XmlAttribute("AllowCreate")]
-        public string AllowCreateString
-        {
-            get { return AllowCreate.HasValue ? AllowCreate.ToString() : null; }
-            set { AllowCreate = string.IsNullOrEmpty(value) ? (bool?)null : Convert.ToBoolean(value); }
-        }
+        public bool AllowCreate { get; set; }
 
         /// <summary>
         /// Gets or sets the format.

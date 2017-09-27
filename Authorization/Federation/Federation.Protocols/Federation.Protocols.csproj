@@ -50,6 +50,8 @@
     <Compile Include="Request\AuthnRequest.cs" />
     <Compile Include="Request\AuthnRequestBuilder.cs" />
     <Compile Include="Request\AuthnRequestHelper.cs" />
+    <Compile Include="Request\ClauseBuilders\SubjectClauseBuilder.cs" />
+    <Compile Include="Request\ClauseBuilders\NameIdPolicyClauseBuilder.cs" />
     <Compile Include="Request\ClauseBuilders\ClauseBuilder.cs" />
     <Compile Include="Request\ClauseBuilders\AssertionConsumerServiceClauseBuilder.cs" />
     <Compile Include="Request\ClauseBuilders\IdClauseBuilder.cs" />

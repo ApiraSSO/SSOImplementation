@@ -117,17 +117,15 @@ namespace Federation.Protocols.Request
         #endregion
 
         #region Elements
-
         /// <summary>
-        /// Gets or sets the conditions.
-        /// Specifies the SAML conditions the requester expects to limit the validity and/or use of the resulting
-        /// assertion(s). The responder MAY modify or supplement this set as it deems necessary. The
-        /// information in this element is used as input to the process of constructing the assertion, rather than as
-        /// conditions on the use of the request itself.
+        /// Gets or sets the subject.
+        /// Specifies the requested subject of the resulting assertion(s). This may include one or more
+        /// <c>&lt;saml:SubjectConfirmation&gt;</c> elements to indicate how and/or by whom the resulting assertions
+        /// can be confirmed.
         /// </summary>
-        /// <value>The conditions.</value>
-        [XmlElement("Conditions", Namespace = Saml20Constants.Assertion, Order = 3)]
-        public Conditions Conditions { get; }
+        /// <value>The subject.</value>
+        [XmlElement("Subject", Namespace = Saml20Constants.Assertion, Order = 1)]
+        public Subject Subject { get; set; }
 
         /// <summary>
         /// Gets or sets the name ID policy.
@@ -141,7 +139,17 @@ namespace Federation.Protocols.Request
         /// </remarks>
         [XmlElement("NameIDPolicy", Order = 2)]
         public NameIdPolicy NameIdPolicy { get; set; }
-
+        /// <summary>
+        /// Gets or sets the conditions.
+        /// Specifies the SAML conditions the requester expects to limit the validity and/or use of the resulting
+        /// assertion(s). The responder MAY modify or supplement this set as it deems necessary. The
+        /// information in this element is used as input to the process of constructing the assertion, rather than as
+        /// conditions on the use of the request itself.
+        /// </summary>
+        /// <value>The conditions.</value>
+        [XmlElement("Conditions", Namespace = Saml20Constants.Assertion, Order = 3)]
+        public Conditions Conditions { get; }
+        
         /// <summary>
         /// Gets or sets the requested authentication context.
         /// Specifies the requirements, if any, that the requester places on the authentication context that applies
@@ -161,17 +169,7 @@ namespace Federation.Protocols.Request
         /// <value>The scoping.</value>
         [XmlElement("Scoping", Order = 5)]
         public Scoping Scoping { get; set; }
-
-        /// <summary>
-        /// Gets or sets the subject.
-        /// Specifies the requested subject of the resulting assertion(s). This may include one or more
-        /// <c>&lt;saml:SubjectConfirmation&gt;</c> elements to indicate how and/or by whom the resulting assertions
-        /// can be confirmed.
-        /// </summary>
-        /// <value>The subject.</value>
-        //[XmlElement("Subject", Namespace = Saml20Constants.Assertion, Order = 1)]
-        //public Subject Subject { get; set; }
-
+       
         #endregion
     }
 }
