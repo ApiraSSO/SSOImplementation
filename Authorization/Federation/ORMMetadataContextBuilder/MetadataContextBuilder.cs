@@ -6,7 +6,6 @@ using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.MetaData.Configuration.Cryptography;
 using Kernel.Federation.RelyingParty;
-using MemoryCacheProvider;
 using ORMMetadataContextProvider.Models;
 using ORMMetadataContextProvider.RelyingParty;
 
@@ -33,35 +32,28 @@ namespace ORMMetadataContextProvider
                 var relyingPartyBuilder = new RelyingPartyContextBuilder(this._dbContext, this._cacheProvider);
                 relyingParty = relyingPartyBuilder.BuildRelyingPartyContext(metadataGenerateContext.RelyingPartyId);
             }
-            if(relyingParty.MetadataContext == null)
-            {
-                var metadataSettings = this._dbContext.Set<RelyingPartySettings>()
-                    .Where(x => x.RelyingPartyId == metadataGenerateContext.RelyingPartyId)
-                    .Select(r => r.MetadataSettings)
-                    .FirstOrDefault();
-
-                if (metadataSettings is null)
-                    throw new InvalidOperationException(String.Format("No relyingParty configuration found for relyingPartyId: {0}", metadataGenerateContext.RelyingPartyId));
-
-                var entityDescriptor = metadataSettings.SPDescriptorSettings;
-                var entityDescriptorConfiguration = MetadataHelper.BuildEntityDesriptorConfiguration(entityDescriptor);
-                var signing = metadataSettings.SigningCredential;
-
-                var signingContext = new MetadataSigningContext(signing.SignatureAlgorithm, signing.DigestAlgorithm);
-                signingContext.KeyDescriptors.Add(MetadataHelper.BuildKeyDescriptorConfiguration(signing.Certificates.First(x => x.Use == KeyUsage.Signing && x.IsDefault)));
-                relyingParty.MetadataContext = new MetadataContext
-                {
-                    EntityDesriptorConfiguration = entityDescriptorConfiguration,
-                    MetadataSigningContext = signingContext
-                };
-                object policy = new MemoryCacheItemPolicy();
-                ((ICacheItemPolicy)policy).SlidingExpiration = TimeSpan.FromDays(1);
-                this._cacheProvider.Put(metadataGenerateContext.RelyingPartyId, relyingParty, (ICacheItemPolicy)policy);
-            }
-
+            
             return relyingParty.MetadataContext;
         }
         
+        internal MetadataContext BuildFromDbSettings(MetadataSettings metadataSettings)
+        {
+            if (metadataSettings is null)
+                throw new ArgumentNullException("metadataSettings");
+
+            var entityDescriptor = metadataSettings.SPDescriptorSettings;
+            var entityDescriptorConfiguration = MetadataHelper.BuildEntityDesriptorConfiguration(entityDescriptor);
+            var signing = metadataSettings.SigningCredential;
+
+            var signingContext = new MetadataSigningContext(signing.SignatureAlgorithm, signing.DigestAlgorithm);
+            signingContext.KeyDescriptors.Add(MetadataHelper.BuildKeyDescriptorConfiguration(signing.Certificates.First(x => x.Use == KeyUsage.Signing && x.IsDefault)));
+            var metadataContext = new MetadataContext
+            {
+                EntityDesriptorConfiguration = entityDescriptorConfiguration,
+                MetadataSigningContext = signingContext
+            };
+            return metadataContext;
+        }
         public void Dispose()
         {
             this._dbContext.Dispose();

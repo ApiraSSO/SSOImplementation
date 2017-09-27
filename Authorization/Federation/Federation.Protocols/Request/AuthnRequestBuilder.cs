@@ -21,19 +21,21 @@ namespace Federation.Protocols.Request
     public class AuthnRequestBuilder : IAuthnRequestBuilder
     {
         private readonly ICertificateManager _certificateManager;
-        private readonly IMetadataContextBuilder _metadaContextBuilder;
+        private readonly IRelyingPartyContextBuilder _relyingPartyContextBuilder;
         private readonly IXmlSerialiser _serialiser;
 
-        public AuthnRequestBuilder(ICertificateManager certificateManager, IMetadataContextBuilder metadatContextBuilder, IXmlSerialiser serialiser)
+        public AuthnRequestBuilder(ICertificateManager certificateManager, IRelyingPartyContextBuilder relyingPartyContextBuilder, IXmlSerialiser serialiser)
         {
             this._certificateManager = certificateManager;
-            this._metadaContextBuilder = metadatContextBuilder;
+            this._relyingPartyContextBuilder = relyingPartyContextBuilder;
             this._serialiser = serialiser;
         }
 
         public Uri BuildRedirectUri(AuthnRequestContext authnRequestContext)
         {
-            var metadataContext = this._metadaContextBuilder.BuildContext(new MetadataGenerateRequest(MetadataType.SP, authnRequestContext.RelyingPartyId));
+            var relyingPartyContext = this._relyingPartyContextBuilder.BuildRelyingPartyContext(authnRequestContext.RelyingPartyId);
+            var metadataContext = relyingPartyContext.MetadataContext;
+
             var entityDescriptor = metadataContext.EntityDesriptorConfiguration;
             var spDescriptor = entityDescriptor.SPSSODescriptors.First();
             var kd = spDescriptor.KeyDescriptors.First(x => x.IsDefault && x.Use == Kernel.Federation.MetaData.Configuration.Cryptography.KeyUsage.Signing)

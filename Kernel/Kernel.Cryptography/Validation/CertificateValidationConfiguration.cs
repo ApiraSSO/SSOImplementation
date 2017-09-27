@@ -12,7 +12,7 @@ namespace Kernel.Cryptography.Validation
             this.ValidationRules = new List<ValidationRuleDescriptor>();
         }
         public X509CertificateValidationMode X509CertificateValidationMode { get; set; }
-        public TypeDescriptor BackchannelPinningValidator { get; set; }
+        public TypeDescriptor BackchannelValidatorResolver { get; set; }
         public bool UsePinningValidation { get; set; }
         public ICollection<ValidationRuleDescriptor> ValidationRules { get; }
     }

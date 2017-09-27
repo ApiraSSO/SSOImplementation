@@ -39,6 +39,26 @@ namespace SecurityManagement
         public bool Validate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             var configiration = this.GetConfiguration();
+            //ToDo: complete pinning validation. Moved to back log on 27/09/2017
+            if(configiration.UsePinningValidation && configiration.BackchannelValidatorResolver != null)
+            {
+                try
+                {
+                    var type = configiration.BackchannelValidatorResolver.Type;
+                    var instace = Activator.CreateInstance(type) as ICertificateValidatorResolver;
+                    if(instace != null)
+                    {
+                        var validators = instace.Resolve();
+                        
+                        return true;
+                    }
+                }
+                catch(Exception)
+                {
+                    return true;
+                }
+            }
+
             var context = new BackchannelCertificateValidationContext(certificate, chain, sslPolicyErrors);
 
             //default rule. No validation

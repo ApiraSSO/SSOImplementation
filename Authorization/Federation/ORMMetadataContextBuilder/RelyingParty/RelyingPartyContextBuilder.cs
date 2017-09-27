@@ -29,10 +29,17 @@ namespace ORMMetadataContextProvider.RelyingParty
             var context = new RelyingPartyContext(relyingPartyId, relyingPartyContext.MetadataPath);
             context.RefreshInterval = TimeSpan.FromSeconds(relyingPartyContext.RefreshInterval);
             context.AutomaticRefreshInterval = TimeSpan.FromDays(relyingPartyContext.AutoRefreshInterval);
+            this.BuildMetadataContext(context, relyingPartyContext.MetadataSettings);
             object policy = new MemoryCacheItemPolicy();
             ((ICacheItemPolicy)policy).SlidingExpiration = TimeSpan.FromDays(1);
             this._cacheProvider.Put(relyingPartyId, context,  (ICacheItemPolicy)policy);
             return context;
+        }
+
+        private void BuildMetadataContext(RelyingPartyContext relyingPartyContext, MetadataSettings metadataSettings)
+        {
+            var metadataContextBuilder = new MetadataContextBuilder(this._dbContext, this._cacheProvider);
+            relyingPartyContext.MetadataContext = metadataContextBuilder.BuildFromDbSettings(metadataSettings);
         }
 
         public void Dispose()

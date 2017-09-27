@@ -64,6 +64,7 @@
     <Compile Include="Validation\ICertificateValidationRule.cs" />
     <Compile Include="Validation\ICertificateValidator.cs" />
     <Compile Include="Validation\IBackchannelCertificateValidationRule.cs" />
+    <Compile Include="Validation\ICertificateValidatorResolver.cs" />
     <Compile Include="Validation\ValidationRuleDescriptor.cs" />
     <Compile Include="Validation\ValidationScope.cs" />
   </ItemGroup>
