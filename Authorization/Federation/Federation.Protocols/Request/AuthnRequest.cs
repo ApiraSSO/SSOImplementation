@@ -148,7 +148,7 @@ namespace Federation.Protocols.Request
         /// </summary>
         /// <value>The conditions.</value>
         [XmlElement(Conditions.ElementName, Namespace = Saml20Constants.Assertion, Order = 3)]
-        public Conditions Conditions { get; }
+        public Conditions Conditions { get; set; }
         
         /// <summary>
         /// Gets or sets the requested authentication context.

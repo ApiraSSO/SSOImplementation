@@ -71,8 +71,8 @@ namespace Federation.Protocols.Request
         /// <value>The items.</value>
         [XmlElement(AudienceRestriction.ElementName, typeof(AudienceRestriction), Order = 1)]
         [XmlElement(ConditionAbstract.ElementName, typeof(ConditionAbstract), Order = 1)]
-        //[XmlElement("OneTimeUse", typeof(OneTimeUse), Order = 1)]
-        //[XmlElement("ProxyRestriction", typeof(ProxyRestriction), Order = 1)]
+        [XmlElement(OneTimeUse.ElementName, typeof(OneTimeUse), Order = 1)]
+        [XmlElement(ProxyRestriction.ElementName, typeof(ProxyRestriction), Order = 1)]
         public List<ConditionAbstract> Items { get; }
 
         #endregion

@@ -96,6 +96,8 @@
     <Compile Include="Request\Elements\XmlDSig\Transform.cs" />
     <Compile Include="Request\HttpRedirectBindingConstants.cs" />
     <Compile Include="Request\NameId.cs" />
+    <Compile Include="Request\OneTimeUse.cs" />
+    <Compile Include="Request\ProxyRestriction.cs" />
     <Compile Include="Request\RequestAbstract.cs" />
     <Compile Include="Request\Saml20Constants.cs" />
   </ItemGroup>
