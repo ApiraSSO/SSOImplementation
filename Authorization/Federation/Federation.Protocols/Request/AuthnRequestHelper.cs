@@ -45,33 +45,32 @@ namespace Federation.Protocols.Request
                 .First();
             var kd = spDescriptor.KeyDescriptors.First(x => x.IsDefault && x.Use == Kernel.Federation.MetaData.Configuration.Cryptography.KeyUsage.Signing)
                 .CertificateContext;
-            var sb = AuthnRequestHelper.Serialise(request, serialiser);
+            var sb = new StringBuilder();
+            var xmlString = AuthnRequestHelper.Serialise(request, serialiser);
+            var encoded = AuthnRequestHelper.DeflateEncode(xmlString);
+            var encodedEscaped = Uri.EscapeDataString(AuthnRequestHelper.UpperCaseUrlEncode(encoded));
+            sb.Append("SAMLRequest=");
+            sb.Append(encodedEscaped);
+            
             if (spDescriptor.AuthenticationRequestsSigned)
             {
-                //var cert = this._certificateManager.GetCertificateFromContext(kd);
                 AuthnRequestHelper.SignRequest(sb, kd, certificateManager);
             }
             return sb.ToString();
         }
 
-        public static StringBuilder Serialise(AuthnRequest request, IXmlSerialiser serialiser)
+        public static string Serialise(AuthnRequest request, IXmlSerialiser serialiser)
         {
             serialiser.XmlNamespaces.Add("samlp", Saml20Constants.Protocol);
             serialiser.XmlNamespaces.Add("saml", Saml20Constants.Assertion);
-
-            var sb = new StringBuilder();
+            
             using (var ms = new MemoryStream())
             {
                 serialiser.Serialize(ms, new[] { request });
                 ms.Position = 0;
                 var streamReader = new StreamReader(ms);
                 var xmlString = streamReader.ReadToEnd();
-                ms.Position = 0;
-                var encoded = AuthnRequestHelper.DeflateEncode(xmlString);
-                var encodedEscaped = Uri.EscapeDataString(AuthnRequestHelper.UpperCaseUrlEncode(encoded));
-                sb.Append("SAMLRequest=");
-                sb.Append(encodedEscaped);
-                return sb;
+                return xmlString;
             }
         }
         private static IEnumerable<IAuthnRequestClauseBuilder<AuthnRequest>> GetBuilders()
