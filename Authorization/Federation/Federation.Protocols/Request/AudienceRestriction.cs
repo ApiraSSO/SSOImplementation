@@ -5,7 +5,6 @@ using System.Xml.Serialization;
 namespace Federation.Protocols.Request
 {
     [Serializable]
-    //[DebuggerStepThrough]
     [XmlType(Namespace = Saml20Constants.Assertion)]
     [XmlRoot(ElementName, Namespace = Saml20Constants.Assertion, IsNullable = false)]
     public class AudienceRestriction : ConditionAbstract

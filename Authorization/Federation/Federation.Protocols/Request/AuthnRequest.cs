@@ -137,7 +137,7 @@ namespace Federation.Protocols.Request
         /// <remarks>
         /// This is here for a reason. Some SAML implementations require that NameIDPolicy is the first element following issuer.
         /// </remarks>
-        [XmlElement("NameIDPolicy", Order = 2)]
+        [XmlElement(NameIdPolicy.ElementName, Order = 2)]
         public NameIdPolicy NameIdPolicy { get; set; }
         /// <summary>
         /// Gets or sets the conditions.
@@ -147,7 +147,7 @@ namespace Federation.Protocols.Request
         /// conditions on the use of the request itself.
         /// </summary>
         /// <value>The conditions.</value>
-        [XmlElement("Conditions", Namespace = Saml20Constants.Assertion, Order = 3)]
+        [XmlElement(Conditions.ElementName, Namespace = Saml20Constants.Assertion, Order = 3)]
         public Conditions Conditions { get; }
         
         /// <summary>

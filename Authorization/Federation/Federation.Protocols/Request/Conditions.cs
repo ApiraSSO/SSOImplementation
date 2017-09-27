@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Federation.Protocols.Request.Elements;
 
 namespace Federation.Protocols.Request
 {
@@ -41,23 +42,23 @@ namespace Federation.Protocols.Request
         /// Gets or sets the not before string.
         /// </summary>
         /// <value>The not before string.</value>
-        //[XmlAttribute("NotBefore")]
-        //public string NotBeforeString
-        //{
-        //    get { return NotBefore.HasValue ? Saml20Utils.ToUtcString(NotBefore.Value) : null; }
-        //    set { NotBefore = string.IsNullOrEmpty(value) ? (DateTime?)null : Saml20Utils.FromUtcString(value); }
-        //}
+        [XmlAttribute("NotBefore")]
+        public string NotBeforeString
+        {
+            get { return NotBefore.HasValue ? Saml20Utils.ToUtcString(NotBefore.Value) : null; }
+            set { NotBefore = string.IsNullOrEmpty(value) ? (DateTime?)null : Saml20Utils.FromUtcString(value); }
+        }
 
         /// <summary>
         /// Gets or sets the not on or after string.
         /// </summary>
         /// <value>The not on or after string.</value>
-        //[XmlAttribute("NotOnOrAfter")]
-        //public string NotOnOrAfterString
-        //{
-        //    get { return NotOnOrAfter.HasValue ? Saml20Utils.ToUtcString(NotOnOrAfter.Value) : null; }
-        //    set { NotOnOrAfter = string.IsNullOrEmpty(value) ? (DateTime?)null : Saml20Utils.FromUtcString(value); }
-        //}
+        [XmlAttribute("NotOnOrAfter")]
+        public string NotOnOrAfterString
+        {
+            get { return NotOnOrAfter.HasValue ? Saml20Utils.ToUtcString(NotOnOrAfter.Value) : null; }
+            set { NotOnOrAfter = string.IsNullOrEmpty(value) ? (DateTime?)null : Saml20Utils.FromUtcString(value); }
+        }
 
         #endregion
 
@@ -68,8 +69,8 @@ namespace Federation.Protocols.Request
         /// Items may be of types AudienceRestriction, Condition, OneTimeUse and ProxyRestriction
         /// </summary>
         /// <value>The items.</value>
-        [XmlElement("AudienceRestriction", typeof(AudienceRestriction), Order = 1)]
-        [XmlElement("Condition", typeof(ConditionAbstract), Order = 1)]
+        [XmlElement(AudienceRestriction.ElementName, typeof(AudienceRestriction), Order = 1)]
+        [XmlElement(ConditionAbstract.ElementName, typeof(ConditionAbstract), Order = 1)]
         //[XmlElement("OneTimeUse", typeof(OneTimeUse), Order = 1)]
         //[XmlElement("ProxyRestriction", typeof(ProxyRestriction), Order = 1)]
         public List<ConditionAbstract> Items { get; }
