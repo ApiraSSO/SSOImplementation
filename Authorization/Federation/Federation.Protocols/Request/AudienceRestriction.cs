@@ -10,6 +10,10 @@ namespace Federation.Protocols.Request
     [XmlRoot(ElementName, Namespace = Saml20Constants.Assertion, IsNullable = false)]
     public class AudienceRestriction : ConditionAbstract
     {
+        public AudienceRestriction()
+        {
+            this.Audience = new List<string>();
+        }
         /// <summary>
         /// The XML Element name of this class
         /// </summary>
@@ -25,7 +29,7 @@ namespace Federation.Protocols.Request
         /// </summary>
         /// <value>The audience.</value>
         [XmlElement("Audience", DataType = "anyURI", Order = 1)]
-        public List<string> Audience { get; set; }
+        public List<string> Audience { get; }
 
         #endregion
     }

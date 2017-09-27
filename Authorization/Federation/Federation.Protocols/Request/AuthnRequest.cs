@@ -23,6 +23,11 @@ namespace Federation.Protocols.Request
     [XmlRoot(ElementName, Namespace = Saml20Constants.Protocol, IsNullable = false)]
     public class AuthnRequest : RequestAbstract
     {
+        public AuthnRequest()
+        {
+            this.Conditions = new Conditions();
+        }
+
         /// <summary>
         /// The XML Element name of this class
         /// </summary>
@@ -188,7 +193,7 @@ namespace Federation.Protocols.Request
         /// </summary>
         /// <value>The conditions.</value>
         [XmlElement("Conditions", Namespace = Saml20Constants.Assertion, Order = 3)]
-        public Conditions Conditions { get; set; }
+        public Conditions Conditions { get; }
 
         /// <summary>
         /// Gets or sets the name ID policy.

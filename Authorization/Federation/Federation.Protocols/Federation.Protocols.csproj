@@ -49,6 +49,11 @@
     <Compile Include="Request\AudienceRestriction.cs" />
     <Compile Include="Request\AuthnRequest.cs" />
     <Compile Include="Request\AuthnRequestBuilder.cs" />
+    <Compile Include="Request\AuthnRequestHelper.cs" />
+    <Compile Include="Request\ClauseBuilders\ClauseBuilder.cs" />
+    <Compile Include="Request\ClauseBuilders\IdClauseBuilder.cs" />
+    <Compile Include="Request\ClauseBuilders\AudienceRestrictionClauseBuilder.cs" />
+    <Compile Include="Request\ClauseBuilders\IssuerClauseBuilder.cs" />
     <Compile Include="Request\ConditionAbstract.cs" />
     <Compile Include="Request\Conditions.cs" />
     <Compile Include="Request\Elements\AuthnContext.cs" />
@@ -86,6 +91,10 @@
     <ProjectReference Include="..\..\..\Kernel\Kernel.Federation\Kernel.Federation.csproj">
       <Project>{47FE8E9F-CCF6-46B7-BA75-CBA1D1F56D7A}</Project>
       <Name>Kernel.Federation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Reflection\Kernel.Reflection.csproj">
+      <Project>{2A6BA5FB-DBAA-457A-9CB3-9BA74A96551B}</Project>
+      <Name>Kernel.Reflection</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Kernel\Kernel\Kernel.csproj">
       <Project>{E198C691-91A6-4082-9976-F5F006F24960}</Project>

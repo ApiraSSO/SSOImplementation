@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Security;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using Kernel.Cryptography.CertificateManagement;
+using Kernel.Cryptography.DataProtection;
 using Kernel.Federation.MetaData.Configuration.Cryptography;
 
 namespace SecurityManagement
@@ -32,6 +35,16 @@ namespace SecurityManagement
                 return new X509StoreCertificateConfiguration(certContext);
 
             throw new NotSupportedException(String.Format("Certificate context of type: {0} is not supported.", certContext.GetType().Name));
+        }
+
+        public string SignToBase64(string dataToSign, CertificateContext certContext)
+        {
+            var data = Encoding.UTF8.GetBytes(dataToSign);
+            var cert = this.GetCertificateFromContext(certContext);
+            var signed = RSADataProtection.SignDataSHA1((RSA)cert.PrivateKey, data);
+
+            var base64 = Convert.ToBase64String(signed);
+            return base64;
         }
     }
 }

@@ -9,6 +9,11 @@ namespace Federation.Protocols.Request
     [XmlRoot(ElementName, Namespace = Saml20Constants.Assertion, IsNullable = false)]
     public class Conditions
     {
+        public Conditions()
+        {
+            this.Items = new List<ConditionAbstract>();
+        }
+
         /// <summary>
         /// The XML Element name of this class
         /// </summary>
@@ -67,7 +72,7 @@ namespace Federation.Protocols.Request
         [XmlElement("Condition", typeof(ConditionAbstract), Order = 1)]
         //[XmlElement("OneTimeUse", typeof(OneTimeUse), Order = 1)]
         //[XmlElement("ProxyRestriction", typeof(ProxyRestriction), Order = 1)]
-        public List<ConditionAbstract> Items { get; set; }
+        public List<ConditionAbstract> Items { get; }
 
         #endregion
     }
