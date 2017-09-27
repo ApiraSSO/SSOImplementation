@@ -72,13 +72,6 @@ namespace Federation.Protocols.Request
                 sb.Append("SAMLRequest=");
                 sb.Append(encodedEscaped);
                 return sb;
-                //if (spDescriptor.AuthenticationRequestsSigned)
-                //{
-                //    var cert = this._certificateManager.GetCertificateFromContext(kd);
-                //    this.SignRequest(sb, cert);
-                //}
-                //var result = request.Destination + "?" + sb.ToString();
-                //return new Uri(result);
             }
         }
         private static IEnumerable<IAuthnRequestClauseBuilder<AuthnRequest>> GetBuilders()
