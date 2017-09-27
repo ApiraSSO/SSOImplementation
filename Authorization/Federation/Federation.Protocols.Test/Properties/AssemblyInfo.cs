@@ -5,17 +5,14 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ClassLibrary1")]
+[assembly: AssemblyTitle("Federation.Protocols.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ClassLibrary1")]
+[assembly: AssemblyProduct("Federation.Protocols.Test")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: InternalsVisibleTo("WsFederationMetadataProviderTests")]
-[assembly: InternalsVisibleTo("WsMetadataSerialisation.Test")]
-[assembly :InternalsVisibleTo("Federation.Protocols.Test")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
@@ -23,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e111a891-b47d-4bdc-8bc2-62c2605fc9b8")]
+[assembly: Guid("48d73933-5410-4ca9-a1b1-41eda199ba92")]
 
 // Version information for an assembly consists of the following four values:
 //

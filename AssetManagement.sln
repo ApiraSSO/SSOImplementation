@@ -97,6 +97,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WsMetadataSerialisation.Test", "Serialisation\WsMetadataSerialisation.Test\WsMetadataSerialisation.Test.csproj", "{52847132-FB66-4611-A321-581391DDB57F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Federation.Protocols.Test", "Authorization\Federation\Federation.Protocols.Test\Federation.Protocols.Test.csproj", "{48D73933-5410-4CA9-A1B1-41EDA199BA92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -247,6 +249,10 @@ Global
 		{52847132-FB66-4611-A321-581391DDB57F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52847132-FB66-4611-A321-581391DDB57F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52847132-FB66-4611-A321-581391DDB57F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48D73933-5410-4CA9-A1B1-41EDA199BA92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48D73933-5410-4CA9-A1B1-41EDA199BA92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48D73933-5410-4CA9-A1B1-41EDA199BA92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48D73933-5410-4CA9-A1B1-41EDA199BA92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -290,6 +296,7 @@ Global
 		{B3B5D17F-9B2C-4B26-90E5-8AB0C1A3074A} = {59620518-6260-4F87-87AF-3142CEE75C35}
 		{40A28D14-9B34-4000-BB7B-99BB0FD5BDF7} = {5D045FCD-BBE8-4543-B16B-00C8579E6861}
 		{52847132-FB66-4611-A321-581391DDB57F} = {0AFE6D2B-E3B2-455F-9776-70D5C39629A4}
+		{48D73933-5410-4CA9-A1B1-41EDA199BA92} = {59620518-6260-4F87-87AF-3142CEE75C35}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E4F5021-8BA2-4CB0-959B-4E49D190605D}

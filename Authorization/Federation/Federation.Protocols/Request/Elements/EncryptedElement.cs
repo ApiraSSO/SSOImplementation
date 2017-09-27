@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Security.Cryptography.Xml;
 using System.Xml.Serialization;
+using Federation.Protocols.Request.Elements.Xenc;
 
 namespace Federation.Protocols.Request.Elements
 {
@@ -19,7 +19,7 @@ namespace Federation.Protocols.Request.Elements
         /// <summary>
         /// The XML Element name of this class
         /// </summary>
-        public const string ElementName = "EncryptedElement";
+        public const string ElementName = "EncryptedID";
 
         #region Elements
 

@@ -24,7 +24,7 @@ namespace Federation.Protocols.Request.Elements
         /// </summary>
         /// <value>The items.</value>
         [XmlElement(BaseIdAbstract.ElementName, typeof(BaseIdAbstract), Order = 1)]
-        //[XmlElement("EncryptedID", typeof(EncryptedElement), Order = 1)]
+        [XmlElement(EncryptedElement.ElementName, typeof(EncryptedElement), Order = 1)]
         [XmlElement(NameId.ElementName, typeof(NameId), Order = 1)]
         [XmlElement(SubjectConfirmation.ElementName, typeof(SubjectConfirmation), Order = 1)]
         public object[] Items { get; set; }
