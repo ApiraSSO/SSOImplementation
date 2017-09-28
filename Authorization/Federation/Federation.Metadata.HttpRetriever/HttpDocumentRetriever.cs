@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,8 +10,13 @@ namespace Federation.Metadata.HttpRetriever
 {
     public class HttpDocumentRetriever : IDocumentRetriever
     {
-        private Func<HttpClient> _httpClientFactory;
+        static HttpDocumentRetriever()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+        }
 
+        private Func<HttpClient> _httpClientFactory;
+        
         public bool RequireHttps { get; set; } = true;
         
         public HttpDocumentRetriever(Func<HttpClient> httpClientFactory)
