@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IdentityModel.Metadata;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Federation.Protocols.Request;
@@ -60,29 +59,12 @@ namespace SSOOwinMiddleware.Handlers
                 this._configuration = await this.Options.ConfigurationManager.GetConfigurationAsync(relyingPartyId, new System.Threading.CancellationToken());
             
             Uri signInUrl = null;
-
-            var entitiesDescriptors = this._configuration as EntitiesDescriptor;
-            if (entitiesDescriptors != null)
-            {
-                var handler = _resolver.Resolve<IMetadataHandler<EntitiesDescriptor>>();
-                signInUrl = handler.ReadIdpLocation(entitiesDescriptors, new Uri(Bindings.Http_Redirect));
-                //var idDescpritor = entitiesDescriptors.ChildEntities.SelectMany(x => x.RoleDescriptors)
-                //    .First(x => x.GetType() == typeof(IdentityProviderSingleSignOnDescriptor)) as IdentityProviderSingleSignOnDescriptor;
-                //signInUrl = idDescpritor.SingleSignOnServices.FirstOrDefault(x => x.Binding == new Uri("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"))
-                //    .Location;
-            }
-
-            var entitityDescriptor = this._configuration as EntityDescriptor;
-            if (entitityDescriptor != null)
-            {
-                var handler = _resolver.Resolve<IMetadataHandler<EntityDescriptor>>();
-                signInUrl = handler.ReadIdpLocation(entitityDescriptor, new Uri(Bindings.Http_Redirect));
-                //var idDescpritor = entitityDescriptor.RoleDescriptors.Select(x => x)
-                //    .First(x => x.GetType() == typeof(IdentityProviderSingleSignOnDescriptor)) as IdentityProviderSingleSignOnDescriptor;
-                //signInUrl = idDescpritor.SingleSignOnServices.FirstOrDefault(x => x.Binding == new Uri("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"))
-                //    .Location;
-            }
-            
+            var metadataType = this._configuration.GetType();
+            var handlerType = typeof(IMetadataHandler<>).MakeGenericType(metadataType);
+            var handler = this._resolver.Resolve(handlerType);
+            var del = HandlerFactory.GetDelegateForIdpLocation(metadataType);
+            signInUrl = del(handler, this._configuration, new Uri(Bindings.Http_Redirect));
+ 
             var requestContext = new AuthnRequestContext(signInUrl, relyingPartyId);
             var redirectUriBuilder = this._resolver.Resolve<AuthnRequestBuilder>();
             var redirectUri = redirectUriBuilder.BuildRedirectUri(requestContext);

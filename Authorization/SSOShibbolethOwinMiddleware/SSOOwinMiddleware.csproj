@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\SSOAuthenticationExtensions.cs" />
+    <Compile Include="Handlers\HandlerFactory.cs" />
     <Compile Include="Handlers\SSOAuthenticationHandler.cs" />
     <Compile Include="RelyingPartyIdentifierHelper.cs" />
     <Compile Include="SSOOwinMiddleware.cs" />
