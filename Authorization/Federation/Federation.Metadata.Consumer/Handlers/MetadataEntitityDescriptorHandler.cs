@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.IdentityModel.Metadata;
+using System.Linq;
 using Kernel.Federation.MetaData;
 
 namespace Federation.Metadata.RelyingParty.Handlers
@@ -9,9 +9,10 @@ namespace Federation.Metadata.RelyingParty.Handlers
     {
         public Uri ReadIdpLocation(EntityDescriptor metadata, Uri binding)
         {
-            var idDescpritor = metadata.RoleDescriptors.Select(x => x)
-                .First(x => x.GetType() == typeof(IdentityProviderSingleSignOnDescriptor)) as IdentityProviderSingleSignOnDescriptor;
-            var signInUrl = idDescpritor.SingleSignOnServices.First(x => x.Binding == binding).Location;
+            var signInUrl = metadata.RoleDescriptors.OfType<IdentityProviderSingleSignOnDescriptor>()
+                .SelectMany(x => x.SingleSignOnServices).
+                First(x => x.Binding == binding).Location;
+
             return signInUrl;
         }
     }
