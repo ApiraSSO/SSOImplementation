@@ -50,6 +50,7 @@ namespace SSOOwinMiddleware.Handlers
                 return;
 
             //ToDo: shoudn't need those. The tests don't so probably reletated to IIS express etc
+            //ToDo: sort out configuration manager. no need to be in the options
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var relyingPartyId = RelyingPartyIdentifierHelper.GetRelyingPartyIdFromRequestOrDefault(Request.Context);

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Federtion\ConfigurationManager.cs" />
     <Compile Include="Initialisation\Initialiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -56,6 +57,10 @@
     <ProjectReference Include="..\..\Kernel\Kernel.Configuration\Kernel.Configuration.csproj">
       <Project>{b78beaba-813a-4c65-ba17-2207e5f37b66}</Project>
       <Name>Kernel.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kernel\Kernel.Federation\Kernel.Federation.csproj">
+      <Project>{47FE8E9F-CCF6-46B7-BA75-CBA1D1F56D7A}</Project>
+      <Name>Kernel.Federation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Kernel\Kernel.Reflection\Kernel.Reflection.csproj">
       <Project>{2a6ba5fb-dbaa-457a-9cb3-9ba74a96551b}</Project>

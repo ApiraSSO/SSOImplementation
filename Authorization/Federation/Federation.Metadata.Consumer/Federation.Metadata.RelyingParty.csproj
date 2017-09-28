@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Configuration\FederationConfigurationManager.cs" />
     <Compile Include="Configuration\WsFederationConfigurationRetriever.cs" />
     <Compile Include="Initialisation\MetadataConsumerInitialiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

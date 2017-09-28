@@ -13,6 +13,7 @@ using Microsoft.Owin.Security.DataHandler;
 using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Owin.Security.Infrastructure;
 using Owin;
+using Shared.Federtion;
 using SSOOwinMiddleware.Handlers;
 using WsMetadataSerialisation.Serialisation;
 
@@ -52,12 +53,20 @@ namespace SSOOwinMiddleware
                     Timeout = this.Options.BackchannelTimeout,
                     MaxResponseContentBufferSize = 10485760L
                 };
-                var documentRetriever = new HttpDocumentRetriever(() => httpClient);
-                var certValidator = this._resolver.Resolve<Kernel.Cryptography.Validation.ICertificateValidator>();
-                var serialiser = new FederationMetadataSerialiser(certValidator);
-                var configurationRetriever = new WsFederationConfigurationRetriever(documentRetriever, serialiser);
-                var relyingPartyContextBuilder = this._resolver.Resolve<IRelyingPartyContextBuilder>();
-                this.Options.ConfigurationManager = new ConfigurationManager<MetadataBase>(relyingPartyContextBuilder, configurationRetriever);
+
+                this._resolver.RegisterFactory<Func<HttpClient>>(() =>
+                {
+                    return () => httpClient;
+                }, Lifetime.Transient);
+
+                //ToDo: clean up
+                //var documentRetriever = new HttpDocumentRetriever(() => httpClient);
+                //var certValidator = this._resolver.Resolve<Kernel.Cryptography.Validation.ICertificateValidator>();
+                //var serialiser = new FederationMetadataSerialiser(certValidator);
+                //var configurationRetriever = new WsFederationConfigurationRetriever(documentRetriever, serialiser);
+                //var relyingPartyContextBuilder = this._resolver.Resolve<IRelyingPartyContextBuilder>();
+                var configurationManager = this._resolver.Resolve<IConfigurationManager<MetadataBase>>();
+                this.Options.ConfigurationManager = configurationManager;
             }
         }
         

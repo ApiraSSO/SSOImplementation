@@ -15,6 +15,7 @@ namespace Federation.Metadata.RelyingParty.Initialisation
         protected override Task InitialiseInternal(IDependencyResolver dependencyResolver)
         {
             dependencyResolver.RegisterType<WsFederationConfigurationRetriever>(Lifetime.Transient);
+            dependencyResolver.RegisterType<FederationConfigurationManager>(Lifetime.Singleton);
             return Task.CompletedTask;
         }
     }

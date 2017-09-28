@@ -1,9 +1,8 @@
 ﻿using System.IdentityModel.Metadata;
 using System.Threading.Tasks;
 using Federation.Metadata.Consumer.Tests.Mock;
-using Federation.Metadata.RelyingParty.Configuration;
-using Kernel.Federation.RelyingParty;
 using NUnit.Framework;
+using Shared.Federtion;
 
 namespace Federation.Metadata.Consumer.Tests
 {
