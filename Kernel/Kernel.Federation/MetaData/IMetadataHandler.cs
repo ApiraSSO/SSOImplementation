@@ -8,6 +8,6 @@ namespace Kernel.Federation.MetaData
 {
     public interface IMetadataHandler<TMetadata>
     {
-        Uri ReadIdpLocation(Uri binding);
+        Uri ReadIdpLocation(TMetadata metadata, Uri binding);
     }
 }

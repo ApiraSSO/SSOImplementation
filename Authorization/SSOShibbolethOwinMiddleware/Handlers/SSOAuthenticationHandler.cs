@@ -5,6 +5,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Federation.Protocols.Request;
 using Kernel.DependancyResolver;
+using Kernel.Federation.MetaData;
+using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.Protocols;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
@@ -62,19 +64,23 @@ namespace SSOOwinMiddleware.Handlers
             var entitiesDescriptors = this._configuration as EntitiesDescriptor;
             if (entitiesDescriptors != null)
             {
-                var idDescpritor = entitiesDescriptors.ChildEntities.SelectMany(x => x.RoleDescriptors)
-                    .First(x => x.GetType() == typeof(IdentityProviderSingleSignOnDescriptor)) as IdentityProviderSingleSignOnDescriptor;
-                signInUrl = idDescpritor.SingleSignOnServices.FirstOrDefault(x => x.Binding == new Uri("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"))
-                    .Location;
+                var handler = _resolver.Resolve<IMetadataHandler<EntitiesDescriptor>>();
+                signInUrl = handler.ReadIdpLocation(entitiesDescriptors, new Uri(Bindings.Http_Redirect));
+                //var idDescpritor = entitiesDescriptors.ChildEntities.SelectMany(x => x.RoleDescriptors)
+                //    .First(x => x.GetType() == typeof(IdentityProviderSingleSignOnDescriptor)) as IdentityProviderSingleSignOnDescriptor;
+                //signInUrl = idDescpritor.SingleSignOnServices.FirstOrDefault(x => x.Binding == new Uri("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"))
+                //    .Location;
             }
 
             var entitityDescriptor = this._configuration as EntityDescriptor;
             if (entitityDescriptor != null)
             {
-                var idDescpritor = entitityDescriptor.RoleDescriptors.Select(x => x)
-                    .First(x => x.GetType() == typeof(IdentityProviderSingleSignOnDescriptor)) as IdentityProviderSingleSignOnDescriptor;
-                signInUrl = idDescpritor.SingleSignOnServices.FirstOrDefault(x => x.Binding == new Uri("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"))
-                    .Location;
+                var handler = _resolver.Resolve<IMetadataHandler<EntityDescriptor>>();
+                signInUrl = handler.ReadIdpLocation(entitityDescriptor, new Uri(Bindings.Http_Redirect));
+                //var idDescpritor = entitityDescriptor.RoleDescriptors.Select(x => x)
+                //    .First(x => x.GetType() == typeof(IdentityProviderSingleSignOnDescriptor)) as IdentityProviderSingleSignOnDescriptor;
+                //signInUrl = idDescpritor.SingleSignOnServices.FirstOrDefault(x => x.Binding == new Uri("urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"))
+                //    .Location;
             }
             
             var requestContext = new AuthnRequestContext(signInUrl, relyingPartyId);

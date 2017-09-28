@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="Configuration\FederationConfigurationManager.cs" />
     <Compile Include="Configuration\WsFederationConfigurationRetriever.cs" />
+    <Compile Include="Handlers\MetadataEntitityDescriptorHandler.cs" />
+    <Compile Include="Handlers\MetadataEntitiesDescriptorHandler.cs" />
     <Compile Include="Initialisation\MetadataConsumerInitialiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
