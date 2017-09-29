@@ -63,7 +63,7 @@ namespace SSOOwinMiddleware.Handlers
             var handler = this._resolver.Resolve(handlerType);
             var del = HandlerFactory.GetDelegateForIdpLocation(metadataType);
             signInUrl = del(handler, this._configuration, new Uri(Bindings.Http_Redirect));
- 
+
             var requestContext = new AuthnRequestContext(signInUrl, federationPartyId);
             var redirectUriBuilder = this._resolver.Resolve<AuthnRequestBuilder>();
             var redirectUri = redirectUriBuilder.BuildRedirectUri(requestContext);

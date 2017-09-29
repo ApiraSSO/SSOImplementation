@@ -51,7 +51,13 @@ namespace Federation.Protocols.Request
             var encodedEscaped = Uri.EscapeDataString(AuthnRequestHelper.UpperCaseUrlEncode(encoded));
             sb.Append("SAMLRequest=");
             sb.Append(encodedEscaped);
-            
+            if(!String.IsNullOrWhiteSpace(authnRequestContext.RelyingState))
+            {
+                sb.Append("&RelayState=");
+                var rsEncoded = AuthnRequestHelper.DeflateEncode(authnRequestContext.RelyingState);
+                var rsEncodedEscaped = Uri.EscapeDataString(AuthnRequestHelper.UpperCaseUrlEncode(encoded));
+                sb.Append(rsEncodedEscaped);
+            }
             if (spDescriptor.AuthenticationRequestsSigned)
             {
                 AuthnRequestHelper.SignRequest(sb, kd, certificateManager);

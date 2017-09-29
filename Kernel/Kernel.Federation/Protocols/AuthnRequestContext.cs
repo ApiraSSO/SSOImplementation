@@ -8,10 +8,12 @@ namespace Kernel.Federation.Protocols
         {
             this.Destination = destination;
             this.FederationPartyId = federationPartyId;
+            this.RelyingState = federationPartyId;
             this.Version = "2.0";
         }
         public string Version { get; set; }
         public string FederationPartyId { get; }
+        public string RelyingState { get; set; }
         public Uri Destination { get; private set; }
     }
 }

@@ -9,7 +9,7 @@ namespace SecurityManagement
         internal static string GetFederationPartyIdFromRequestOrDefault(HttpWebRequest request)
         {
             if (request == null)
-                throw new ArgumentNullException("owinContext");
+                throw new ArgumentNullException("request");
             
             var querySting = HttpUtility.ParseQueryString(request.RequestUri.Query);
             var federationPartyId = querySting["clientId"];
