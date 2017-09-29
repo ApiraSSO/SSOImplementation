@@ -11,7 +11,7 @@ namespace SSOOwinMiddleware
 {
     public class SSOAuthenticationOptions : AuthenticationOptions
     {
-        public Kernel.Cryptography.Validation.ICertificateValidator BackchannelCertificateValidator { get; set; }
+        public Kernel.Cryptography.Validation.IBackchannelCertificateValidator BackchannelCertificateValidator { get; set; }
 
         private ICollection<ISecurityTokenValidator> _securityTokenHandlers = new List<ISecurityTokenValidator>()
         {

@@ -26,7 +26,7 @@ namespace SSOOwinMiddleware
             this._logger = app.CreateLogger<SSOOwinMiddleware>();
             if (base.Options.BackchannelCertificateValidator == null)
             {
-                base.Options.BackchannelCertificateValidator = this._resolver.Resolve<Kernel.Cryptography.Validation.ICertificateValidator>();
+                base.Options.BackchannelCertificateValidator = this._resolver.Resolve<Kernel.Cryptography.Validation.IBackchannelCertificateValidator>();
             }
 
             if (string.IsNullOrWhiteSpace(this.Options.TokenValidationParameters.AuthenticationType))

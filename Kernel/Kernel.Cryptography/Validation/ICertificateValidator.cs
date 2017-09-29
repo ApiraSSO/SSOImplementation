@@ -14,28 +14,7 @@ namespace Kernel.Cryptography.Validation
         string FederationPartyId { get; }
 
         X509CertificateValidationMode X509CertificateValidationMode { get; }
-        //
-        // Summary:
-        //     Verifies the remote Secure Sockets Layer (SSL) certificate used for authentication.
-        //
-        // Parameters:
-        //   sender:
-        //     An object that contains state information for this validation.
-        //
-        //   certificate:
-        //     The certificate used to authenticate the remote party.
-        //
-        //   chain:
-        //     The chain of certificate authorities associated with the remote certificate.
-        //
-        //   sslPolicyErrors:
-        //     One or more errors associated with the remote certificate.
-        //
-        // Returns:
-        //     A Boolean value that determines whether the specified certificate is accepted
-        //     for authentication.
-        bool Validate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors);
-
+        
         void Validate(X509Certificate2 certificate);
         void SetFederationPartyId(string federationPartyId);
     }

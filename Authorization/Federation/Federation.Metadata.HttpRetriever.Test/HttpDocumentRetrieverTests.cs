@@ -27,7 +27,7 @@ namespace Federation.Metadata.HttpRetriever.Test
 
         }
 
-        private static HttpMessageHandler ResolveHttpMessageHandler(ICertificateValidator validator)
+        private static HttpMessageHandler ResolveHttpMessageHandler(IBackchannelCertificateValidator validator)
         {
             HttpMessageHandler httpMessageHandler = new WebRequestHandler();
             //if (options.BackchannelCertificateValidator != null)

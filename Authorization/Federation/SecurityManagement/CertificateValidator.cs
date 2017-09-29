@@ -45,46 +45,6 @@ namespace SecurityManagement
             this.FederationPartyId = federationPartyId;
         }
 
-        public bool Validate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            this.FederationPartyId = FederationPartyIdentifierHelper.GetFederationPartyIdFromRequestOrDefault(sender as HttpWebRequest);
-            var configiration = this.GetConfiguration();
-            //ToDo: complete pinning validation. Moved to back log on 27/09/2017
-            if(configiration.UsePinningValidation && configiration.BackchannelValidatorResolver != null)
-            {
-                try
-                {
-                    var type = configiration.BackchannelValidatorResolver.Type;
-                    var instace = Activator.CreateInstance(type) as ICertificateValidatorResolver;
-                    if(instace != null)
-                    {
-                        var validators = instace.Resolve();
-                        
-                        return true;
-                    }
-                }
-                catch(Exception)
-                {
-                    return true;
-                }
-            }
-
-            var context = new BackchannelCertificateValidationContext(certificate, chain, sslPolicyErrors);
-
-            //default rule. No validation
-            Func<BackchannelCertificateValidationContext, Task> seed = x =>
-            {
-                x.Validated();
-                return Task.CompletedTask;
-            };
-
-            var rules = BackchannelCertificateValidationRulesFactory.GetRules(configiration);
-            var validationDelegate = rules.Aggregate(seed, (f, next) => new Func<BackchannelCertificateValidationContext, Task>(c => next.Validate(c, f)));
-            var task = validationDelegate(context);
-            task.Wait();
-            return context.IsValid;
-        }
-        
         public override void Validate(X509Certificate2 certificate)
         {
             var configiration = this.GetConfiguration();

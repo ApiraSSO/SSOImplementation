@@ -5,7 +5,7 @@ using Kernel.Cryptography.Validation;
 
 namespace Federation.Metadata.HttpRetriever.Test.Mock
 {
-    internal class CertificateValidatorMock : ICertificateValidator
+    internal class CertificateValidatorMock : ICertificateValidator, IBackchannelCertificateValidator
     {
         public System.ServiceModel.Security.X509CertificateValidationMode X509CertificateValidationMode => throw new NotImplementedException();
 

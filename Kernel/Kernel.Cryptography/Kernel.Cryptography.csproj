@@ -62,6 +62,7 @@
     <Compile Include="Validation\BackchannelCertificateValidationContext.cs" />
     <Compile Include="Validation\ICertificateValidationConfigurationProvider.cs" />
     <Compile Include="Validation\ICertificateValidationRule.cs" />
+    <Compile Include="Validation\IBackchannelCertificateValidator.cs" />
     <Compile Include="Validation\ICertificateValidator.cs" />
     <Compile Include="Validation\IBackchannelCertificateValidationRule.cs" />
     <Compile Include="Validation\ICertificateValidatorResolver.cs" />
