@@ -7,7 +7,7 @@ namespace WsFederationMetadataProvider.Metadata
 {
     public class SSOMetadataFileWriter : IFederationMetadataWriter
     {
-        public void Write(XmlElement xml, Stream target)
+        public void Write(XmlElement xml, MetadataPublishContext target)
         {
             throw new NotImplementedException();
             //using (var w = XmlWriter.Create(configuration.MetadatFilePathDestination))

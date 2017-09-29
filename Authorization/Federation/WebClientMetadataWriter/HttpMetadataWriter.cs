@@ -1,19 +1,13 @@
-﻿using System.IO;
-using System.Text;
-using System.Xml;
-using Kernel.Federation.MetaData;
+﻿using Kernel.Federation.MetaData;
+using Shared.Federtion;
 
 namespace WebClientMetadataWriter
 {
-    internal class HttpMetadataWriter : IFederationMetadataWriter
+    internal class HttpMetadataWriter : MetadataWriter
     {
-        public void Write(XmlElement xml, Stream target)
+        protected override bool CanWrite(MetadataPublishContext target)
         {
-            var writer = new StreamWriter(target);
-            using (var w = XmlWriter.Create(writer, new XmlWriterSettings { Encoding = Encoding.UTF8 }))
-            {
-                xml.WriteTo(w);
-            }
+            return (target.MetadataPublishProtocol & MetadataPublishProtocol.Http) == MetadataPublishProtocol.Http;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Xml;
 using Kernel.Federation.MetaData;
 
@@ -13,7 +12,7 @@ namespace ORMMetadataContextProvider.Tests.Mock
             this._action = action;
         }
 
-        public void Write(XmlElement xml, Stream target)
+        public void Write(XmlElement xml, MetadataPublishContext target)
         {
               this._action(xml);
         }

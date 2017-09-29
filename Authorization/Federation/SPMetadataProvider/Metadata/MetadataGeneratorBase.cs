@@ -43,7 +43,7 @@ namespace WsFederationMetadataProvider.Metadata
             var metadata = new XmlDocument();
             metadata.LoadXml(sb.ToString());
 
-            this._federationMetadataWriter.Write(metadata.DocumentElement, context.TargetStream);
+            this._federationMetadataWriter.Write(metadata.DocumentElement, context.Target);
         }
 
         Task IMetadataGenerator.CreateMetadata(FederationPartyContext federationPartyContext, XmlWriter xmlWriter)

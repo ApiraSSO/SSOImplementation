@@ -50,6 +50,8 @@
     <Compile Include="MetaData\Configuration\Bindings.cs" />
     <Compile Include="MetaData\IMetadataHandler.cs" />
     <Compile Include="MetaData\MetadataGenerateRequest.cs" />
+    <Compile Include="MetaData\MetadataPublishContext.cs" />
+    <Compile Include="MetaData\MetadataPublishProtocol.cs" />
     <Compile Include="Protocols\IAuthnRequestClauseBuilder.cs" />
     <Compile Include="FederationPartner\IFederationPartyContextBuilder.cs" />
     <Compile Include="FederationPartner\FederationPartyContext.cs" />

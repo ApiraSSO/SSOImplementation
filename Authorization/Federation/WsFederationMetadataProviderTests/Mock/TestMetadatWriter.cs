@@ -13,7 +13,7 @@ namespace WsFederationMetadataProviderTests.Mock
             this._action = action;
         }
 
-        public void Write(XmlElement xml, Stream target)
+        public void Write(XmlElement xml, MetadataPublishContext target)
         {
               this._action(xml);
         }

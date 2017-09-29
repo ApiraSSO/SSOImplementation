@@ -24,7 +24,7 @@ namespace SSOOwinMiddleware.Extensions
                     var federationParty = FederationPartyIdentifierHelper.GetFederationPartyIdFromRequestOrDefault(c);
                     var metadataGenerator = SSOAuthenticationExtensions.ResolveMetadataGenerator<ISPMetadataGenerator>();
                     c.Response.ContentType = "text/xml";
-                    var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, federationParty, c.Response.Body);
+                    var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, federationParty, new MetadataPublishContext(c.Response.Body, MetadataPublishProtocol.Http));
                     return metadataGenerator.CreateMetadata(metadataRequest);
                 });
             });

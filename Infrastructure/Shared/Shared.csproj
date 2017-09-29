@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Federtion\ConfigurationManager.cs" />
+    <Compile Include="Federtion\MetadataWriter.cs" />
     <Compile Include="Initialisation\Initialiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,30 +1,18 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Xml;
 using Kernel.Federation.FederationPartner;
 using Kernel.Federation.MetaData;
+using Shared.Federtion;
 
 namespace FileSystemMetadataWriter
 {
-    internal class MetadataFileWriter : IFederationMetadataWriter
+    internal class MetadataFileWriter : MetadataWriter
     {
-        IFederationPartyContextBuilder federationPartyContextBuilder;
-        public MetadataFileWriter(IFederationPartyContextBuilder federationPartyContextBuilder)
+        protected override bool CanWrite(MetadataPublishContext target)
         {
-
-        }
-        public void Write(XmlElement xml, Stream target)
-        {
-            throw new NotImplementedException();
-
-            //if (File.Exists(path))
-            //    File.Delete(path);
-
-            //using (var writer = XmlWriter.Create(path))
-            //{
-            //    xml.WriteTo(writer);
-            //    writer.Flush();
-            //}
+            return (target.MetadataPublishProtocol & MetadataPublishProtocol.FileSystem) == MetadataPublishProtocol.FileSystem;
         }
     }
 }
