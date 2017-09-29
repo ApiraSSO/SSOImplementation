@@ -2,18 +2,18 @@
 using System.Linq;
 using Kernel.Cache;
 using Kernel.Data.ORM;
-using Kernel.Federation.RelyingParty;
+using Kernel.Federation.Tenant;
 using MemoryCacheProvider;
 using ORMMetadataContextProvider.Models;
 
 namespace ORMMetadataContextProvider.RelyingParty
 {
-    internal class RelyingPartyContextBuilder : ITenantContextBuilder
+    internal class TenantPartyContextBuilder : ITenantContextBuilder
     {
         private readonly IDbContext _dbContext;
         private readonly ICacheProvider _cacheProvider;
 
-        public RelyingPartyContextBuilder(IDbContext dbContext, ICacheProvider cacheProvider)
+        public TenantPartyContextBuilder(IDbContext dbContext, ICacheProvider cacheProvider)
         {
             this._dbContext = dbContext;
             this._cacheProvider = cacheProvider;

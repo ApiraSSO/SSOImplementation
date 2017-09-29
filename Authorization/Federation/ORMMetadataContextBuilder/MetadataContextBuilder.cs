@@ -26,7 +26,7 @@ namespace ORMMetadataContextProvider
             if (metadataGenerateContext == null)
                 throw new ArgumentNullException("metadataGenerateContext");
 
-            var relyingParty = this._cacheProvider.Get<RelyingPartyContext>(metadataGenerateContext.RelyingPartyId);
+            var relyingParty = this._cacheProvider.Get<TenantContext>(metadataGenerateContext.RelyingPartyId);
             if(relyingParty == null)
             {
                 var relyingPartyBuilder = new RelyingPartyContextBuilder(this._dbContext, this._cacheProvider);

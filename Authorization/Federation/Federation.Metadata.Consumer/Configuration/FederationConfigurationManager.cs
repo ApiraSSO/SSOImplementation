@@ -11,7 +11,7 @@ namespace Federation.Metadata.RelyingParty.Configuration
 {
     internal class FederationConfigurationManager : ConfigurationManager<MetadataBase>
     {
-        public FederationConfigurationManager(IRelyingPartyContextBuilder relyingPartyContextBuilder, IConfigurationRetriever<MetadataBase> configRetriever) 
+        public FederationConfigurationManager(ITenantContextBuilder relyingPartyContextBuilder, IConfigurationRetriever<MetadataBase> configRetriever) 
             : base(relyingPartyContextBuilder, configRetriever)
         {
         }

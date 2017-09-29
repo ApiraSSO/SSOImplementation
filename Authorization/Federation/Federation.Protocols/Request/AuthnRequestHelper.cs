@@ -17,7 +17,7 @@ namespace Federation.Protocols.Request
     internal class AuthnRequestHelper
     {
         private static Func<Type, bool> _condition = t => !t.IsAbstract && !t.IsInterface && typeof(IAuthnRequestClauseBuilder<AuthnRequest>).IsAssignableFrom(t);
-        internal static AuthnRequest BuildAuthnRequest(AuthnRequestContext authnRequestContext, IRelyingPartyContextBuilder relyingPartyContextBuilder)
+        internal static AuthnRequest BuildAuthnRequest(AuthnRequestContext authnRequestContext, ITenantContextBuilder relyingPartyContextBuilder)
         {
             var relyingParty = relyingPartyContextBuilder.BuildRelyingPartyContext(authnRequestContext.RelyingPartyId);
             var request = new AuthnRequest
@@ -36,7 +36,7 @@ namespace Federation.Protocols.Request
             return request;
         }
 
-        internal static string SerialiseAndSign(AuthnRequest request, AuthnRequestContext authnRequestContext, IXmlSerialiser serialiser, IRelyingPartyContextBuilder relyingPartyContextBuilder, ICertificateManager certificateManager)
+        internal static string SerialiseAndSign(AuthnRequest request, AuthnRequestContext authnRequestContext, IXmlSerialiser serialiser, ITenantContextBuilder relyingPartyContextBuilder, ICertificateManager certificateManager)
         {
             var relyingParty = relyingPartyContextBuilder.BuildRelyingPartyContext(authnRequestContext.RelyingPartyId);
             var metadataContext = relyingParty.MetadataContext;
