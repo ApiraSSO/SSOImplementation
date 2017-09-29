@@ -30,7 +30,7 @@ namespace Shared.Federtion
         public async Task<T> GetConfigurationAsync(string federationPartyId)
         {
             T configuration = await this.GetConfigurationAsync(federationPartyId, CancellationToken.None)
-                .ConfigureAwait(false);
+                .ConfigureAwait(true);
             return configuration;
         }
 
@@ -72,7 +72,8 @@ namespace Shared.Federtion
                     {
                         ConfigurationManager<T> configurationManager = this;
                         
-                        T obj = await this._configRetriever.GetAsync(context.MetadataAddress, CancellationToken.None).ConfigureAwait(false);
+                        T obj = await this._configRetriever.GetAsync(context.MetadataAddress, CancellationToken.None)
+                            .ConfigureAwait(true);
                         currentConfiguration = obj;
                         
                         configurationManager = null;

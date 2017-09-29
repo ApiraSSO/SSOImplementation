@@ -46,13 +46,13 @@ namespace Federation.Metadata.HttpRetriever
                     throw new ArgumentNullException("httpClient");
 
                 var httpResponseMessage = await httpClient.GetAsync(address, cancel)
-                    .ConfigureAwait(false);
+                    .ConfigureAwait(true);
 
                 var response = httpResponseMessage;
                 httpResponseMessage = null;
                 response.EnsureSuccessStatusCode();
                 var str = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                    .ConfigureAwait(true);
                 str1 = str;
             }
             catch (Exception ex)
