@@ -7,7 +7,7 @@ using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.MetaData.Configuration.Cryptography;
 using Kernel.Federation.FederationPartner;
 using ORMMetadataContextProvider.Models;
-using ORMMetadataContextProvider.RelyingParty;
+using ORMMetadataContextProvider.FederationParty;
 
 namespace ORMMetadataContextProvider
 {

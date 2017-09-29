@@ -11,7 +11,7 @@ using Kernel.DependancyResolver;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.FederationPartner;
 using Kernel.Reflection;
-using ORMMetadataContextProvider.RelyingParty;
+using ORMMetadataContextProvider.FederationParty;
 using ORMMetadataContextProvider.Security;
 using Shared.Initialisation;
 

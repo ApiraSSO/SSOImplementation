@@ -6,7 +6,7 @@ using Kernel.Federation.FederationPartner;
 using MemoryCacheProvider;
 using ORMMetadataContextProvider.Models;
 
-namespace ORMMetadataContextProvider.RelyingParty
+namespace ORMMetadataContextProvider.FederationParty
 {
     internal class FederationPartyContextBuilder : IFederationPartyContextBuilder
     {
