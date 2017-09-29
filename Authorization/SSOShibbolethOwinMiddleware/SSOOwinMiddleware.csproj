@@ -104,9 +104,9 @@
       <Project>{D63B92B8-863B-493D-8117-0960DB06B554}</Project>
       <Name>WsMetadataSerialisation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Federation\Federation.Metadata.Consumer\Federation.Metadata.RelyingParty.csproj">
+    <ProjectReference Include="..\Federation\Federation.Metadata.Consumer\Federation.Metadata.FederationPartner.csproj">
       <Project>{EEC53E9A-3970-4EEC-8FFC-6B1AEA371A77}</Project>
-      <Name>Federation.Metadata.RelyingParty</Name>
+      <Name>Federation.Metadata.FederationPartner</Name>
     </ProjectReference>
     <ProjectReference Include="..\Federation\Federation.Metadata.HttpRetriever\Federation.Metadata.HttpRetriever.csproj">
       <Project>{99B877E4-7B04-4490-9163-C7A41FEE0097}</Project>

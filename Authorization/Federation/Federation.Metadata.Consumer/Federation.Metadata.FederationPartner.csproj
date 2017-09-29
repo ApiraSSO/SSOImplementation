@@ -7,8 +7,8 @@
     <ProjectGuid>{EEC53E9A-3970-4EEC-8FFC-6B1AEA371A77}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Federation.Metadata.RelyingParty</RootNamespace>
-    <AssemblyName>Federation.Metadata.RelyingParty</AssemblyName>
+    <RootNamespace>Federation.Metadata.FederationPartner</RootNamespace>
+    <AssemblyName>Federation.Metadata.FederationPartner</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

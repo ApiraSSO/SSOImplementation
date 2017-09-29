@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Federation.Metadata.RelyingParty.Configuration;
-using Federation.Metadata.RelyingParty.Handlers;
+using Federation.Metadata.FederationPartner.Configuration;
+using Federation.Metadata.FederationPartner.Handlers;
 using Kernel.DependancyResolver;
 using Shared.Initialisation;
 
-namespace Federation.Metadata.RelyingParty.Initialisation
+namespace Federation.Metadata.FederationPartner.Initialisation
 {
     public class MetadataConsumerInitialiser : Initialiser
     {

@@ -3,7 +3,7 @@ using System.IdentityModel.Metadata;
 using System.Linq;
 using Kernel.Federation.MetaData;
 
-namespace Federation.Metadata.RelyingParty.Handlers
+namespace Federation.Metadata.FederationPartner.Handlers
 {
     internal class MetadataEntitiesDescriptorHandler : IMetadataHandler<EntitiesDescriptor>
     {

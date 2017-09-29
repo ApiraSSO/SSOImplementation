@@ -83,7 +83,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InlineMetadataContextProvid
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityManagement.Tests", "Authorization\Federation\SecurityManagement.Tests\SecurityManagement.Tests.csproj", "{1AB1997A-C8D1-4AED-848D-54001D50A537}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Federation.Metadata.RelyingParty", "Authorization\Federation\Federation.Metadata.Consumer\Federation.Metadata.RelyingParty.csproj", "{EEC53E9A-3970-4EEC-8FFC-6B1AEA371A77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Federation.Metadata.FederationPartner", "Authorization\Federation\Federation.Metadata.Consumer\Federation.Metadata.FederationPartner.csproj", "{EEC53E9A-3970-4EEC-8FFC-6B1AEA371A77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Federation.Metadata.HttpRetriever", "Authorization\Federation\Federation.Metadata.HttpRetriever\Federation.Metadata.HttpRetriever.csproj", "{99B877E4-7B04-4490-9163-C7A41FEE0097}"
 EndProject

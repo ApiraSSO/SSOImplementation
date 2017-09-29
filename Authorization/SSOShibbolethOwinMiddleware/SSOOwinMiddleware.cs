@@ -2,8 +2,6 @@
 using System.IdentityModel.Metadata;
 using System.Net.Http;
 using System.Net.Security;
-using Federation.Metadata.HttpRetriever;
-using Federation.Metadata.RelyingParty.Configuration;
 using Kernel.DependancyResolver;
 using Kernel.Federation.FederationPartner;
 using Microsoft.Owin;
@@ -13,9 +11,7 @@ using Microsoft.Owin.Security.DataHandler;
 using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Owin.Security.Infrastructure;
 using Owin;
-using Shared.Federtion;
 using SSOOwinMiddleware.Handlers;
-using WsMetadataSerialisation.Serialisation;
 
 namespace SSOOwinMiddleware
 {

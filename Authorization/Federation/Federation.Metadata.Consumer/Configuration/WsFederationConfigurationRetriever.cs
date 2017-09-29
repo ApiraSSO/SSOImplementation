@@ -4,10 +4,10 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using Kernel.Federation.MetaData;
 using Kernel.Federation.FederationPartner;
+using Kernel.Federation.MetaData;
 
-namespace Federation.Metadata.RelyingParty.Configuration
+namespace Federation.Metadata.FederationPartner.Configuration
 {
     public class WsFederationConfigurationRetriever : IConfigurationRetriever<MetadataBase>
     {
