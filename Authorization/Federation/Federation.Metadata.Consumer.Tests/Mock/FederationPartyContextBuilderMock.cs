@@ -3,11 +3,11 @@ using Kernel.Federation.FederationPartner;
 
 namespace Federation.Metadata.Consumer.Tests.Mock
 {
-    internal class FederationPartyContextBuilderMock : IFederationPartnerContextBuilder
+    internal class FederationPartyContextBuilderMock : IFederationPartyContextBuilder
     {
-        public FederationPartnerContext BuildContext(string federationPartyId)
+        public FederationPartyContext BuildContext(string federationPartyId)
         {
-            var context = new FederationPartnerContext(federationPartyId, "C:\\");
+            var context = new FederationPartyContext(federationPartyId, "C:\\");
 
             return context;
         }

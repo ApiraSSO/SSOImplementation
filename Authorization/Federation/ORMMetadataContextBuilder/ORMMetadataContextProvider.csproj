@@ -72,7 +72,7 @@
     <Compile Include="Models\StoreSearchCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FederationPartnerIdentifierHelper.cs" />
-    <Compile Include="RelyingParty\FederationPartnerContextBuilder.cs" />
+    <Compile Include="RelyingParty\FederationPartyContextBuilder.cs" />
     <Compile Include="Security\CertificateValidationConfigurationProvider.cs" />
     <Compile Include="Seeders\EntityDescriptorSeeder.cs" />
     <Compile Include="Seeders\MetadataSettingsSeeder.cs" />

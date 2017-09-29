@@ -12,9 +12,9 @@ namespace Shared.Federtion
         private static ConcurrentDictionary<string, T> _congigurationCache = new ConcurrentDictionary<string, T>();
         private readonly SemaphoreSlim _refreshLock;
         private readonly IConfigurationRetriever<T> _configRetriever;
-        private readonly IFederationPartnerContextBuilder _federationPartyContextBuilder;
+        private readonly IFederationPartyContextBuilder _federationPartyContextBuilder;
         
-        public ConfigurationManager(IFederationPartnerContextBuilder federationPartyContextBuilder, IConfigurationRetriever<T> configRetriever)
+        public ConfigurationManager(IFederationPartyContextBuilder federationPartyContextBuilder, IConfigurationRetriever<T> configRetriever)
         {
             if (federationPartyContextBuilder == null)
                 throw new ArgumentNullException("context");
@@ -52,7 +52,7 @@ namespace Shared.Federtion
             context.SyncAfter = utcNow;
         }
 
-        private async Task<T> GetConfiguration(FederationPartnerContext context, CancellationToken cancel)
+        private async Task<T> GetConfiguration(FederationPartyContext context, CancellationToken cancel)
         {
             var now = DateTimeOffset.UtcNow;
 

@@ -26,10 +26,10 @@ namespace ORMMetadataContextProvider
             if (metadataGenerateContext == null)
                 throw new ArgumentNullException("metadataGenerateContext");
 
-            var federationParty = this._cacheProvider.Get<FederationPartnerContext>(metadataGenerateContext.FederationPartyId);
+            var federationParty = this._cacheProvider.Get<FederationPartyContext>(metadataGenerateContext.FederationPartyId);
             if(federationParty == null)
             {
-                var federationPartyBuilder = new FederationPartnerContextBuilder(this._dbContext, this._cacheProvider);
+                var federationPartyBuilder = new FederationPartyContextBuilder(this._dbContext, this._cacheProvider);
                 federationParty = federationPartyBuilder.BuildContext(metadataGenerateContext.FederationPartyId);
             }
             

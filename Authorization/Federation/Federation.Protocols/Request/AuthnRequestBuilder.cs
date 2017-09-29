@@ -10,10 +10,10 @@ namespace Federation.Protocols.Request
     public class AuthnRequestBuilder : IAuthnRequestBuilder
     {
         private readonly ICertificateManager _certificateManager;
-        private readonly IFederationPartnerContextBuilder _federationPartyContextBuilder;
+        private readonly IFederationPartyContextBuilder _federationPartyContextBuilder;
         private readonly IXmlSerialiser _serialiser;
 
-        public AuthnRequestBuilder(ICertificateManager certificateManager, IFederationPartnerContextBuilder federationPartyContextBuilder, IXmlSerialiser serialiser)
+        public AuthnRequestBuilder(ICertificateManager certificateManager, IFederationPartyContextBuilder federationPartyContextBuilder, IXmlSerialiser serialiser)
         {
             this._certificateManager = certificateManager;
             this._federationPartyContextBuilder = federationPartyContextBuilder;
