@@ -21,7 +21,7 @@ namespace SecurityManagement.Tests
                 X509CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom
             };
             var configurationProvider = new CertificateValidationConfigurationProvider(() => configuration);
-            var validator = new CertificateValidator(configurationProvider);
+            var validator = new BackchannelCertificateValidator(configurationProvider);
             //ACT
 
             //ASSERT
@@ -38,7 +38,7 @@ namespace SecurityManagement.Tests
                 X509CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom
             };
             var configurationProvider = new CertificateValidationConfigurationProvider(() => configuration);
-            var validator = new CertificateValidator(configurationProvider);
+            var validator = new BackchannelCertificateValidator(configurationProvider);
 
             var certificateStore = new X509Store("TestCertStore", StoreLocation.LocalMachine);
             var validationResult = false;
