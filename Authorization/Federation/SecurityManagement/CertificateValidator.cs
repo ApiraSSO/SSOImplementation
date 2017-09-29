@@ -1,14 +1,10 @@
 ﻿using System;
 using System.IdentityModel.Selectors;
 using System.Linq;
-using System.Net;
-using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel.Security;
 using System.Threading.Tasks;
-using System.Web;
 using Kernel.Cryptography.Validation;
-using SecurityManagement.BackchannelCertificateValidationRules;
 using SecurityManagement.CertificateValidationRules;
 
 namespace SecurityManagement
