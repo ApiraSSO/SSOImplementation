@@ -18,14 +18,14 @@ namespace WsFederationMetadataProvider.Metadata
 {
     public abstract class MetadataGeneratorBase : IMetadataGenerator
     {
-        protected IFederationMetadataWriter _federationMetadataWriter;
+        protected IFederationMetadataDispatcher _metadataDispatcher;
 
         protected readonly ICertificateManager _certificateManager;
         protected readonly IMetadataSerialiser<MetadataBase> _serialiser;
         protected readonly Func<MetadataGenerateRequest, FederationPartyContext> _contextFactory;
-        public MetadataGeneratorBase(IFederationMetadataWriter federationMetadataWriter, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, FederationPartyContext> contextFactory)
+        public MetadataGeneratorBase(IFederationMetadataDispatcher metadataDispatcher, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, FederationPartyContext> contextFactory)
         {
-            this._federationMetadataWriter = federationMetadataWriter;
+            this._metadataDispatcher = metadataDispatcher;
             this._certificateManager = certificateManager;
             this._serialiser = serialiser;
             this._contextFactory = contextFactory;
@@ -42,8 +42,8 @@ namespace WsFederationMetadataProvider.Metadata
             }
             var metadata = new XmlDocument();
             metadata.LoadXml(sb.ToString());
-
-            this._federationMetadataWriter.Write(metadata.DocumentElement, context.Target);
+            var dispatcherContext = new DispatcherContext(metadata.DocumentElement, context.Target);
+            await this._metadataDispatcher.Dispatch(dispatcherContext);
         }
 
         Task IMetadataGenerator.CreateMetadata(FederationPartyContext federationPartyContext, XmlWriter xmlWriter)

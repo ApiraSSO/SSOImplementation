@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Threading.Tasks;
 using System.Xml;
 using Kernel.Federation.MetaData;
 
@@ -13,9 +13,10 @@ namespace WsFederationMetadataProviderTests.Mock
             this._action = action;
         }
 
-        public void Write(XmlElement xml, MetadataPublishContext target)
+        public Task Write(XmlElement xml, MetadataPublishContext target)
         {
               this._action(xml);
+            return Task.CompletedTask;
         }
     }
 }

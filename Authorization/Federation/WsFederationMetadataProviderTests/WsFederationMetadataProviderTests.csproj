@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="DescriptorBuildersTests.cs" />
     <Compile Include="Mock\CertificateValidationConfigurationProvider.cs" />
+    <Compile Include="Mock\FederationMetadataDispatcherMock.cs" />
     <Compile Include="Mock\TestMetadatWriter.cs" />
     <Compile Include="SPMetadataTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

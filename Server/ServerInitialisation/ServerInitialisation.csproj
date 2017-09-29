@@ -52,6 +52,10 @@
       <Project>{99B877E4-7B04-4490-9163-C7A41FEE0097}</Project>
       <Name>Federation.Metadata.HttpRetriever</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Authorization\Federation\FileSystemMetadataWriter\FileSystemMetadataWriter.csproj">
+      <Project>{F2858715-3D6E-4173-AC57-D1B8E874EDD1}</Project>
+      <Name>FileSystemMetadataWriter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Authorization\Federation\ORMMetadataContextBuilder\ORMMetadataContextProvider.csproj">
       <Project>{3A8DF840-5A87-4CD3-915E-07ABF10B065A}</Project>
       <Name>ORMMetadataContextProvider</Name>
@@ -67,6 +71,10 @@
     <ProjectReference Include="..\..\Authorization\Federation\WebClientMetadataWriter\WebClientMetadataWriter.csproj">
       <Project>{D9CD2A65-E454-403C-A36D-1BEEB4FB047B}</Project>
       <Name>WebClientMetadataWriter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Authorization\Federation\WsFederationMetadataDispatcher\WsFederationMetadataDispatcher.csproj">
+      <Project>{743A5DD8-09BE-40F6-ABA6-828DF2B3FD5E}</Project>
+      <Name>WsFederationMetadataDispatcher</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Authorization\OAuthAuthorisationService\OAuthAuthorisationService.csproj">
       <Project>{b0d92407-e135-4ce6-8250-51ac8846ed0c}</Project>

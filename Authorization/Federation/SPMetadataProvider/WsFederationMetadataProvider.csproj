@@ -61,7 +61,6 @@
     <Compile Include="Metadata\DescriptorBuilders\SSODescriptorBuilderHelper.cs" />
     <Compile Include="Metadata\MetadataGeneratorBase.cs" />
     <Compile Include="Metadata\SPSSOMetadataProvider.cs" />
-    <Compile Include="Metadata\SSOMetadataFileWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

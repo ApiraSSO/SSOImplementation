@@ -68,8 +68,8 @@ namespace ORMMetadataContextProvider.Tests
             var ssoCryptoProvider = new CertificateManager();
             
             var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator);
-           
-            var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataWriter, ssoCryptoProvider, metadataSerialiser, g => context);
+            var metadataDispatcher = new FederationMetadataDispatcherMock(() => new[] { metadataWriter });
+            var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataDispatcher, ssoCryptoProvider, metadataSerialiser, g => context);
             
             //ACT
             sPSSOMetadataProvider.CreateMetadata(metadataRequest);

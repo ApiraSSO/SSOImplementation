@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Federation.Metadata.FederationPartner.Initialisation;
 using Federation.Metadata.HttpRetriever.Initialisation;
+using FileSystemMetadataWriter.Initialisation;
 using Kernel.DependancyResolver;
 using Kernel.Initialisation;
 using Kernel.Logging;
@@ -18,6 +19,7 @@ using SecurityManagement.Initialisation;
 using Serialisation.Xml.Initialisation;
 using Shared.Initialisation;
 using WebClientMetadataWriter.Initialisation;
+using WsFederationMetadataDispatcher.Initialisation;
 using WsFederationMetadataProvider.Initialisation;
 using WsMetadataSerialisation.Initialisation;
 
@@ -41,7 +43,8 @@ namespace ServerInitialisation
                 yield return typeof(OAuthAuthorisationServiceInitialiser).Assembly;
                 yield return typeof(DbContextInitialiser).Assembly;
                 yield return typeof(CacheProviderInitialiser).Assembly;
-                
+                yield return typeof(FederationMetadataDispatcherInitialiser).Assembly;
+                yield return typeof(FileSystemMetadataWriterInitialiser).Assembly;
             }
         }
 

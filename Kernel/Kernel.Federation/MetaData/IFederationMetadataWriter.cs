@@ -1,9 +1,10 @@
-﻿using System.Xml;
+﻿using System.Threading.Tasks;
+using System.Xml;
 
 namespace Kernel.Federation.MetaData
 {
     public interface IFederationMetadataWriter
     {
-        void Write(XmlElement xml, MetadataPublishContext target);
+        Task Write(XmlElement xml, MetadataPublishContext target);
     }
 }
