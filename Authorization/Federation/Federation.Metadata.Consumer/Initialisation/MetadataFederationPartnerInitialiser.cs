@@ -6,7 +6,7 @@ using Shared.Initialisation;
 
 namespace Federation.Metadata.FederationPartner.Initialisation
 {
-    public class MetadataConsumerInitialiser : Initialiser
+    public class MetadataFederationPartnerInitialiser : Initialiser
     {
         public override byte Order
         {

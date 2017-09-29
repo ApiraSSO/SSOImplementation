@@ -20,14 +20,14 @@ namespace ORMMetadataContextProvider.Security
         
         public CertificateValidationConfiguration GetConfiguration()
         {
-            var relyingPartyId = FederationPartnerIdentifierHelper.GetRelyingPartyIdFromRequestOrDefault();
-            var settings = this._dbContext.Set<RelyingPartySettings>()
-                .Where(x => x.RelyingPartyId == relyingPartyId)
+            var federationPartyId = FederationPartnerIdentifierHelper.GetFederationPartyIdFromRequestOrDefault();
+            var settings = this._dbContext.Set<FederationPartySettings>()
+                .Where(x => x.FederationPartyId == federationPartyId)
                 .Select(r => r.SecuritySettings)
                 .FirstOrDefault();
 
             if (settings is null)
-                throw new InvalidOperationException(String.Format("No relyingParty configuration found for relyingPartyId: {0}", relyingPartyId));
+                throw new InvalidOperationException(String.Format("No federationParty configuration found for federationPartyId: {0}", federationPartyId));
 
             var configuration = new CertificateValidationConfiguration
             {

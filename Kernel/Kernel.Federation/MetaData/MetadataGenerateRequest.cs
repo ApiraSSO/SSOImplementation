@@ -2,12 +2,12 @@
 {
     public class MetadataGenerateRequest
     {
-        public MetadataGenerateRequest(MetadataType type, string relyingPartyId)
+        public MetadataGenerateRequest(MetadataType type, string federationPartyId)
         {
             this.MetadataType = type;
-            this.RelyingPartyId = relyingPartyId;
+            this.FederationPartyId = federationPartyId;
         }
         public MetadataType MetadataType { get; }
-        public string RelyingPartyId { get; set; }
+        public string FederationPartyId { get; set; }
     }
 }

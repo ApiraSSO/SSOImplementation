@@ -7,10 +7,10 @@ namespace ORMMetadataContextProvider.Models
     {
         public MetadataSettings()
         {
-            this.RelyingParties = new List<RelyingPartySettings>();
+            this.RelyingParties = new List<FederationPartySettings>();
         }
        public virtual SigningCredential SigningCredential { get; set; }
         public virtual EntityDescriptorSettings SPDescriptorSettings { get; set; }
-        public virtual ICollection<RelyingPartySettings> RelyingParties { get; }
+        public virtual ICollection<FederationPartySettings> RelyingParties { get; }
     }
 }

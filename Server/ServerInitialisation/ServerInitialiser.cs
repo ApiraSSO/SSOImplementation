@@ -36,7 +36,7 @@ namespace ServerInitialisation
                 yield return typeof(XmlSerializerInitialiser).Assembly;
                 //yield return typeof(InlineMetadaContextProviderInitialiser).Assembly;
                 yield return typeof(HttpDocumentRetrieverInitialiser).Assembly;
-                yield return typeof(MetadataConsumerInitialiser).Assembly;
+                yield return typeof(MetadataFederationPartnerInitialiser).Assembly;
                 yield return typeof(ORMMetadataContextProviderInitialiser).Assembly;
                 yield return typeof(OAuthAuthorisationServiceInitialiser).Assembly;
                 yield return typeof(DbContextInitialiser).Assembly;

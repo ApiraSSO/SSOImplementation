@@ -57,7 +57,7 @@
     <Compile Include="Models\IndexedEndPointSetting.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\PhoneType.cs" />
-    <Compile Include="Models\RelyingPartySettings.cs" />
+    <Compile Include="Models\FederationPartySettings.cs" />
     <Compile Include="Models\Protocol.cs" />
     <Compile Include="Models\Binding.cs" />
     <Compile Include="Models\Certificate.cs" />
@@ -81,7 +81,7 @@
     <Compile Include="Seeders\SPDescriptorSeeder.cs" />
     <Compile Include="Seeders\Seeder.cs" />
     <Compile Include="Seeders\CertificateSeeder.cs" />
-    <Compile Include="Seeders\RelyingPartySeeder.cs" />
+    <Compile Include="Seeders\FederationPartySeeder.cs" />
     <Compile Include="Seeders\BindingSeeder.cs" />
     <Compile Include="Seeders\ProtocolSeeder.cs" />
   </ItemGroup>

@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthnRequestTests.cs" />
-    <Compile Include="Mock\RelyingPartyContextBuilderMock.cs" />
+    <Compile Include="Mock\FederationPartyContextBuilderMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

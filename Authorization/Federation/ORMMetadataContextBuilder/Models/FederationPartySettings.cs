@@ -3,9 +3,9 @@ using ORMMetadataContextProvider.Models.GlobalConfiguration;
 
 namespace ORMMetadataContextProvider.Models
 {
-    public class RelyingPartySettings : BaseModel
+    public class FederationPartySettings : BaseModel
     {
-        public string RelyingPartyId { get; set; }
+        public string FederationPartyId { get; set; }
         public string MetadataPath { get; set; }
         public string MetadataLocation { get; set; }
         public int AutoRefreshInterval { get; set; }

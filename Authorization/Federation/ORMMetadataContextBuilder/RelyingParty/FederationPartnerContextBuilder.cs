@@ -18,28 +18,28 @@ namespace ORMMetadataContextProvider.RelyingParty
             this._dbContext = dbContext;
             this._cacheProvider = cacheProvider;
         }
-        public FederationPartnerContext BuildContext(string relyingPartyId)
+        public FederationPartnerContext BuildContext(string federationPartyId)
         {
-            if (this._cacheProvider.Contains(relyingPartyId))
-                return this._cacheProvider.Get<FederationPartnerContext>(relyingPartyId);
+            if (this._cacheProvider.Contains(federationPartyId))
+                return this._cacheProvider.Get<FederationPartnerContext>(federationPartyId);
 
-            var relyingPartyContext = this._dbContext.Set<RelyingPartySettings>()
-                .FirstOrDefault(x => x.RelyingPartyId == relyingPartyId);
+            var federationPartyContext = this._dbContext.Set<FederationPartySettings>()
+                .FirstOrDefault(x => x.FederationPartyId == federationPartyId);
 
-            var context = new FederationPartnerContext(relyingPartyId, relyingPartyContext.MetadataPath);
-            context.RefreshInterval = TimeSpan.FromSeconds(relyingPartyContext.RefreshInterval);
-            context.AutomaticRefreshInterval = TimeSpan.FromDays(relyingPartyContext.AutoRefreshInterval);
-            this.BuildMetadataContext(context, relyingPartyContext.MetadataSettings);
+            var context = new FederationPartnerContext(federationPartyId, federationPartyContext.MetadataPath);
+            context.RefreshInterval = TimeSpan.FromSeconds(federationPartyContext.RefreshInterval);
+            context.AutomaticRefreshInterval = TimeSpan.FromDays(federationPartyContext.AutoRefreshInterval);
+            this.BuildMetadataContext(context, federationPartyContext.MetadataSettings);
             object policy = new MemoryCacheItemPolicy();
             ((ICacheItemPolicy)policy).SlidingExpiration = TimeSpan.FromDays(1);
-            this._cacheProvider.Put(relyingPartyId, context,  (ICacheItemPolicy)policy);
+            this._cacheProvider.Put(federationPartyId, context,  (ICacheItemPolicy)policy);
             return context;
         }
 
-        private void BuildMetadataContext(FederationPartnerContext relyingPartyContext, MetadataSettings metadataSettings)
+        private void BuildMetadataContext(FederationPartnerContext federationPartyContext, MetadataSettings metadataSettings)
         {
             var metadataContextBuilder = new MetadataContextBuilder(this._dbContext, this._cacheProvider);
-            relyingPartyContext.MetadataContext = metadataContextBuilder.BuildFromDbSettings(metadataSettings);
+            federationPartyContext.MetadataContext = metadataContextBuilder.BuildFromDbSettings(metadataSettings);
         }
 
         public void Dispose()

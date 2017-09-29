@@ -6,9 +6,9 @@ namespace Federation.Protocols.Request.ClauseBuilders
 {
     internal abstract class ClauseBuilder : IAuthnRequestClauseBuilder<AuthnRequest>
     {
-        public void Build(AuthnRequest request, FederationPartnerContext relyingParty)
+        public void Build(AuthnRequest request, FederationPartnerContext federationParty)
         {
-            var metadataContext = relyingParty.MetadataContext;
+            var metadataContext = federationParty.MetadataContext;
 
             var entityDescriptor = metadataContext.EntityDesriptorConfiguration;
 

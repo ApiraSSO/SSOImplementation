@@ -4,6 +4,6 @@ namespace Kernel.Federation.FederationPartner
 {
     public interface IFederationPartnerContextBuilder : IDisposable
     {
-        FederationPartnerContext BuildContext(string relyingPartyId);
+        FederationPartnerContext BuildContext(string federationPartyId);
     }
 }

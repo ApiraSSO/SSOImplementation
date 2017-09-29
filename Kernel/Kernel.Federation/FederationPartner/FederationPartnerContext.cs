@@ -38,7 +38,7 @@ namespace Kernel.Federation.FederationPartner
             }
         }
         public string MetadataAddress { get; }
-        public string RelyingPartyId { get; }
+        public string FederationPartyId { get; }
         public MetadataContext MetadataContext { get; set; }
         public TimeSpan AutomaticRefreshInterval
         {
@@ -67,14 +67,14 @@ namespace Kernel.Federation.FederationPartner
             }
         }
 
-        public FederationPartnerContext(string relyingPartyId, string metadataAddress)
+        public FederationPartnerContext(string federationPartyId, string metadataAddress)
         {
-            if (String.IsNullOrWhiteSpace(relyingPartyId))
-                throw new ArgumentNullException("relyingParty");
+            if (String.IsNullOrWhiteSpace(federationPartyId))
+                throw new ArgumentNullException("federationParty");
 
             if (String.IsNullOrWhiteSpace(metadataAddress))
                 throw new ArgumentNullException("metadataContext");
-            this.RelyingPartyId = relyingPartyId;
+            this.FederationPartyId = federationPartyId;
             this.MetadataAddress = metadataAddress;
             this.AutomaticRefreshInterval = FederationPartnerContext.DefaultAutomaticRefreshInterval;
             this.RefreshInterval = FederationPartnerContext.DefaultRefreshInterval;

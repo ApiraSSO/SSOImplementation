@@ -5,8 +5,8 @@ namespace Kernel.Federation.FederationPartner
 {
     public interface IConfigurationManager<T> where T : class
     {
-        Task<T> GetConfigurationAsync(string relyingPartyId, CancellationToken cancel);
+        Task<T> GetConfigurationAsync(string federationPartyId, CancellationToken cancel);
 
-        void RequestRefresh(string relyingPartyId);
+        void RequestRefresh(string federationPartyId);
     }
 }

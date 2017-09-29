@@ -12,40 +12,40 @@ namespace Shared.Federtion
         private static ConcurrentDictionary<string, T> _congigurationCache = new ConcurrentDictionary<string, T>();
         private readonly SemaphoreSlim _refreshLock;
         private readonly IConfigurationRetriever<T> _configRetriever;
-        private readonly IFederationPartnerContextBuilder _relyingPartyContextBuilder;
+        private readonly IFederationPartnerContextBuilder _federationPartyContextBuilder;
         
-        public ConfigurationManager(IFederationPartnerContextBuilder relyingPartyContextBuilder, IConfigurationRetriever<T> configRetriever)
+        public ConfigurationManager(IFederationPartnerContextBuilder federationPartyContextBuilder, IConfigurationRetriever<T> configRetriever)
         {
-            if (relyingPartyContextBuilder == null)
+            if (federationPartyContextBuilder == null)
                 throw new ArgumentNullException("context");
 
             if (configRetriever == null)
                 throw new ArgumentNullException("configRetriever");
             
-            this._relyingPartyContextBuilder = relyingPartyContextBuilder;
+            this._federationPartyContextBuilder = federationPartyContextBuilder;
             this._configRetriever = configRetriever;
             this._refreshLock = new SemaphoreSlim(1);
         }
 
-        public async Task<T> GetConfigurationAsync(string relyingPrtyId)
+        public async Task<T> GetConfigurationAsync(string federationPartyId)
         {
-            T configuration = await this.GetConfigurationAsync(relyingPrtyId, CancellationToken.None)
+            T configuration = await this.GetConfigurationAsync(federationPartyId, CancellationToken.None)
                 .ConfigureAwait(false);
             return configuration;
         }
 
-        public async Task<T> GetConfigurationAsync(string relyingPrtyId, CancellationToken cancel)
+        public async Task<T> GetConfigurationAsync(string federationPartyId, CancellationToken cancel)
         {
-            var context = this._relyingPartyContextBuilder.BuildContext(relyingPrtyId);
+            var context = this._federationPartyContextBuilder.BuildContext(federationPartyId);
            
             var currentConfiguration = await this.GetConfiguration(context, cancel);
             
             return currentConfiguration;
         }
 
-        public void RequestRefresh(string relyingPartyId)
+        public void RequestRefresh(string federationPartyId)
         {
-            var context = this._relyingPartyContextBuilder.BuildContext(relyingPartyId);
+            var context = this._federationPartyContextBuilder.BuildContext(federationPartyId);
             var utcNow = DateTimeOffset.UtcNow;
             if (!(utcNow >= DataTimeExtensions.Add(context.LastRefresh.UtcDateTime, context.RefreshInterval)))
                 return;
@@ -57,7 +57,7 @@ namespace Shared.Federtion
             var now = DateTimeOffset.UtcNow;
 
             T currentConfiguration;
-            if (ConfigurationManager<T>._congigurationCache.TryGetValue(context.RelyingPartyId, out currentConfiguration))
+            if (ConfigurationManager<T>._congigurationCache.TryGetValue(context.FederationPartyId, out currentConfiguration))
             {
                 if (context.SyncAfter > now)
                     return currentConfiguration;
@@ -88,7 +88,7 @@ namespace Shared.Federtion
                     }
                 }
 
-                ConfigurationManager<T>._congigurationCache.TryAdd(context.RelyingPartyId, currentConfiguration);
+                ConfigurationManager<T>._congigurationCache.TryAdd(context.FederationPartyId, currentConfiguration);
                 return currentConfiguration;
             }
             finally

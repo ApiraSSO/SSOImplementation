@@ -9,12 +9,12 @@ namespace ORMMetadataContextProvider.Models.GlobalConfiguration
         public SecuritySettings()
         {
             this.CertificateValidationRules = new List<CertificateValidationRule>();
-            this.RelyingParties = new List<RelyingPartySettings>();
+            this.RelyingParties = new List<FederationPartySettings>();
         }
         public X509CertificateValidationMode X509CertificateValidationMode { get; set; }
         public bool PinnedValidation { get; set; }
         public string PinnedTypeValidator { get; set; }
         public virtual ICollection<CertificateValidationRule> CertificateValidationRules { get; set; }
-        public virtual ICollection<RelyingPartySettings> RelyingParties { get; }
+        public virtual ICollection<FederationPartySettings> RelyingParties { get; }
     }
 }

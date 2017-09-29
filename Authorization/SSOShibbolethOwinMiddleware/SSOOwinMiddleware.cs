@@ -55,12 +55,7 @@ namespace SSOOwinMiddleware
                     return () => httpClient;
                 }, Lifetime.Transient);
 
-                //ToDo: clean up
-                //var documentRetriever = new HttpDocumentRetriever(() => httpClient);
-                //var certValidator = this._resolver.Resolve<Kernel.Cryptography.Validation.ICertificateValidator>();
-                //var serialiser = new FederationMetadataSerialiser(certValidator);
-                //var configurationRetriever = new WsFederationConfigurationRetriever(documentRetriever, serialiser);
-                //var relyingPartyContextBuilder = this._resolver.Resolve<IRelyingPartyContextBuilder>();
+                //ToDo remove configuration manager from options
                 var configurationManager = this._resolver.Resolve<IConfigurationManager<MetadataBase>>();
                 this.Options.ConfigurationManager = configurationManager;
             }

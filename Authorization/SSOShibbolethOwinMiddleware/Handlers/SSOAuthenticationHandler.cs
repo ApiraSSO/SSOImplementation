@@ -49,9 +49,9 @@ namespace SSOOwinMiddleware.Handlers
             if (!this.Options.SSOPath.HasValue || base.Request.Path != this.Options.SSOPath)
                 return;
 
-            var relyingPartyId = RelyingPartyIdentifierHelper.GetRelyingPartyIdFromRequestOrDefault(Request.Context);
+            var federationPartyId = FederationPartyIdentifierHelper.GetFederationPartyIdFromRequestOrDefault(Request.Context);
             if (this._configuration == null)
-                this._configuration = await this.Options.ConfigurationManager.GetConfigurationAsync(relyingPartyId, new System.Threading.CancellationToken());
+                this._configuration = await this.Options.ConfigurationManager.GetConfigurationAsync(federationPartyId, new System.Threading.CancellationToken());
             
             Uri signInUrl = null;
             var metadataType = this._configuration.GetType();
@@ -60,7 +60,7 @@ namespace SSOOwinMiddleware.Handlers
             var del = HandlerFactory.GetDelegateForIdpLocation(metadataType);
             signInUrl = del(handler, this._configuration, new Uri(Bindings.Http_Redirect));
  
-            var requestContext = new AuthnRequestContext(signInUrl, relyingPartyId);
+            var requestContext = new AuthnRequestContext(signInUrl, federationPartyId);
             var redirectUriBuilder = this._resolver.Resolve<AuthnRequestBuilder>();
             var redirectUri = redirectUriBuilder.BuildRedirectUri(requestContext);
             

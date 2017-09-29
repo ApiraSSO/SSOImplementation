@@ -4,13 +4,13 @@ namespace ORMMetadataContextProvider
 {
     internal class FederationPartnerIdentifierHelper
     {
-        internal static string GetRelyingPartyIdFromRequestOrDefault()
+        internal static string GetFederationPartyIdFromRequestOrDefault()
         {
             if (HttpContext.Current == null || HttpContext.Current.Request == null)
                 return "local";
             var querySting = HttpContext.Current.Request.QueryString;
-            var relyingPartyId = querySting["clientId"];
-            return relyingPartyId ?? "local";
+            var federationPartyId = querySting["clientId"];
+            return federationPartyId ?? "local";
         }
     }
 }

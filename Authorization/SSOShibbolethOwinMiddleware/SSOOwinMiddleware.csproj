@@ -70,7 +70,7 @@
     <Compile Include="Extensions\SSOAuthenticationExtensions.cs" />
     <Compile Include="Handlers\HandlerFactory.cs" />
     <Compile Include="Handlers\SSOAuthenticationHandler.cs" />
-    <Compile Include="RelyingPartyIdentifierHelper.cs" />
+    <Compile Include="FederationPartyIdentifierHelper.cs" />
     <Compile Include="SSOOwinMiddleware.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SSOAuthenticationOptions.cs" />

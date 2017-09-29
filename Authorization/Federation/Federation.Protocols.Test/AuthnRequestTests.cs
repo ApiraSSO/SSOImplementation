@@ -21,14 +21,13 @@ namespace Federation.Protocols.Test
             //ARRANGE
             var requestUri = new Uri("http://localhost:59611/");
             var authnRequestContext = new AuthnRequestContext(requestUri, "local");
-            var relyingPartyContextBuilder = new RelyingPartyContextBuilderMock();
+            var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
             var serialiser = new XMLSerialiser();
             var certManager = new CertificateManager();
-            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext, relyingPartyContextBuilder);
+            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext, federationPartyContextBuilder);
 
             //ACT
             var request = AuthnRequestHelper.Serialise(authnRequest, serialiser);
-            //var request = AuthnRequestHelper.SerialiseAndSign(authnRequest, authnRequestContext, serialiser, relyingPartyContextBuilder, certManager);
             //ASSERT
         }
     }

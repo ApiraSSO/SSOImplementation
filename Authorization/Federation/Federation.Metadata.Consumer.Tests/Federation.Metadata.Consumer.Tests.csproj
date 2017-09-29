@@ -53,7 +53,7 @@
     <Compile Include="MetadataRetrieverMetadataTests.cs" />
     <Compile Include="Mock\CertificateValidationConfigurationProvider.cs" />
     <Compile Include="Mock\ConfigurationRetrieverMock.cs" />
-    <Compile Include="Mock\RelyingPartyContextBuilderMock.cs" />
+    <Compile Include="Mock\FederationPartyContextBuilderMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
