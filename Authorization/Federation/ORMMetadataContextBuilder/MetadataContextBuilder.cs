@@ -5,7 +5,7 @@ using Kernel.Data.ORM;
 using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.MetaData.Configuration.Cryptography;
-using Kernel.Federation.RelyingParty;
+using Kernel.Federation.FederationPartner;
 using ORMMetadataContextProvider.Models;
 using ORMMetadataContextProvider.RelyingParty;
 
@@ -26,11 +26,11 @@ namespace ORMMetadataContextProvider
             if (metadataGenerateContext == null)
                 throw new ArgumentNullException("metadataGenerateContext");
 
-            var relyingParty = this._cacheProvider.Get<TenantContext>(metadataGenerateContext.RelyingPartyId);
+            var relyingParty = this._cacheProvider.Get<FederationPartnerContext>(metadataGenerateContext.RelyingPartyId);
             if(relyingParty == null)
             {
-                var relyingPartyBuilder = new RelyingPartyContextBuilder(this._dbContext, this._cacheProvider);
-                relyingParty = relyingPartyBuilder.BuildRelyingPartyContext(metadataGenerateContext.RelyingPartyId);
+                var relyingPartyBuilder = new FederationPartnerContextBuilder(this._dbContext, this._cacheProvider);
+                relyingParty = relyingPartyBuilder.BuildContext(metadataGenerateContext.RelyingPartyId);
             }
             
             return relyingParty.MetadataContext;

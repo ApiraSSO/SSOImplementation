@@ -5,7 +5,7 @@ using System.Net.Security;
 using Federation.Metadata.HttpRetriever;
 using Federation.Metadata.RelyingParty.Configuration;
 using Kernel.DependancyResolver;
-using Kernel.Federation.RelyingParty;
+using Kernel.Federation.FederationPartner;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;

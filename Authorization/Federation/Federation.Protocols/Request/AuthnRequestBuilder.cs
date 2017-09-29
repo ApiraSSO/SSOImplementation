@@ -2,7 +2,7 @@
 using System.Text;
 using Kernel.Cryptography.CertificateManagement;
 using Kernel.Federation.Protocols;
-using Kernel.Federation.RelyingParty;
+using Kernel.Federation.FederationPartner;
 using Serialisation.Xml;
 
 namespace Federation.Protocols.Request
@@ -10,10 +10,10 @@ namespace Federation.Protocols.Request
     public class AuthnRequestBuilder : IAuthnRequestBuilder
     {
         private readonly ICertificateManager _certificateManager;
-        private readonly ITenantContextBuilder _relyingPartyContextBuilder;
+        private readonly IFederationPartnerContextBuilder _relyingPartyContextBuilder;
         private readonly IXmlSerialiser _serialiser;
 
-        public AuthnRequestBuilder(ICertificateManager certificateManager, ITenantContextBuilder relyingPartyContextBuilder, IXmlSerialiser serialiser)
+        public AuthnRequestBuilder(ICertificateManager certificateManager, IFederationPartnerContextBuilder relyingPartyContextBuilder, IXmlSerialiser serialiser)
         {
             this._certificateManager = certificateManager;
             this._relyingPartyContextBuilder = relyingPartyContextBuilder;

@@ -51,8 +51,8 @@
     <Compile Include="MetaData\IMetadataHandler.cs" />
     <Compile Include="MetaData\MetadataGenerateRequest.cs" />
     <Compile Include="Protocols\IAuthnRequestClauseBuilder.cs" />
-    <Compile Include="RelyingParty\ITenantContextBuilder.cs" />
-    <Compile Include="RelyingParty\TenantContext.cs" />
+    <Compile Include="FederationPartner\IFederationPartnerContextBuilder.cs" />
+    <Compile Include="FederationPartner\FederationPartnerContext.cs" />
     <Compile Include="MetaData\Configuration\Cryptography\FileSystemStore.cs" />
     <Compile Include="MetaData\Configuration\Cryptography\KeyDescriptorConfiguration.cs" />
     <Compile Include="MetaData\Configuration\Cryptography\KeyTarget.cs" />
@@ -86,9 +86,9 @@
     <Compile Include="CertificateProvider\ICertificateCachePopulator.cs" />
     <Compile Include="Protocols\AuthnRequestContext.cs" />
     <Compile Include="Protocols\IAuthnRequestBuilder.cs" />
-    <Compile Include="RelyingParty\IConfigurationManager.cs" />
-    <Compile Include="RelyingParty\IConfigurationRetriever.cs" />
-    <Compile Include="RelyingParty\IDocumentRetriever.cs" />
+    <Compile Include="FederationPartner\IConfigurationManager.cs" />
+    <Compile Include="FederationPartner\IConfigurationRetriever.cs" />
+    <Compile Include="FederationPartner\IDocumentRetriever.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kernel.Cache\Kernel.Cache.csproj">

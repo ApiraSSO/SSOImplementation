@@ -8,7 +8,7 @@ using System.Text;
 using Federation.Protocols.Request.ClauseBuilders;
 using Kernel.Cryptography.CertificateManagement;
 using Kernel.Federation.Protocols;
-using Kernel.Federation.RelyingParty;
+using Kernel.Federation.FederationPartner;
 using Kernel.Reflection;
 using Serialisation.Xml;
 
@@ -17,9 +17,9 @@ namespace Federation.Protocols.Request
     internal class AuthnRequestHelper
     {
         private static Func<Type, bool> _condition = t => !t.IsAbstract && !t.IsInterface && typeof(IAuthnRequestClauseBuilder<AuthnRequest>).IsAssignableFrom(t);
-        internal static AuthnRequest BuildAuthnRequest(AuthnRequestContext authnRequestContext, ITenantContextBuilder relyingPartyContextBuilder)
+        internal static AuthnRequest BuildAuthnRequest(AuthnRequestContext authnRequestContext, IFederationPartnerContextBuilder relyingPartyContextBuilder)
         {
-            var relyingParty = relyingPartyContextBuilder.BuildRelyingPartyContext(authnRequestContext.RelyingPartyId);
+            var relyingParty = relyingPartyContextBuilder.BuildContext(authnRequestContext.RelyingPartyId);
             var request = new AuthnRequest
             {
                 IsPassive = false,
@@ -36,9 +36,9 @@ namespace Federation.Protocols.Request
             return request;
         }
 
-        internal static string SerialiseAndSign(AuthnRequest request, AuthnRequestContext authnRequestContext, IXmlSerialiser serialiser, ITenantContextBuilder relyingPartyContextBuilder, ICertificateManager certificateManager)
+        internal static string SerialiseAndSign(AuthnRequest request, AuthnRequestContext authnRequestContext, IXmlSerialiser serialiser, IFederationPartnerContextBuilder relyingPartyContextBuilder, ICertificateManager certificateManager)
         {
-            var relyingParty = relyingPartyContextBuilder.BuildRelyingPartyContext(authnRequestContext.RelyingPartyId);
+            var relyingParty = relyingPartyContextBuilder.BuildContext(authnRequestContext.RelyingPartyId);
             var metadataContext = relyingParty.MetadataContext;
             var entityDescriptor = metadataContext.EntityDesriptorConfiguration;
             var spDescriptor = entityDescriptor.SPSSODescriptors

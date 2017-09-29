@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Kernel.Federation.Tenant
+namespace Kernel.Federation.FederationPartner
 {
     public interface IConfigurationManager<T> where T : class
     {

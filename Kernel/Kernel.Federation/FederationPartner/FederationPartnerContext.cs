@@ -1,9 +1,9 @@
 ﻿using System;
 using Kernel.Federation.MetaData.Configuration;
 
-namespace Kernel.Federation.RelyingParty
+namespace Kernel.Federation.FederationPartner
 {
-    public class TenantContext
+    public class FederationPartnerContext
     {
         public static readonly TimeSpan DefaultAutomaticRefreshInterval = new TimeSpan(1, 0, 0, 0);
         public static readonly TimeSpan DefaultRefreshInterval = new TimeSpan(0, 0, 0, 30);
@@ -48,8 +48,8 @@ namespace Kernel.Federation.RelyingParty
             }
             set
             {
-                if (value < TenantContext.MinimumAutomaticRefreshInterval)
-                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10107: When setting AutomaticRefreshInterval, the value must be greater than MinimumAutomaticRefreshInterval: '{0}'. value: '{1}'.", TenantContext.MinimumAutomaticRefreshInterval, value));
+                if (value < FederationPartnerContext.MinimumAutomaticRefreshInterval)
+                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10107: When setting AutomaticRefreshInterval, the value must be greater than MinimumAutomaticRefreshInterval: '{0}'. value: '{1}'.", FederationPartnerContext.MinimumAutomaticRefreshInterval, value));
                 this._automaticRefreshInterval = value;
             }
         }
@@ -61,13 +61,13 @@ namespace Kernel.Federation.RelyingParty
             }
             set
             {
-                if (value < TenantContext.MinimumRefreshInterval)
-                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10106: When setting RefreshInterval, the value must be greater than MinimumRefreshInterval: '{0}'. value: '{1}'.", TenantContext.MinimumRefreshInterval, value));
+                if (value < FederationPartnerContext.MinimumRefreshInterval)
+                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10106: When setting RefreshInterval, the value must be greater than MinimumRefreshInterval: '{0}'. value: '{1}'.", FederationPartnerContext.MinimumRefreshInterval, value));
                 this._refreshInterval = value;
             }
         }
 
-        public TenantContext(string relyingPartyId, string metadataAddress)
+        public FederationPartnerContext(string relyingPartyId, string metadataAddress)
         {
             if (String.IsNullOrWhiteSpace(relyingPartyId))
                 throw new ArgumentNullException("relyingParty");
@@ -76,8 +76,8 @@ namespace Kernel.Federation.RelyingParty
                 throw new ArgumentNullException("metadataContext");
             this.RelyingPartyId = relyingPartyId;
             this.MetadataAddress = metadataAddress;
-            this.AutomaticRefreshInterval = TenantContext.DefaultAutomaticRefreshInterval;
-            this.RefreshInterval = TenantContext.DefaultRefreshInterval;
+            this.AutomaticRefreshInterval = FederationPartnerContext.DefaultAutomaticRefreshInterval;
+            this.RefreshInterval = FederationPartnerContext.DefaultRefreshInterval;
         }
     }
 }

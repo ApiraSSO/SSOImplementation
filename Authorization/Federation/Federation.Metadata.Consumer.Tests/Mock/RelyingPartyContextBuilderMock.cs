@@ -1,13 +1,13 @@
 ﻿using System;
-using Kernel.Federation.RelyingParty;
+using Kernel.Federation.FederationPartner;
 
 namespace Federation.Metadata.Consumer.Tests.Mock
 {
-    internal class RelyingPartyContextBuilderMock : ITenantContextBuilder
+    internal class RelyingPartyContextBuilderMock : IFederationPartnerContextBuilder
     {
-        public TenantContext BuildRelyingPartyContext(string relyingPartyId)
+        public FederationPartnerContext BuildContext(string relyingPartyId)
         {
-            var context = new TenantContext(relyingPartyId, "C:\\");
+            var context = new FederationPartnerContext(relyingPartyId, "C:\\");
 
             return context;
         }

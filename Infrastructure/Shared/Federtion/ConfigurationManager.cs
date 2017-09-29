@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using Kernel.Extensions;
-using Kernel.Federation.RelyingParty;
+using Kernel.Federation.FederationPartner;
 
 namespace Shared.Federtion
 {
@@ -12,9 +12,9 @@ namespace Shared.Federtion
         private static ConcurrentDictionary<string, T> _congigurationCache = new ConcurrentDictionary<string, T>();
         private readonly SemaphoreSlim _refreshLock;
         private readonly IConfigurationRetriever<T> _configRetriever;
-        private readonly ITenantContextBuilder _relyingPartyContextBuilder;
+        private readonly IFederationPartnerContextBuilder _relyingPartyContextBuilder;
         
-        public ConfigurationManager(ITenantContextBuilder relyingPartyContextBuilder, IConfigurationRetriever<T> configRetriever)
+        public ConfigurationManager(IFederationPartnerContextBuilder relyingPartyContextBuilder, IConfigurationRetriever<T> configRetriever)
         {
             if (relyingPartyContextBuilder == null)
                 throw new ArgumentNullException("context");
@@ -36,7 +36,7 @@ namespace Shared.Federtion
 
         public async Task<T> GetConfigurationAsync(string relyingPrtyId, CancellationToken cancel)
         {
-            var context = this._relyingPartyContextBuilder.BuildRelyingPartyContext(relyingPrtyId);
+            var context = this._relyingPartyContextBuilder.BuildContext(relyingPrtyId);
            
             var currentConfiguration = await this.GetConfiguration(context, cancel);
             
@@ -45,14 +45,14 @@ namespace Shared.Federtion
 
         public void RequestRefresh(string relyingPartyId)
         {
-            var context = this._relyingPartyContextBuilder.BuildRelyingPartyContext(relyingPartyId);
+            var context = this._relyingPartyContextBuilder.BuildContext(relyingPartyId);
             var utcNow = DateTimeOffset.UtcNow;
             if (!(utcNow >= DataTimeExtensions.Add(context.LastRefresh.UtcDateTime, context.RefreshInterval)))
                 return;
             context.SyncAfter = utcNow;
         }
 
-        private async Task<T> GetConfiguration(TenantContext context, CancellationToken cancel)
+        private async Task<T> GetConfiguration(FederationPartnerContext context, CancellationToken cancel)
         {
             var now = DateTimeOffset.UtcNow;
 

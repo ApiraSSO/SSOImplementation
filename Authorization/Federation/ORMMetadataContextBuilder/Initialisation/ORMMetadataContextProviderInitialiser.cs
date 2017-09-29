@@ -9,7 +9,7 @@ using Kernel.Data;
 using Kernel.Data.ORM;
 using Kernel.DependancyResolver;
 using Kernel.Federation.MetaData.Configuration;
-using Kernel.Federation.RelyingParty;
+using Kernel.Federation.FederationPartner;
 using Kernel.Reflection;
 using ORMMetadataContextProvider.RelyingParty;
 using ORMMetadataContextProvider.Security;
@@ -39,12 +39,12 @@ namespace ORMMetadataContextProvider.Initialisation
                 return new MetadataContextBuilder(context, cacheProvider);
             }, Lifetime.Transient);
 
-            dependencyResolver.RegisterFactory<ITenantContextBuilder>(() =>
+            dependencyResolver.RegisterFactory<IFederationPartnerContextBuilder>(() =>
             {
                 var cacheProvider = dependencyResolver.Resolve<ICacheProvider>();
                 
                 var context = dependencyResolver.Resolve<IDbContext>();
-                return new RelyingPartyContextBuilder(context, cacheProvider);
+                return new FederationPartnerContextBuilder(context, cacheProvider);
             }, Lifetime.Transient);
             
             return Task.CompletedTask;

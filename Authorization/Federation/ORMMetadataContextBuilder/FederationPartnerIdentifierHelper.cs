@@ -2,7 +2,7 @@
 
 namespace ORMMetadataContextProvider
 {
-    internal class RelyingPartyIdentifierHelper
+    internal class FederationPartnerIdentifierHelper
     {
         internal static string GetRelyingPartyIdFromRequestOrDefault()
         {

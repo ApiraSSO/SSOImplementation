@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
-using Kernel.Federation.RelyingParty;
+using Kernel.Federation.FederationPartner;
 
 namespace Federation.Metadata.Consumer.Tests.Mock
 {

@@ -20,7 +20,7 @@ namespace ORMMetadataContextProvider.Security
         
         public CertificateValidationConfiguration GetConfiguration()
         {
-            var relyingPartyId = RelyingPartyIdentifierHelper.GetRelyingPartyIdFromRequestOrDefault();
+            var relyingPartyId = FederationPartnerIdentifierHelper.GetRelyingPartyIdFromRequestOrDefault();
             var settings = this._dbContext.Set<RelyingPartySettings>()
                 .Where(x => x.RelyingPartyId == relyingPartyId)
                 .Select(r => r.SecuritySettings)

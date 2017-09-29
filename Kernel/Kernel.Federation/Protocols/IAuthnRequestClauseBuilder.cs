@@ -1,9 +1,9 @@
-﻿using Kernel.Federation.RelyingParty;
+﻿using Kernel.Federation.FederationPartner;
 
 namespace Kernel.Federation.Protocols
 {
     public interface IAuthnRequestClauseBuilder<TRequest>
     {
-        void Build(TRequest request, TenantContext relyingParty);
+        void Build(TRequest request, FederationPartner.FederationPartnerContext relyingParty);
     }
 }
