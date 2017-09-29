@@ -9,11 +9,13 @@ namespace WsMetadataSerialisation.Serialisation
 {
     public class FederationMetadataSerialiser : MetadataSerializer, IMetadataSerialiser<MetadataBase>
     {
+        private readonly ICertificateValidator _certificateValidator;
         public FederationMetadataSerialiser(ICertificateValidator certificateValidator)
         {
+            this._certificateValidator = certificateValidator;
             base.CertificateValidator = (X509CertificateValidator)certificateValidator;
-            base.CertificateValidationMode = certificateValidator.X509CertificateValidationMode;
         }
+        public ICertificateValidator Validator { get { return base.CertificateValidator as ICertificateValidator; } }
         public void Serialise(XmlWriter writer, MetadataBase metadata)
         {
             base.WriteMetadata(writer, metadata);
@@ -21,11 +23,13 @@ namespace WsMetadataSerialisation.Serialisation
 
         public MetadataBase Deserialise(Stream stream)
         {
+            base.CertificateValidationMode = this._certificateValidator.X509CertificateValidationMode;
             return base.ReadMetadata(stream);
         }
 
         public MetadataBase Deserialise(XmlReader xmlReader)
         {
+            base.CertificateValidationMode = this._certificateValidator.X509CertificateValidationMode;
             return base.ReadMetadata(xmlReader);
         }
 

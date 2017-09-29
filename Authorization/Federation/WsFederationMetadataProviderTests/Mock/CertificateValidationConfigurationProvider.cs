@@ -4,7 +4,7 @@ namespace WsFederationMetadataProviderTests.Mock
 {
     internal class CertificateValidationConfigurationProvider : ICertificateValidationConfigurationProvider
     {
-        public CertificateValidationConfiguration GetConfiguration()
+        public CertificateValidationConfiguration GetConfiguration(string federationPartyId)
         {
             return new CertificateValidationConfiguration
             {

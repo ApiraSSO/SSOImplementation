@@ -56,8 +56,8 @@ namespace SSOOwinMiddleware
                 }, Lifetime.Transient);
 
                 //ToDo remove configuration manager from options
-                var configurationManager = this._resolver.Resolve<IConfigurationManager<MetadataBase>>();
-                this.Options.ConfigurationManager = configurationManager;
+                //var configurationManager = this._resolver.Resolve<IConfigurationManager<MetadataBase>>();
+                //this.Options.ConfigurationManager = configurationManager;
             }
         }
         

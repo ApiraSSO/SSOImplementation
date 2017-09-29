@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IdentityModel.Selectors;
 using System.Linq;
+using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel.Security;
 using System.Threading.Tasks;
+using System.Web;
 using Kernel.Cryptography.Validation;
 using SecurityManagement.BackchannelCertificateValidationRules;
 using SecurityManagement.CertificateValidationRules;
@@ -23,21 +25,29 @@ namespace SecurityManagement
 
             this._configurationProvider = configurationProvider;
         }
-        
+
+        public string FederationPartyId { get; private set; }
+
         public X509CertificateValidationMode X509CertificateValidationMode
         {
             get
             {
-                var configuration = this._configurationProvider.GetConfiguration();
+                var configuration = this._configurationProvider.GetConfiguration(this.FederationPartyId);
                 if (configuration == null)
                     throw new ArgumentNullException("certificateValidationConfiguration");
 
                 return configuration.X509CertificateValidationMode;
             }
         }
+        
+        public void SetFederationPartyId(string federationPartyId)
+        {
+            this.FederationPartyId = federationPartyId;
+        }
 
         public bool Validate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
+            this.FederationPartyId = FederationPartyIdentifierHelper.GetFederationPartyIdFromRequestOrDefault(sender as HttpWebRequest);
             var configiration = this.GetConfiguration();
             //ToDo: complete pinning validation. Moved to back log on 27/09/2017
             if(configiration.UsePinningValidation && configiration.BackchannelValidatorResolver != null)
@@ -91,7 +101,7 @@ namespace SecurityManagement
         {
             if (this._configuration == null)
             {
-                this._configuration = this._configurationProvider.GetConfiguration();
+                this._configuration = this._configurationProvider.GetConfiguration(this.FederationPartyId);
             }
             if (this._configuration == null)
                 throw new InvalidOperationException("CertificateValidationConfiguration is null!");

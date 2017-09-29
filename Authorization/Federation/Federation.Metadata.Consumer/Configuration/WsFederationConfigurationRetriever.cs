@@ -31,6 +31,7 @@ namespace Federation.Metadata.FederationPartner.Configuration
 
         private async Task<MetadataBase> GetAsync(FederationPartyContext context, IDocumentRetriever retriever, CancellationToken cancel)
         {
+            this._metadataSerialiser.Validator.SetFederationPartyId(context.FederationPartyId);
             if (string.IsNullOrWhiteSpace(context.MetadataAddress))
                 throw new ArgumentNullException("address");
             if (retriever == null)

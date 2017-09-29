@@ -35,6 +35,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +53,7 @@
     <Compile Include="CertificateValidationRules\CertificateValidationRule.cs" />
     <Compile Include="Exceptions\SamlSignatureException.cs" />
     <Compile Include="CertificateValidator.cs" />
+    <Compile Include="FederationPartyIdentifierHelper.cs" />
     <Compile Include="Initialisation\SecurityInitialiser.cs" />
     <Compile Include="XmlSignatureManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

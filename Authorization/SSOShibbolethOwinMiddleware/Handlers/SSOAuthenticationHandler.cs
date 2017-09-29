@@ -3,6 +3,7 @@ using System.IdentityModel.Metadata;
 using System.Threading.Tasks;
 using Federation.Protocols.Request;
 using Kernel.DependancyResolver;
+using Kernel.Federation.FederationPartner;
 using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.Protocols;
@@ -51,7 +52,10 @@ namespace SSOOwinMiddleware.Handlers
 
             var federationPartyId = FederationPartyIdentifierHelper.GetFederationPartyIdFromRequestOrDefault(Request.Context);
             if (this._configuration == null)
-                this._configuration = await this.Options.ConfigurationManager.GetConfigurationAsync(federationPartyId, new System.Threading.CancellationToken());
+            {
+                var configurationManager = this._resolver.Resolve<IConfigurationManager<MetadataBase>>();
+                this._configuration = await configurationManager.GetConfigurationAsync(federationPartyId, new System.Threading.CancellationToken());
+            }
             
             Uri signInUrl = null;
             var metadataType = this._configuration.GetType();

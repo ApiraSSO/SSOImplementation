@@ -11,6 +11,8 @@ namespace Kernel.Cryptography.Validation
     //     CAs issuing certificates for hosts without the knowledge of the host owner.
     public interface ICertificateValidator
     {
+        string FederationPartyId { get; }
+
         X509CertificateValidationMode X509CertificateValidationMode { get; }
         //
         // Summary:
@@ -35,5 +37,6 @@ namespace Kernel.Cryptography.Validation
         bool Validate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors);
 
         void Validate(X509Certificate2 certificate);
+        void SetFederationPartyId(string federationPartyId);
     }
 }

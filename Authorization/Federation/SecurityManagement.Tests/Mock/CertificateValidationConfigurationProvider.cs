@@ -10,7 +10,7 @@ namespace SecurityManagement.Tests.Mock
         {
             this._func = func;
         }
-        public CertificateValidationConfiguration GetConfiguration()
+        public CertificateValidationConfiguration GetConfiguration(string federationPartyId)
         {
             return this._func();
         }

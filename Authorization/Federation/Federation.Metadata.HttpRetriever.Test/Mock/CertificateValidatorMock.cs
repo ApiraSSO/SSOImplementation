@@ -9,6 +9,13 @@ namespace Federation.Metadata.HttpRetriever.Test.Mock
     {
         public System.ServiceModel.Security.X509CertificateValidationMode X509CertificateValidationMode => throw new NotImplementedException();
 
+        public string FederationPartyId { get; }
+
+        public void SetFederationPartyId(string federationPartyId)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Validate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;

@@ -71,7 +71,6 @@
     <Compile Include="Models\MetadataSettings.cs" />
     <Compile Include="Models\StoreSearchCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FederationPartnerIdentifierHelper.cs" />
     <Compile Include="FederationParty\FederationPartyContextBuilder.cs" />
     <Compile Include="Security\CertificateValidationConfigurationProvider.cs" />
     <Compile Include="Seeders\EntityDescriptorSeeder.cs" />

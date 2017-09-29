@@ -18,9 +18,8 @@ namespace ORMMetadataContextProvider.Security
             this._cacheProvider = cacheProvider;
         }
         
-        public CertificateValidationConfiguration GetConfiguration()
+        public CertificateValidationConfiguration GetConfiguration(string federationPartyId)
         {
-            var federationPartyId = FederationPartnerIdentifierHelper.GetFederationPartyIdFromRequestOrDefault();
             var settings = this._dbContext.Set<FederationPartySettings>()
                 .Where(x => x.FederationPartyId == federationPartyId)
                 .Select(r => r.SecuritySettings)
