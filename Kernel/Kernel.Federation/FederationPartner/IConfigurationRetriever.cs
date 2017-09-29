@@ -5,6 +5,6 @@ namespace Kernel.Federation.FederationPartner
 {
     public interface IConfigurationRetriever<T>
     {
-        Task<T> GetAsync(string address, CancellationToken cancel);
+        Task<T> GetAsync(FederationPartyContext context, CancellationToken cancel);
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Federation.Metadata.Consumer.Tests.Mock;
 using Federation.Metadata.FederationPartner.Configuration;
 using Federation.Metadata.HttpRetriever;
+using Kernel.Federation.FederationPartner;
 using NUnit.Framework;
 using SecurityManagement;
 using WsMetadataSerialisation.Serialisation;
@@ -45,16 +46,17 @@ namespace Federation.Metadata.Consumer.Tests
             var certValidator = new CertificateValidator(configurationProvider);
             var serialiser = new FederationMetadataSerialiser(certValidator);
             var configurationRetriever = new WsFederationConfigurationRetriever(documentRetrieer, serialiser);
-           
-            
+
+
 
             //ACT
             //var baseMetadata = await WsFederationConfigurationRetriever.GetAsync("https://dg-mfb/idp/shibboleth", documentRetrieer, new CancellationToken());
-            var baseMetadata = await configurationRetriever.GetAsync("https://www.testshib.org/metadata/testshib-providers.xml", new CancellationToken());
-            var metadata = baseMetadata as EntityDescriptor;
+            var context = new FederationPartyContext("local", "https://www.testshib.org/metadata/testshib-providers.xml");
+            var baseMetadata = await configurationRetriever.GetAsync(context, new CancellationToken());
+            var metadata = baseMetadata as EntitiesDescriptor;
             //ASSERT
             Assert.IsTrue(metadata != null);
-            Assert.AreEqual(1, metadata.RoleDescriptors.Count);
+            Assert.AreEqual(2, metadata.ChildEntities.Count);
         }
     }
 }

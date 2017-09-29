@@ -72,7 +72,7 @@ namespace Shared.Federtion
                     {
                         ConfigurationManager<T> configurationManager = this;
                         
-                        T obj = await this._configRetriever.GetAsync(context.MetadataAddress, CancellationToken.None)
+                        T obj = await this._configRetriever.GetAsync(context, CancellationToken.None)
                             .ConfigureAwait(true);
                         currentConfiguration = obj;
                         

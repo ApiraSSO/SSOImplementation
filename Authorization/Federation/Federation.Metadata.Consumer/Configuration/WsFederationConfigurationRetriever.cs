@@ -24,18 +24,18 @@ namespace Federation.Metadata.FederationPartner.Configuration
             this._retriever = retriever;
         }
 
-        public Task<MetadataBase> GetAsync(string address, CancellationToken cancel)
+        public Task<MetadataBase> GetAsync(FederationPartyContext context, CancellationToken cancel)
         {
-            return this.GetAsync(address, this._retriever, cancel);
+            return this.GetAsync(context, this._retriever, cancel);
         }
 
-        private async Task<MetadataBase> GetAsync(string address, IDocumentRetriever retriever, CancellationToken cancel)
+        private async Task<MetadataBase> GetAsync(FederationPartyContext context, IDocumentRetriever retriever, CancellationToken cancel)
         {
-            if (string.IsNullOrWhiteSpace(address))
+            if (string.IsNullOrWhiteSpace(context.MetadataAddress))
                 throw new ArgumentNullException("address");
             if (retriever == null)
                 throw new ArgumentNullException("retriever");
-            var str = await retriever.GetDocumentAsync(address, cancel);
+            var str = await retriever.GetDocumentAsync(context.MetadataAddress, cancel);
             var document = str;
             str = null;
             

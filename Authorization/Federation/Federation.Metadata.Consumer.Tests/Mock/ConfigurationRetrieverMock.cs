@@ -7,7 +7,7 @@ namespace Federation.Metadata.Consumer.Tests.Mock
 {
     internal class ConfigurationRetrieverMock : IConfigurationRetriever<MetadataBase>
     {
-        public Task<MetadataBase> GetAsync(string address, CancellationToken cancel)
+        public Task<MetadataBase> GetAsync(FederationPartyContext context, CancellationToken cancel)
         {
             var metadata = this.GetMetadata();
             return Task.FromResult(metadata);
