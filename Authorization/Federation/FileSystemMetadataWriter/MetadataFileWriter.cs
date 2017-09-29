@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Xml;
-using Kernel.Federation.FederationPartner;
-using Kernel.Federation.MetaData;
+﻿using Kernel.Federation.MetaData;
 using Shared.Federtion;
 
 namespace FileSystemMetadataWriter
