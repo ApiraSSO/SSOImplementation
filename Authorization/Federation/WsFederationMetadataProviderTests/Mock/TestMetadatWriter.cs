@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Xml;
 using Kernel.Federation.MetaData;
 
@@ -12,7 +13,7 @@ namespace WsFederationMetadataProviderTests.Mock
             this._action = action;
         }
 
-        public void Write(XmlElement xml)
+        public void Write(XmlElement xml, Stream target)
         {
               this._action(xml);
         }

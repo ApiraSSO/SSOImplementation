@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Kernel.Cryptography.CertificateManagement;
+using Kernel.Federation.FederationPartner;
 using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
@@ -21,8 +22,8 @@ namespace WsFederationMetadataProvider.Metadata
 
         protected readonly ICertificateManager _certificateManager;
         protected readonly IMetadataSerialiser<MetadataBase> _serialiser;
-        protected readonly Func<MetadataGenerateRequest, MetadataContext> _contextFactory;
-        public MetadataGeneratorBase(IFederationMetadataWriter federationMetadataWriter, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, MetadataContext> contextFactory)
+        protected readonly Func<MetadataGenerateRequest, FederationPartyContext> _contextFactory;
+        public MetadataGeneratorBase(IFederationMetadataWriter federationMetadataWriter, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, FederationPartyContext> contextFactory)
         {
             this._federationMetadataWriter = federationMetadataWriter;
             this._certificateManager = certificateManager;
@@ -30,33 +31,42 @@ namespace WsFederationMetadataProvider.Metadata
             this._contextFactory = contextFactory;
         }
 
-        public Task CreateMetadata(MetadataGenerateRequest context)
+        public async Task CreateMetadata(MetadataGenerateRequest context)
         {
             var configuration = this._contextFactory(context);
-            return ((IMetadataGenerator)this).CreateMetadata(configuration);
+            var sb = new StringBuilder();
+
+            using (var xmlWriter = XmlWriter.Create(sb))
+            {
+                await ((IMetadataGenerator)this).CreateMetadata(configuration, xmlWriter);
+            }
+            var metadata = new XmlDocument();
+            metadata.LoadXml(sb.ToString());
+
+            this._federationMetadataWriter.Write(metadata.DocumentElement, context.TargetStream);
         }
 
-        Task IMetadataGenerator.CreateMetadata(MetadataContext metadataContext)
+        Task IMetadataGenerator.CreateMetadata(FederationPartyContext federationPartyContext, XmlWriter xmlWriter)
         {
             try
             {
-                var configuration = metadataContext.EntityDesriptorConfiguration;
+                if (federationPartyContext == null)
+                    throw new ArgumentNullException("federationPartyContext");
+
+                if (federationPartyContext.MetadataContext == null)
+                    throw new ArgumentNullException("metadataContext");
+
+                var configuration = federationPartyContext.MetadataContext.EntityDesriptorConfiguration;
 
                 var descriptors = this.GetDescriptors(configuration.SPSSODescriptors);
                 
                 var entityDescriptor = BuildEntityDesciptor(configuration, descriptors);
-                this.SignMetadata(metadataContext, entityDescriptor);
+                this.SignMetadata(federationPartyContext.MetadataContext, entityDescriptor);
                 var sb = new StringBuilder();
                 
-                using (var xmlWriter = XmlWriter.Create(sb))
-                {
-                    this._serialiser.Serialise(xmlWriter, entityDescriptor);
-                }
-
-                var metadata = new XmlDocument();
-                metadata.LoadXml(sb.ToString());
-
-                this._federationMetadataWriter.Write(metadata.DocumentElement);
+               
+                this._serialiser.Serialise(xmlWriter, entityDescriptor);
+               
                 return Task.CompletedTask;
             }
             catch (Exception ex)

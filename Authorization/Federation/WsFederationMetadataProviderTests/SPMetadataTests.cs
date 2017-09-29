@@ -3,6 +3,7 @@ using System.IdentityModel.Metadata;
 using System.IO;
 using System.Xml;
 using InlineMetadataContextProvider;
+using Kernel.Federation.FederationPartner;
 using Kernel.Federation.MetaData;
 using NUnit.Framework;
 using SecurityManagement;
@@ -35,8 +36,9 @@ namespace WsFederationMetadataProviderTests
 
             var contextBuilder = new InlineMetadataContextBuilder();
             var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
-            var context = contextBuilder.BuildContext(metadataRequest);
-
+            var metadataContext = contextBuilder.BuildContext(metadataRequest);
+            var context = new FederationPartyContext(metadataRequest.FederationPartyId, "localhost");
+            context.MetadataContext = metadataContext;
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certificateValidator = new CertificateValidator(configurationProvider);
             var ssoCryptoProvider = new CertificateManager();
@@ -75,8 +77,8 @@ namespace WsFederationMetadataProviderTests
 
             var contextBuilder = new InlineMetadataContextBuilder();
             var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
-            var context = contextBuilder.BuildContext(metadataRequest);
-
+            var metadatContext = contextBuilder.BuildContext(metadataRequest);
+            var context = new FederationPartyContext(metadataRequest.FederationPartyId, "localhost");
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certificateValidator = new CertificateValidator(configurationProvider);
             var ssoCryptoProvider = new CertificateManager();
@@ -101,7 +103,9 @@ namespace WsFederationMetadataProviderTests
             
             var contextBuilder = new InlineMetadataContextBuilder();
             var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
-            var context = contextBuilder.BuildContext(metadataRequest);
+            var metadataContext = contextBuilder.BuildContext(metadataRequest);
+            var context = new FederationPartyContext(metadataRequest.FederationPartyId, "localhost");
+            context.MetadataContext = metadataContext;
 
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certificateValidator = new CertificateValidator(configurationProvider);

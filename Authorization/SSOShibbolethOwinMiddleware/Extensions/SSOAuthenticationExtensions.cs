@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using Kernel.Federation.MetaData;
 using Kernel.Initialisation;
 using Owin;
@@ -22,7 +23,8 @@ namespace SSOOwinMiddleware.Extensions
                 {
                     var federationParty = FederationPartyIdentifierHelper.GetFederationPartyIdFromRequestOrDefault(c);
                     var metadataGenerator = SSOAuthenticationExtensions.ResolveMetadataGenerator<ISPMetadataGenerator>();
-                    var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, federationParty);
+                    c.Response.ContentType = "text/xml";
+                    var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, federationParty, c.Response.Body);
                     return metadataGenerator.CreateMetadata(metadataRequest);
                 });
             });
@@ -37,6 +39,7 @@ namespace SSOOwinMiddleware.Extensions
         //        //Wtrealm = wtrealm
         //    });
         //}
+
         public static IAppBuilder UseSSOAuthentication(this IAppBuilder app)
         {
             return app.UseShibbolethAuthentication(new SSOAuthenticationOptions()

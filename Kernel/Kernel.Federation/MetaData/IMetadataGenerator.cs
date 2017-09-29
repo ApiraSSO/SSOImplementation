@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
-using Kernel.Federation.MetaData.Configuration;
+using System.Xml;
+using Kernel.Federation.FederationPartner;
 
 namespace Kernel.Federation.MetaData
 {
     public interface IMetadataGenerator
     {
-        Task CreateMetadata(MetadataContext metadataContext);
+        Task CreateMetadata(FederationPartyContext federationPartyContext, XmlWriter xmlWriter);
         Task CreateMetadata(MetadataGenerateRequest context);
     }
 }

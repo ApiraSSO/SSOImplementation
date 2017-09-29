@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Linq;
-using System.IdentityModel.Metadata;
 using System.IO;
+using System.Linq;
 using System.Xml;
+using Kernel.Data;
+using Kernel.Data.ORM;
+using Kernel.Federation.FederationPartner;
 using Kernel.Federation.MetaData;
 using Kernel.Reflection;
 using NUnit.Framework;
+using ORMMetadataContextProvider.Security;
 using ORMMetadataContextProvider.Tests.Mock;
 using Provider.EntityFramework;
-using WsFederationMetadataProvider.Metadata;
-using Kernel.Data;
-using Kernel.Data.ORM;
-using WsMetadataSerialisation.Serialisation;
 using SecurityManagement;
-using ORMMetadataContextProvider.Security;
+using WsFederationMetadataProvider.Metadata;
+using WsMetadataSerialisation.Serialisation;
 
 namespace ORMMetadataContextProvider.Tests
 {
@@ -59,10 +59,9 @@ namespace ORMMetadataContextProvider.Tests
 
             var metadataContextBuilder = new MetadataContextBuilder((IDbContext)dbcontext, cacheProvider);
             var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
-            var context = metadataContextBuilder.BuildContext(metadataRequest);
-            //var contextBuilder = new InlineMetadataContextBuilder();
-            //var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
-            //var context = contextBuilder.BuildContext(metadataRequest);
+            var metadatContext = metadataContextBuilder.BuildContext(metadataRequest);
+            var context = new FederationPartyContext(metadataRequest.FederationPartyId, "localhost");
+           
 
             var configurationProvider = new CertificateValidationConfigurationProvider((IDbContext)dbcontext, cacheProvider);
             var certificateValidator = new CertificateValidator(configurationProvider);

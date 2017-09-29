@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Kernel.DependancyResolver;
+using Kernel.Federation.FederationPartner;
 using Kernel.Federation.MetaData;
-using Kernel.Federation.MetaData.Configuration;
 using Shared.Initialisation;
 using WsFederationMetadataProvider.Metadata;
 
@@ -18,12 +18,12 @@ namespace WsFederationMetadataProvider.Initialisation
         protected override Task InitialiseInternal(IDependencyResolver dependencyResolver)
         {
             dependencyResolver.RegisterType<SPSSOMetadataProvider>(Lifetime.Transient);
-            dependencyResolver.RegisterFactory<Func<MetadataGenerateRequest, MetadataContext>>(() => c =>
+            dependencyResolver.RegisterFactory<Func<MetadataGenerateRequest, FederationPartyContext>>(() => c =>
             {
-                var builder = dependencyResolver.Resolve<IMetadataContextBuilder>();
+                var builder = dependencyResolver.Resolve<IFederationPartyContextBuilder>();
                 using (builder)
                 {
-                    return builder.BuildContext(c);
+                    return builder.BuildContext(c.FederationPartyId);
                 }
             } , Lifetime.Singleton);
            
