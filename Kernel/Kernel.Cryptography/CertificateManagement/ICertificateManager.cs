@@ -11,5 +11,6 @@ namespace Kernel.Cryptography.CertificateManagement
         ICertificateStore GetStoreFromContext(CertificateContext certContext);
         X509Certificate2 GetCertificateFromContext(CertificateContext certContext);
         string SignToBase64(string dataToSign, CertificateContext certContext);
+        bool VerifySignatureFromBase64(string data, string signed, CertificateContext certContext);
     }
 }

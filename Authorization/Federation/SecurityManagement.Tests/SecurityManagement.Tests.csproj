@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CertificateDefaultRulesTests.cs" />
+    <Compile Include="Manager\CertificateManagerTests.cs" />
     <Compile Include="CertificateStoreTests.cs" />
     <Compile Include="BackchannelCertificateValidatorTests.cs" />
     <Compile Include="CertificateValidationRulesFactoryTest.cs" />

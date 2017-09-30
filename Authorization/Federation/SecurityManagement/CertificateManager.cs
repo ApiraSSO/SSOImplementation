@@ -46,5 +46,15 @@ namespace SecurityManagement
             var base64 = Convert.ToBase64String(signed);
             return base64;
         }
+
+        public bool VerifySignatureFromBase64(string data, string signed, CertificateContext certContext)
+        {
+            var dataBytes = Encoding.UTF8.GetBytes(data);
+            var signedBytes = Convert.FromBase64String(signed);
+            
+            var cert = this.GetCertificateFromContext(certContext);
+            var verified = RSADataProtection.VerifyDataSHA1Signed((RSA)cert.PrivateKey, dataBytes, signedBytes);
+            return verified;
+        }
     }
 }
