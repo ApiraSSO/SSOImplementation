@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IdentityModel.Metadata;
+using System.IO;
+using System.IO.Compression;
+using System.Text;
 using System.Threading.Tasks;
 using Federation.Protocols.Request;
 using Kernel.DependancyResolver;
@@ -7,6 +10,7 @@ using Kernel.Federation.FederationPartner;
 using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.Protocols;
+using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
@@ -34,9 +38,32 @@ namespace SSOOwinMiddleware.Handlers
             return Task.FromResult(true);
             
         }
-        protected override Task<AuthenticationTicket> AuthenticateCoreAsync()
+        protected override async Task<AuthenticationTicket> AuthenticateCoreAsync()
         {
-            return Task.FromResult((AuthenticationTicket)null);
+            if (Request.Path == new PathString("/api/Account/SSOLogon"))
+            {
+                if (string.Equals(this.Request.Method, "POST", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(this.Request.ContentType) && (this.Request.ContentType.StartsWith("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase) && this.Request.Body.CanRead))
+                {
+                    if (!this.Request.Body.CanSeek)
+                    {
+                        this._logger.WriteVerbose("Buffering request body");
+                        MemoryStream memoryStream = new MemoryStream();
+                        await this.Request.Body.CopyToAsync((Stream)memoryStream);
+                        memoryStream.Seek(0L, SeekOrigin.Begin);
+                        this.Request.Body = (Stream)memoryStream;
+                    }
+                    IFormCollection form = await this.Request.ReadFormAsync();
+                    this.Request.Body.Seek(0L, SeekOrigin.Begin);
+                    var relyingStateEncoded = form["RelayState"];
+                    var relayState = this.DeflateDecompress(relyingStateEncoded);
+
+                    var response = form["SAMLResponse"];
+                    var arr = Convert.FromBase64String(response);
+                    var foo = Encoding.UTF8.GetString(arr);
+                    // wsFederationMessage = new WsFederationMessage((IEnumerable<KeyValuePair<string, string[]>>)form);
+                }
+            }
+            return null;
         }
         protected override async Task ApplyResponseChallengeAsync()
         {
@@ -66,7 +93,7 @@ namespace SSOOwinMiddleware.Handlers
 
             var requestContext = new AuthnRequestContext(signInUrl, federationPartyId);
             var redirectUriBuilder = this._resolver.Resolve<AuthnRequestBuilder>();
-            var redirectUri = redirectUriBuilder.BuildRedirectUri(requestContext);
+            var redirectUri = await redirectUriBuilder.BuildRedirectUri(requestContext);
             
             //string baseUri = this.Request.Scheme + Uri.SchemeDelimiter + (object)this.Request.Host + (object)this.Request.PathBase;
             //string currentUri = baseUri + (object)this.Request.Path + (object)this.Request.QueryString;
@@ -92,6 +119,26 @@ namespace SSOOwinMiddleware.Handlers
             //if (!Uri.IsWellFormedUriString(signInUrl, UriKind.Absolute))
             //    this._logger.WriteWarning("The sign-in redirect URI is malformed: " + signInUrl);
             this.Response.Redirect(redirectUri.AbsoluteUri);
+        }
+        private string DeflateDecompress(string value)
+        {
+            var encoded = Convert.FromBase64String(value);
+            var memoryStream = new MemoryStream(encoded);
+
+            var result = new StringBuilder();
+            using (var stream = new DeflateStream(memoryStream, CompressionMode.Decompress))
+            {
+                var testStream = new StreamReader(new BufferedStream(stream), Encoding.UTF8);
+
+                // It seems we need to "peek" on the StreamReader to get it started. If we don't do this, the first call to 
+                // ReadToEnd() will return string.empty.
+                testStream.Peek();
+                result.Append(testStream.ReadToEnd());
+
+                stream.Close();
+            }
+
+            return result.ToString();
         }
 
     }

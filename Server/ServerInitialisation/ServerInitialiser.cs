@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using DeflateCompression.Initialisation;
 using Federation.Metadata.FederationPartner.Initialisation;
 using Federation.Metadata.HttpRetriever.Initialisation;
 using FileSystemMetadataWriter.Initialisation;
@@ -45,6 +46,7 @@ namespace ServerInitialisation
                 yield return typeof(CacheProviderInitialiser).Assembly;
                 yield return typeof(FederationMetadataDispatcherInitialiser).Assembly;
                 yield return typeof(FileSystemMetadataWriterInitialiser).Assembly;
+                yield return typeof(DeflateCompressorInitialiser).Assembly;
             }
         }
 

@@ -84,6 +84,10 @@
       <Project>{5647CA93-FE6C-4247-93C6-5617D16BE29B}</Project>
       <Name>MemoryCacheProvider</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Compression\DeflateCompression\DeflateCompression.csproj">
+      <Project>{E43F61D6-1957-48E8-9D1A-5B55B736C09E}</Project>
+      <Name>DeflateCompression</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Shared\Shared.csproj">
       <Project>{fa2cd1bf-a890-4306-9edb-a1b10042e57e}</Project>
       <Name>Shared</Name>

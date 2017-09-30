@@ -1,10 +1,10 @@
 ﻿using System;
-using Kernel.Federation.MetaData;
+using System.Threading.Tasks;
 
 namespace Kernel.Federation.Protocols
 {
     public interface IAuthnRequestBuilder
     {
-        Uri BuildRedirectUri(AuthnRequestContext authnRequestContext);
+        Task<Uri> BuildRedirectUri(AuthnRequestContext authnRequestContext);
     }
 }

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Security.Cryptography.Xml;
 using System.Text;
+using System.Threading.Tasks;
 using Federation.Protocols.Request.ClauseBuilders;
+using Kernel.Compression;
 using Kernel.Cryptography.CertificateManagement;
-using Kernel.Federation.Protocols;
 using Kernel.Federation.FederationPartner;
+using Kernel.Federation.Protocols;
 using Kernel.Reflection;
 using Serialisation.Xml;
 
@@ -36,7 +37,7 @@ namespace Federation.Protocols.Request
             return request;
         }
 
-        internal static string SerialiseAndSign(AuthnRequest request, AuthnRequestContext authnRequestContext, IXmlSerialiser serialiser, IFederationPartyContextBuilder federationPartyContextBuilder, ICertificateManager certificateManager)
+        internal static async Task<string> SerialiseAndSign(AuthnRequest request, AuthnRequestContext authnRequestContext, IXmlSerialiser serialiser, IFederationPartyContextBuilder federationPartyContextBuilder, ICertificateManager certificateManager, ICompression compression)
         {
             var federationParty = federationPartyContextBuilder.BuildContext(authnRequestContext.FederationPartyId);
             var metadataContext = federationParty.MetadataContext;
@@ -47,14 +48,14 @@ namespace Federation.Protocols.Request
                 .CertificateContext;
             var sb = new StringBuilder();
             var xmlString = AuthnRequestHelper.Serialise(request, serialiser);
-            var encoded = AuthnRequestHelper.DeflateEncode(xmlString);
+            var encoded = await AuthnRequestHelper.DeflateEncode(xmlString, compression);
             var encodedEscaped = Uri.EscapeDataString(AuthnRequestHelper.UpperCaseUrlEncode(encoded));
             sb.Append("SAMLRequest=");
             sb.Append(encodedEscaped);
             if(!String.IsNullOrWhiteSpace(authnRequestContext.RelyingState))
             {
                 sb.Append("&RelayState=");
-                var rsEncoded = AuthnRequestHelper.DeflateEncode(authnRequestContext.RelyingState);
+                var rsEncoded = await AuthnRequestHelper.DeflateEncode(authnRequestContext.RelyingState, compression);
                 var rsEncodedEscaped = Uri.EscapeDataString(AuthnRequestHelper.UpperCaseUrlEncode(encoded));
                 sb.Append(rsEncodedEscaped);
             }
@@ -114,16 +115,16 @@ namespace Federation.Protocols.Request
             return result.ToString();
         }
 
-        private static string DeflateEncode(string val)
+        private static async Task<string> DeflateEncode(string val, ICompression compression)
         {
-            using (var memoryStream = new MemoryStream())
+            var strArr = Encoding.UTF8.GetBytes(val);
+            using (var memoryStream = new MemoryStream(strArr))
             {
-                using (var writer = new StreamWriter(new DeflateStream(memoryStream, CompressionMode.Compress, true), new UTF8Encoding(false)))
+                using (var compressed = new MemoryStream())
                 {
-                    writer.Write(val);
-                    writer.Close();
-
-                    return Convert.ToBase64String(memoryStream.GetBuffer(), 0, (int)memoryStream.Length, Base64FormattingOptions.None);
+                    await compression.Compress(memoryStream, compressed);
+                    compressed.Position = 0;
+                    return Convert.ToBase64String(compressed.GetBuffer(), 0, (int)compressed.Length, Base64FormattingOptions.None);
                 }
             }
         }

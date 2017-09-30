@@ -18,7 +18,7 @@ namespace ORMMetadataContextProvider.Seeders
                 RequestSigned = true,
                 CacheDuration = new DatepartValue { Value = 100, Datepart = Datapart.Day },
                 ValidUntil = DateTimeOffset.Now.AddDays(90),
-                ErrorUrl = "http://localhost:60879/api/Account/Error"
+                ErrorUrl = "http://localhost:59611/api/Account/Error"
             };
             //role descriptor protocols
             var protocols = Seeder._cache[Seeder.ProtocolsKey] as IEnumerable<Protocol>;
@@ -41,7 +41,7 @@ namespace ORMMetadataContextProvider.Seeders
             var bindings = Seeder._cache[Seeder.BindingsKey] as IEnumerable<Binding>;
             var httpPostBinding = bindings.First(x => x.Name.Equals("HTTP-POST", StringComparison.OrdinalIgnoreCase));
 
-            descriptor.LogoutServices.Add(new EndPointSetting { Binding = httpPostBinding, Url = "http://localhost:60879/api/Account/SSOLogout" });
+            descriptor.LogoutServices.Add(new EndPointSetting { Binding = httpPostBinding, Url = "http://localhost:59611/api/Account/SSOLogout" });
             
             //sp descriptor assertion services
             
@@ -50,7 +50,7 @@ namespace ORMMetadataContextProvider.Seeders
                 Index = 0,
                 IsDefault = true,
                 Binding = httpPostBinding,
-                Url = "http://localhost:60879/api/Account/SSOLogon"
+                Url = "http://localhost:59611/api/Account/SSOLogon"
             });
 
             context.Add<SPDescriptorSettings>(descriptor);

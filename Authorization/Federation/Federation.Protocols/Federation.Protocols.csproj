@@ -102,6 +102,10 @@
     <Compile Include="Request\Saml20Constants.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Compression\Kernel.Compression.csproj">
+      <Project>{439DC5B8-1177-454E-94EC-8A8D2DDC9E22}</Project>
+      <Name>Kernel.Compression</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Kernel\Kernel.Cryptography\Kernel.Cryptography.csproj">
       <Project>{857217F2-B265-4154-883F-568285643238}</Project>
       <Name>Kernel.Cryptography</Name>
