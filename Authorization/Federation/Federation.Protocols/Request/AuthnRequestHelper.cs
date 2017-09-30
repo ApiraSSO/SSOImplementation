@@ -48,17 +48,14 @@ namespace Federation.Protocols.Request
                 .CertificateContext;
             var sb = new StringBuilder();
             var xmlString = AuthnRequestHelper.Serialise(request, serialiser);
-            var encoded = await Helper.DeflateEncode(xmlString, compression);
-            var encodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(encoded));
-            sb.Append("SAMLRequest=");
-            sb.Append(encodedEscaped);
+            
+            await AuthnRequestHelper.AppendRequest(sb, xmlString, compression);
+            
             if(!String.IsNullOrWhiteSpace(authnRequestContext.RelyingState))
             {
-                sb.Append("&RelayState=");
-                var rsEncoded = await Helper.DeflateEncode(authnRequestContext.RelyingState, compression);
-                var rsEncodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(rsEncoded));
-                sb.Append(rsEncodedEscaped);
+                await AuthnRequestHelper.AppendRelyingState(sb, authnRequestContext, compression);
             }
+
             if (spDescriptor.AuthenticationRequestsSigned)
             {
                 AuthnRequestHelper.SignRequest(sb, kd, certificateManager);
@@ -66,7 +63,7 @@ namespace Federation.Protocols.Request
             return sb.ToString();
         }
 
-        public static string Serialise(AuthnRequest request, IXmlSerialiser serialiser)
+        internal static string Serialise(AuthnRequest request, IXmlSerialiser serialiser)
         {
             serialiser.XmlNamespaces.Add("samlp", Saml20Constants.Protocol);
             serialiser.XmlNamespaces.Add("saml", Saml20Constants.Assertion);
@@ -80,24 +77,43 @@ namespace Federation.Protocols.Request
                 return xmlString;
             }
         }
-        private static IEnumerable<IAuthnRequestClauseBuilder<AuthnRequest>> GetBuilders()
+
+        internal static async Task AppendRequest(StringBuilder builder, string request, ICompression compression)
         {
-            return ReflectionHelper.GetAllTypes(new[] { typeof(ClauseBuilder).Assembly }, t => AuthnRequestHelper._condition(t))
-                .Select(x => (IAuthnRequestClauseBuilder<AuthnRequest>)Activator.CreateInstance(x));
+            var compressed = await Helper.DeflateEncode(request, compression);
+            var encodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(compressed));
+            builder.Append("SAMLRequest=");
+            builder.Append(encodedEscaped);
+        }
+        internal static async Task AppendRelyingState(StringBuilder builder, AuthnRequestContext authnRequestContext, ICompression compression)
+        {
+            builder.Append("&RelayState=");
+            var rsEncoded = await Helper.DeflateEncode(authnRequestContext.RelyingState, compression);
+            var rsEncodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(rsEncoded));
+            builder.Append(rsEncodedEscaped);
         }
 
-        private static void SignRequest(StringBuilder sb, CertificateContext certContext, ICertificateManager manager)
+        internal static void AppendSignarureAlgorithm(StringBuilder builder)
         {
-            //ToDo:
-            sb.AppendFormat("&{0}={1}", HttpRedirectBindingConstants.SigAlg, Uri.EscapeDataString(SignedXml.XmlDsigRSASHA1Url));
+            builder.AppendFormat("&{0}={1}", HttpRedirectBindingConstants.SigAlg, Uri.EscapeDataString(SignedXml.XmlDsigRSASHA1Url));
+        }
+        internal static void SignRequest(StringBuilder sb, CertificateContext certContext, ICertificateManager manager)
+        {
+            AuthnRequestHelper.AppendSignarureAlgorithm(sb);
             AuthnRequestHelper.SignData(sb, certContext, manager);
         }
-        private static StringBuilder SignData(StringBuilder sb, CertificateContext certContext, ICertificateManager manager)
+        internal static StringBuilder SignData(StringBuilder sb, CertificateContext certContext, ICertificateManager manager)
         {
             var base64 = manager.SignToBase64(sb.ToString(), certContext);
             var escaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(base64));
             sb.AppendFormat("&{0}={1}", HttpRedirectBindingConstants.Signature, escaped);
             return sb;
+        }
+
+        private static IEnumerable<IAuthnRequestClauseBuilder<AuthnRequest>> GetBuilders()
+        {
+            return ReflectionHelper.GetAllTypes(new[] { typeof(ClauseBuilder).Assembly }, t => AuthnRequestHelper._condition(t))
+                .Select(x => (IAuthnRequestClauseBuilder<AuthnRequest>)Activator.CreateInstance(x));
         }
     }
 }

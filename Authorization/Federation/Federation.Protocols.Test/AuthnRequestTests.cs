@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using DeflateCompression;
 using Federation.Protocols.Request;
 using Federation.Protocols.Test.Mock;
+using Kernel.Cryptography.CertificateManagement;
 using Kernel.Federation.Protocols;
 using NUnit.Framework;
 using SecurityManagement;
@@ -28,8 +30,34 @@ namespace Federation.Protocols.Test
             var certManager = new CertificateManager();
             var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext, federationPartyContextBuilder);
             var compressor = new DeflateCompressor();
+            var certContext = new X509CertificateContext
+            {
+                StoreLocation = StoreLocation.LocalMachine,
+                ValidOnly = false,
+                StoreName = "TestCertStore"
+            };
+            certContext.SearchCriteria.Add(new CertificateSearchCriteria
+            {
+                SearchCriteriaType = X509FindType.FindBySubjectName,
+                SearchValue = "ApiraTestCertificate"
+            });
             //ACT
-            var query = await AuthnRequestHelper.SerialiseAndSign(authnRequest, authnRequestContext, serialiser, federationPartyContextBuilder, certManager, compressor);
+            var sb = new StringBuilder();
+            //serialise and append request
+            var serialised =  AuthnRequestHelper.Serialise(authnRequest, serialiser);
+            await AuthnRequestHelper.AppendRequest(sb, serialised, compressor);
+
+            //append relying state
+            await AuthnRequestHelper.AppendRelyingState(sb, authnRequestContext, compressor);
+
+            //append signature alg
+            AuthnRequestHelper.AppendSignarureAlgorithm(sb);
+
+            var datataToSign = sb.ToString();
+
+            //sign request
+            AuthnRequestHelper.SignData(sb, certContext, certManager);
+            var query = sb.ToString();
             var url = new Uri(String.Format("{0}?{1}", requestUri, query));
             var qsParsed = HttpUtility.ParseQueryString(url.Query);
             //request
@@ -49,7 +77,11 @@ namespace Federation.Protocols.Test
             //signature
             var sigEscaped = qsParsed[3];
             var sigunescaped = Uri.UnescapeDataString(sigEscaped);
+
+            //signed string
+            var verified = certManager.VerifySignatureFromBase64(datataToSign, sigEscaped, certContext);
             //ASSERT
+            Assert.True(verified);
         }
 
         [Test]
