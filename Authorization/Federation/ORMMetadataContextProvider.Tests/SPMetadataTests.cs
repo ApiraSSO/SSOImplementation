@@ -60,7 +60,7 @@ namespace ORMMetadataContextProvider.Tests
             var metadataContextBuilder = new MetadataContextBuilder((IDbContext)dbcontext, cacheProvider);
             var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
             var metadatContext = metadataContextBuilder.BuildContext(metadataRequest);
-            var context = new FederationPartyContext(metadataRequest.FederationPartyId, "localhost");
+            var context = new FederationPartyContext(metadataRequest.FederationPartyId, "localhost") { MetadataContext = metadatContext };
            
 
             var configurationProvider = new CertificateValidationConfigurationProvider((IDbContext)dbcontext, cacheProvider);
@@ -72,7 +72,7 @@ namespace ORMMetadataContextProvider.Tests
             var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataDispatcher, ssoCryptoProvider, metadataSerialiser, g => context);
             
             //ACT
-            sPSSOMetadataProvider.CreateMetadata(metadataRequest);
+            sPSSOMetadataProvider.CreateMetadata(metadataRequest).Wait();
             //ASSERT
             Assert.IsTrue(result);
         }
