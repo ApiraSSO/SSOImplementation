@@ -58,7 +58,7 @@ namespace SSOOwinMiddleware.Handlers
                     IFormCollection form = await this.Request.ReadFormAsync();
                     
                     var responseHandler = this._resolver.Resolve<IReponseHandler>();
-                    await responseHandler.Handle(() => form.ToDictionary(x => x.Key, v => v.Value)as IDictionary<string, string>);
+                    await responseHandler.Handle(() => form.ToDictionary(x => x.Key, v => v.Value.FirstOrDefault())as IDictionary<string, string>);
                     
                 }
             }
