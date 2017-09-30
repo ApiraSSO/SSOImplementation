@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthnRequestTests.cs" />
+    <Compile Include="HelperTests.cs" />
     <Compile Include="Mock\FederationPartyContextBuilderMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,6 +57,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Compression\DeflateCompression\DeflateCompression.csproj">
+      <Project>{E43F61D6-1957-48E8-9D1A-5B55B736C09E}</Project>
+      <Name>DeflateCompression</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Compression\Kernel.Compression.csproj">
+      <Project>{439DC5B8-1177-454E-94EC-8A8D2DDC9E22}</Project>
+      <Name>Kernel.Compression</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Kernel\Kernel.Cryptography\Kernel.Cryptography.csproj">
       <Project>{857217F2-B265-4154-883F-568285643238}</Project>
       <Name>Kernel.Cryptography</Name>

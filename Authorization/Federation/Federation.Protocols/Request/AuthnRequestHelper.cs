@@ -48,15 +48,15 @@ namespace Federation.Protocols.Request
                 .CertificateContext;
             var sb = new StringBuilder();
             var xmlString = AuthnRequestHelper.Serialise(request, serialiser);
-            var encoded = await AuthnRequestHelper.DeflateEncode(xmlString, compression);
-            var encodedEscaped = Uri.EscapeDataString(AuthnRequestHelper.UpperCaseUrlEncode(encoded));
+            var encoded = await Helper.DeflateEncode(xmlString, compression);
+            var encodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(encoded));
             sb.Append("SAMLRequest=");
             sb.Append(encodedEscaped);
             if(!String.IsNullOrWhiteSpace(authnRequestContext.RelyingState))
             {
                 sb.Append("&RelayState=");
-                var rsEncoded = await AuthnRequestHelper.DeflateEncode(authnRequestContext.RelyingState, compression);
-                var rsEncodedEscaped = Uri.EscapeDataString(AuthnRequestHelper.UpperCaseUrlEncode(encoded));
+                var rsEncoded = await Helper.DeflateEncode(authnRequestContext.RelyingState, compression);
+                var rsEncodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(rsEncoded));
                 sb.Append(rsEncodedEscaped);
             }
             if (spDescriptor.AuthenticationRequestsSigned)
@@ -95,38 +95,9 @@ namespace Federation.Protocols.Request
         private static StringBuilder SignData(StringBuilder sb, CertificateContext certContext, ICertificateManager manager)
         {
             var base64 = manager.SignToBase64(sb.ToString(), certContext);
-            var escaped = Uri.EscapeDataString(AuthnRequestHelper.UpperCaseUrlEncode(base64));
+            var escaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(base64));
             sb.AppendFormat("&{0}={1}", HttpRedirectBindingConstants.Signature, escaped);
             return sb;
-        }
-
-        private static string UpperCaseUrlEncode(string value)
-        {
-            var result = new StringBuilder(value);
-            for (var i = 0; i < result.Length; i++)
-            {
-                if (result[i] == '%')
-                {
-                    result[++i] = char.ToUpper(result[i]);
-                    result[++i] = char.ToUpper(result[i]);
-                }
-            }
-
-            return result.ToString();
-        }
-
-        private static async Task<string> DeflateEncode(string val, ICompression compression)
-        {
-            var strArr = Encoding.UTF8.GetBytes(val);
-            using (var memoryStream = new MemoryStream(strArr))
-            {
-                using (var compressed = new MemoryStream())
-                {
-                    await compression.Compress(memoryStream, compressed);
-                    compressed.Position = 0;
-                    return Convert.ToBase64String(compressed.GetBuffer(), 0, (int)compressed.Length, Base64FormattingOptions.None);
-                }
-            }
         }
     }
 }
