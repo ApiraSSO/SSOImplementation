@@ -1,5 +1,4 @@
-﻿using System;
-using System.IdentityModel.Metadata;
+﻿using System.IdentityModel.Metadata;
 using Kernel.Federation.MetaData.Configuration.RoleDescriptors;
 
 namespace WsFederationMetadataProvider.Metadata.DescriptorBuilders.SSODescriptorMemberBulders
@@ -9,7 +8,7 @@ namespace WsFederationMetadataProvider.Metadata.DescriptorBuilders.SSODescriptor
         protected override void BuildInternal(RoleDescriptor descriptor, RoleDescriptorConfiguration configuration)
         {
             if (configuration.Organisation == null)
-                throw new ArgumentNullException("organisation");
+                return;
             SSODescriptorBuilderHelper.BuildOrganisation(descriptor, configuration);
         }
     }
