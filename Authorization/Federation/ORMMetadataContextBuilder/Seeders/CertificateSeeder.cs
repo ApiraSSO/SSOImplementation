@@ -9,7 +9,7 @@ namespace ORMMetadataContextProvider.Seeders
     {
         public override void Seed(IDbContext context)
         {
-            var certificate = new Certificate
+            var signingCertificate = new Certificate
             {
                 IsDefault = true,
                 Use = Kernel.Federation.MetaData.Configuration.Cryptography.KeyUsage.Signing,
@@ -21,16 +21,30 @@ namespace ORMMetadataContextProvider.Seeders
                 SearchCriteriaType = System.Security.Cryptography.X509Certificates.X509FindType.FindBySubjectName,
                 SearchCriteria = "ApiraTestCertificate",
             };
+            var encryptionCertificate = new Certificate
+            {
+                IsDefault = true,
+                Use = Kernel.Federation.MetaData.Configuration.Cryptography.KeyUsage.Encryption,
+                CetrificateStore = "TestCertStore",
+                StoreLocation = StoreLocation.LocalMachine
+            };
+            var encryptionStoreCriterion = new StoreSearchCriterion
+            {
+                SearchCriteriaType = System.Security.Cryptography.X509Certificates.X509FindType.FindBySubjectName,
+                SearchCriteria = "ApiraTestCertificate",
+            };
+            encryptionCertificate.StoreSearchCriteria.Add(encryptionStoreCriterion);
+
             var signingCritencials = new SigningCredential
             {
                 DigestAlgorithm = SecurityAlgorithms.Sha1Digest,
                 SignatureAlgorithm = SecurityAlgorithms.RsaSha1Signature,
             };
-            certificate.SigningCredentials.Add(signingCritencials);
-            signingCritencials.Certificates.Add(certificate);
-            certificate.StoreSearchCriteria.Add(storeCriterion);
-            context.Add<Certificate>(certificate);
-            Seeder._cache.Add(Seeder.CertificatesKey, new[] { certificate });
+            signingCertificate.SigningCredentials.Add(signingCritencials);
+            signingCritencials.Certificates.Add(signingCertificate);
+            signingCertificate.StoreSearchCriteria.Add(storeCriterion);
+            context.Add<Certificate>(signingCertificate);
+            Seeder._cache.Add(Seeder.CertificatesKey, new[] { signingCertificate, encryptionCertificate });
             Seeder._cache.Add(Seeder.Signing, signingCritencials);
         }
     }
