@@ -21,8 +21,9 @@ namespace Federation.Protocols.Response
         public async Task Handle(Func<IDictionary<string, string>> parser)
         {
             var elements = parser();
-            var responseCompressed = elements["SAMLResponse"];
-            
+            var responseBase64 = elements["SAMLResponse"];
+            var responseBytes = Convert.FromBase64String(responseBase64);
+            var responseText = Encoding.UTF8.GetString(responseBytes);
             var relayStateCompressed = elements["RelayState"];
             var decompressed = await Helper.DeflateDecompress(relayStateCompressed, this._compression);
             throw new NotImplementedException();
