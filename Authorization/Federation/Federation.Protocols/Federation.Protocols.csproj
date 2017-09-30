@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper.cs" />
+    <Compile Include="Initialisation\ProtocolInitialiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request\Attributes\AttributeStatement.cs" />
     <Compile Include="Request\Attributes\RequestedAttribute.cs" />
@@ -101,8 +102,13 @@
     <Compile Include="Request\ProxyRestriction.cs" />
     <Compile Include="Request\RequestAbstract.cs" />
     <Compile Include="Request\Saml20Constants.cs" />
+    <Compile Include="Response\ResponseHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure\Shared\Shared.csproj">
+      <Project>{FA2CD1BF-A890-4306-9EDB-A1B10042E57E}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Kernel\Kernel.Compression\Kernel.Compression.csproj">
       <Project>{439DC5B8-1177-454E-94EC-8A8D2DDC9E22}</Project>
       <Name>Kernel.Compression</Name>

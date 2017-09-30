@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.IdentityModel.Metadata;
 using System.IO;
 using System.IO.Compression;
@@ -10,10 +11,12 @@ using Kernel.Federation.FederationPartner;
 using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.Protocols;
+using Kernel.Federation.Protocols.Response;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
+using System.Collections.Generic;
 
 namespace SSOOwinMiddleware.Handlers
 {
@@ -53,14 +56,10 @@ namespace SSOOwinMiddleware.Handlers
                         this.Request.Body = (Stream)memoryStream;
                     }
                     IFormCollection form = await this.Request.ReadFormAsync();
-                    this.Request.Body.Seek(0L, SeekOrigin.Begin);
-                    var relyingStateEncoded = form["RelayState"];
-                    var relayState = this.DeflateDecompress(relyingStateEncoded);
-
-                    var response = form["SAMLResponse"];
-                    var arr = Convert.FromBase64String(response);
-                    var foo = Encoding.UTF8.GetString(arr);
-                    // wsFederationMessage = new WsFederationMessage((IEnumerable<KeyValuePair<string, string[]>>)form);
+                    
+                    var responseHandler = this._resolver.Resolve<IReponseHandler>();
+                    await responseHandler.Handle(() => form.ToDictionary(x => x.Key, v => v.Value)as IDictionary<string, string>);
+                    
                 }
             }
             return null;
@@ -92,7 +91,7 @@ namespace SSOOwinMiddleware.Handlers
             signInUrl = del(handler, this._configuration, new Uri(Bindings.Http_Redirect));
 
             var requestContext = new AuthnRequestContext(signInUrl, federationPartyId);
-            var redirectUriBuilder = this._resolver.Resolve<AuthnRequestBuilder>();
+            var redirectUriBuilder = this._resolver.Resolve<IAuthnRequestBuilder>();
             var redirectUri = await redirectUriBuilder.BuildRedirectUri(requestContext);
             
             //string baseUri = this.Request.Scheme + Uri.SchemeDelimiter + (object)this.Request.Host + (object)this.Request.PathBase;
@@ -120,26 +119,5 @@ namespace SSOOwinMiddleware.Handlers
             //    this._logger.WriteWarning("The sign-in redirect URI is malformed: " + signInUrl);
             this.Response.Redirect(redirectUri.AbsoluteUri);
         }
-        private string DeflateDecompress(string value)
-        {
-            var encoded = Convert.FromBase64String(value);
-            var memoryStream = new MemoryStream(encoded);
-
-            var result = new StringBuilder();
-            using (var stream = new DeflateStream(memoryStream, CompressionMode.Decompress))
-            {
-                var testStream = new StreamReader(new BufferedStream(stream), Encoding.UTF8);
-
-                // It seems we need to "peek" on the StreamReader to get it started. If we don't do this, the first call to 
-                // ReadToEnd() will return string.empty.
-                testStream.Peek();
-                result.Append(testStream.ReadToEnd());
-
-                stream.Close();
-            }
-
-            return result.ToString();
-        }
-
     }
 }

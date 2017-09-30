@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DeflateCompression.Initialisation;
 using Federation.Metadata.FederationPartner.Initialisation;
 using Federation.Metadata.HttpRetriever.Initialisation;
+using Federation.Protocols.Initialisation;
 using FileSystemMetadataWriter.Initialisation;
 using Kernel.DependancyResolver;
 using Kernel.Initialisation;
@@ -47,6 +48,7 @@ namespace ServerInitialisation
                 yield return typeof(FederationMetadataDispatcherInitialiser).Assembly;
                 yield return typeof(FileSystemMetadataWriterInitialiser).Assembly;
                 yield return typeof(DeflateCompressorInitialiser).Assembly;
+                yield return typeof(ProtocolInitialiser).Assembly;
             }
         }
 

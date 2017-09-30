@@ -52,6 +52,10 @@
       <Project>{99B877E4-7B04-4490-9163-C7A41FEE0097}</Project>
       <Name>Federation.Metadata.HttpRetriever</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Authorization\Federation\Federation.Protocols\Federation.Protocols.csproj">
+      <Project>{33862A55-E53A-45EF-85C4-A9E1DEF4181C}</Project>
+      <Name>Federation.Protocols</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Authorization\Federation\FileSystemMetadataWriter\FileSystemMetadataWriter.csproj">
       <Project>{F2858715-3D6E-4173-AC57-D1B8E874EDD1}</Project>
       <Name>FileSystemMetadataWriter</Name>

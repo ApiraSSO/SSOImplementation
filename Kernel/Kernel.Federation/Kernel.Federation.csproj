@@ -93,6 +93,8 @@
     <Compile Include="FederationPartner\IConfigurationManager.cs" />
     <Compile Include="FederationPartner\IConfigurationRetriever.cs" />
     <Compile Include="FederationPartner\IDocumentRetriever.cs" />
+    <Compile Include="Protocols\Response\IReponseHandler.cs" />
+    <Compile Include="Protocols\Response\IResponseParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kernel.Cache\Kernel.Cache.csproj">
