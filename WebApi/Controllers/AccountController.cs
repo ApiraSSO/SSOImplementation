@@ -13,7 +13,6 @@ namespace WebApi.Controllers
     public class AccountController : ApiController
     {
         [Route("SSOLogon")]
-        [HttpGet]
         public async Task<IHttpActionResult> SSOLogon()
         {
             return Ok();
