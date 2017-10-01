@@ -90,6 +90,7 @@ namespace Federation.Protocols.Response
             assertion.Load(new StringReader(Encoding.UTF8.GetString(plaintext)));
             return assertion;
         }
+
         private static XmlElement GetElement(string element, string elementNS, XmlElement doc)
         {
             var list = doc.GetElementsByTagName(element, elementNS);
