@@ -9,10 +9,13 @@ namespace ORMMetadataContextProvider.Models
         public EntityDescriptorSettings()
         {
             this.RoleDescriptors = new List<RoleDescriptorSettings>();
+            this.IncludeOrganisationInfo = true;
         }
 
         public string EntityId { get; set; }
         public string FederationId { get; set; }
+        public bool IncludeOrganisationInfo { get; set; }
+
         public DateTimeOffset ValidUntil { get; set; }
         public virtual DatepartValue CacheDuration { get; set; }
         public virtual OrganisationSettings Organisation { get; set; }
