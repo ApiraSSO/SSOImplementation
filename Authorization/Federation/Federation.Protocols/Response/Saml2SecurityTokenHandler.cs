@@ -48,7 +48,7 @@ namespace Federation.Protocols.Response
             reader.Read();
             reader.ReadEndElement();
             return result;
-            return base.ReadSubjectConfirmationData(reader);
+            //return base.ReadSubjectConfirmationData(reader);
         }
 
         internal XmlDocument GetPlainTestAsertion(XmlElement el)
@@ -64,23 +64,26 @@ namespace Federation.Protocols.Response
             var securityKeyIdentifier = new SecurityKeyIdentifier();
             foreach (KeyInfoX509Data v in encryptedKey.KeyInfo)
             {
-                var cert = v.Certificates[0] as X509Certificate2;
-                var cl1 = new X509RawDataKeyIdentifierClause(cert);
-                securityKeyIdentifier.Add(cl1);
+                foreach (X509Certificate2 cert in v.Certificates)
+                {
+                    var cl = new X509RawDataKeyIdentifierClause(cert);
+                    securityKeyIdentifier.Add(cl);
+                }
             }
 
-            var cl = new EncryptedKeyIdentifierClause(encryptedKey.CipherData.CipherValue, encryptedKey.EncryptionMethod.KeyAlgorithm, securityKeyIdentifier);
+            var clause = new EncryptedKeyIdentifierClause(encryptedKey.CipherData.CipherValue, encryptedKey.EncryptionMethod.KeyAlgorithm, securityKeyIdentifier);
             SecurityKey key;
-            var success = base.Configuration.ServiceTokenResolver.TryResolveSecurityKey(cl, out key);
+            var success = base.Configuration.ServiceTokenResolver.TryResolveSecurityKey(clause, out key);
             if (!success)
                 throw new InvalidOperationException("Cannot locate security key");
 
             SymmetricSecurityKey symmetricSecurityKey = key as SymmetricSecurityKey;
             if (symmetricSecurityKey == null)
-                throw new InvalidOperationException("key must be symmentric key");
+                throw new InvalidOperationException("Key must be symmentric key");
 
             SymmetricAlgorithm symmetricAlgorithm = symmetricSecurityKey.GetSymmetricAlgorithm(encryptedData.EncryptionMethod.KeyAlgorithm);
             var encryptedXml = new System.Security.Cryptography.Xml.EncryptedXml();
+            
             var plaintext = encryptedXml.DecryptData(encryptedData, symmetricAlgorithm);
             var assertion = new XmlDocument { PreserveWhitespace = true };
 
