@@ -22,6 +22,7 @@ namespace Federation.Protocols.Test
     internal class ResponseTest
     {
         [Test]
+        [Ignore("Redundant")]
         public void T1()
         {
             //ARRANGE
@@ -35,43 +36,24 @@ namespace Federation.Protocols.Test
 
                 var encryptedAssertion = (XmlElement)encryptedList[0];
                 this.Decrypt(encryptedAssertion);
-                //var xmlReader = XmlReader.Create(new StringReader(encryptedAssertion.OuterXml));
-                ////var h = new Saml2SecurityTokenHandler();
-                //var h = new Saml2SecurityTokenHandlerMock();
-                //var inner = new X509CertificateStoreTokenResolver("TestCertStore", StoreLocation.LocalMachine);
-                //var tr = new IssuerTokenResolver(inner);
-                
-                //h.Configuration = new SecurityTokenHandlerConfiguration
-                //{
-                //    IssuerTokenResolver = tr,
-                //    ServiceTokenResolver = tr
-                    
-                //};
-                //var b = h.CanReadToken(xmlReader);
-                //var ass = h.GetAssertion(xmlReader);
-                //var t = h.ReadToken(xmlReader);
-                //ACT
-                //ASSERT
             }
 
 
         }
 
         [Test]
-        public void T2()
+        public void Handler_ReadAssertion_Test()
         {
             //ARRANGE
             var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
             var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
-            this.ValidateResponseSuccess(xmlReader);
-           
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider();
             var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
             var assertion = saml2SecurityTokenHandler.GetAssertion(reader); 
         }
 
         [Test]
-        public void T1_1()
+        public void Handler_Decrypt_assertion_Test()
         {
             //ARRANGE
 
@@ -90,6 +72,7 @@ namespace Federation.Protocols.Test
         }
 
         [Test]
+        [Ignore("Redundant")]
         public void T3()
         {
             //ARRANGE
@@ -97,6 +80,13 @@ namespace Federation.Protocols.Test
             var doc = new XmlDocument();
             doc.Load(@"D:\Dan\Software\Apira\a.xml");
             var el = doc.DocumentElement;
+        }
+        
+        #region Zombies To be removed
+        private static XmlElement GetElement(string element, string elementNS, XmlElement doc)
+        {
+            var list = doc.GetElementsByTagName(element, elementNS);
+            return list.Count == 0 ? null : (XmlElement)list[0];
         }
 
         //[Test]
@@ -112,7 +102,7 @@ namespace Federation.Protocols.Test
         //    {
 
         //        var encryptedAssertion = (XmlElement)encryptedList[0];
-               
+
         //        var inner = new X509CertificateStoreTokenResolver("TestCertStore", StoreLocation.LocalMachine);
         //        var tr = new IssuerTokenResolver(inner);
 
@@ -122,7 +112,7 @@ namespace Federation.Protocols.Test
         //        encryptedData.LoadXml(encryptedDataElement);
         //        var encryptedKey = new System.Security.Cryptography.Xml.EncryptedKey();
         //        var encryptedKeyElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedKey.ElementName, Saml20Constants.Xenc, encryptedAssertion);
-                
+
         //        encryptedKey.LoadXml(encryptedKeyElement);
         //        var securityKeyIdentifier = new SecurityKeyIdentifier();
         //        foreach (KeyInfoX509Data v in encryptedKey.KeyInfo)
@@ -131,39 +121,33 @@ namespace Federation.Protocols.Test
         //            var cl1 = new X509RawDataKeyIdentifierClause(cert);
         //            securityKeyIdentifier.Add(cl1);
         //        }
-                
+
         //        var cl = new EncryptedKeyIdentifierClause(encryptedKey.CipherData.CipherValue, encryptedKey.EncryptionMethod.KeyAlgorithm, securityKeyIdentifier);
         //        SecurityKey key;
         //        var b = tr.TryResolveSecurityKey(cl, out key);
         //        SymmetricSecurityKey symmetricSecurityKey = key as SymmetricSecurityKey;
-               
+
         //        SymmetricAlgorithm symmetricAlgorithm = symmetricSecurityKey.GetSymmetricAlgorithm(encryptedData.EncryptionMethod.KeyAlgorithm);
         //        var encryptedXml = new System.Security.Cryptography.Xml.EncryptedXml();
         //        var plaintext = encryptedXml.DecryptData(encryptedData, symmetricAlgorithm);
         //        var assertion = new XmlDocument { PreserveWhitespace = true };
 
         //        assertion.Load(new StringReader(Encoding.UTF8.GetString(plaintext)));
-                
+
         //    }
         //}
 
-        private void ValidateResponseSuccess(XmlReader reader)
-        {
-            while (!reader.IsStartElement("StatusCode", "urn:oasis:names:tc:SAML:2.0:protocol"))
-            {
-                if (!reader.Read())
-                    throw new InvalidOperationException("Can't find assertion element.");
-            }
-            var status = reader.GetAttribute("Value");
-            if (String.IsNullOrWhiteSpace(status) || !String.Equals(status, "urn:oasis:names:tc:SAML:2.0:status:Success"))
-                throw new Exception(status);
-        }
-
-        private static XmlElement GetElement(string element, string elementNS, XmlElement doc)
-        {
-            var list = doc.GetElementsByTagName(element, elementNS);
-            return list.Count == 0 ? null : (XmlElement)list[0];
-        }
+        //private void ValidateResponseSuccess(XmlReader reader)
+        //{
+        //    while (!reader.IsStartElement("StatusCode", "urn:oasis:names:tc:SAML:2.0:protocol"))
+        //    {
+        //        if (!reader.Read())
+        //            throw new InvalidOperationException("Can't find assertion element.");
+        //    }
+        //    var status = reader.GetAttribute("Value");
+        //    if (String.IsNullOrWhiteSpace(status) || !String.Equals(status, "urn:oasis:names:tc:SAML:2.0:status:Success"))
+        //        throw new Exception(status);
+        //}
 
         public void Decrypt(XmlElement el)
         {
@@ -285,5 +269,6 @@ namespace Federation.Protocols.Test
 
             return result;
         }
+        #endregion
     }
 }

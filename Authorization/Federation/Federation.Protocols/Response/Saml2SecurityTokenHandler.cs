@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using Federation.Protocols.Request;
 using Federation.Protocols.Request.Elements;
-using Kernel.Federation.FederationPartner;
 using Kernel.Federation.Protocols.Response;
 
 namespace Federation.Protocols.Response
 {
     public class Saml2SecurityTokenHandler : System.IdentityModel.Tokens.Saml2SecurityTokenHandler, ITokenHandler
     {
-        //private readonly IFederationPartyContextBuilder _federationPartyContextBuilder;
-
         public Saml2SecurityTokenHandler(ITokenHandlerConfigurationProvider tokenHandlerConfigurationProvider)
         {
             tokenHandlerConfigurationProvider.Configuration(this);
@@ -38,19 +32,7 @@ namespace Federation.Protocols.Response
         {
             return base.ReadAssertion(reader);
         }
-        protected override Saml2SubjectConfirmationData ReadSubjectConfirmationData(XmlReader reader)
-        {
-            var result = new Saml2SubjectConfirmationData();
-            if (!reader.IsStartElement("SubjectConfirmationData", "urn:oasis:names:tc:SAML:2.0:assertion"))
-                reader.ReadStartElement("SubjectConfirmationData", "urn:oasis:names:tc:SAML:2.0:assertion");
-            string attribute2 = reader.GetAttribute("InResponseTo");
-            result.InResponseTo = new Saml2Id("test");
-            reader.Read();
-            reader.ReadEndElement();
-            return result;
-            //return base.ReadSubjectConfirmationData(reader);
-        }
-
+        
         internal XmlDocument GetPlainTestAsertion(XmlElement el)
         {
             var encryptedDataElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedData.ElementName, Saml20Constants.Xenc, el);

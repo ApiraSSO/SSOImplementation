@@ -6,7 +6,7 @@ namespace Federation.Protocols.Request.ClauseBuilders
     {
         protected override void BuildInternal(AuthnRequest request, EntityDesriptorConfiguration entityDescriptor)
         {
-            request.Id = entityDescriptor.EntityId;
+            request.Id = entityDescriptor.Id;
         }
     }
 }
