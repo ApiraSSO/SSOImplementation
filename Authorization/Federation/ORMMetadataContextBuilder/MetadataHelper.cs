@@ -18,7 +18,7 @@ namespace ORMMetadataContextProvider
         public static EntityDesriptorConfiguration BuildEntityDesriptorConfiguration(EntityDescriptorSettings entityDescriptorSettings)
         {
             var federationId = String.Format("{0}_{1}", "flowz", Guid.NewGuid());
-            var organisation = MetadataHelper.BuidOrganisationConfiguration(entityDescriptorSettings.Organisation);
+            OrganisationConfiguration organisation = null;// MetadataHelper.BuidOrganisationConfiguration(entityDescriptorSettings.Organisation);
             var entityDescriptorConfiguration = new EntityDesriptorConfiguration
             {
                 CacheDuration = MetadataHelper.TimeSpanFromDatapartEntry(entityDescriptorSettings.CacheDuration),

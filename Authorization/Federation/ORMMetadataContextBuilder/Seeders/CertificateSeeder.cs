@@ -31,7 +31,7 @@ namespace ORMMetadataContextProvider.Seeders
             var encryptionStoreCriterion = new StoreSearchCriterion
             {
                 SearchCriteriaType = System.Security.Cryptography.X509Certificates.X509FindType.FindBySubjectName,
-                SearchCriteria = "ApiraTestCertificate",
+                SearchCriteria = "Apira_DevEnc",
             };
             encryptionCertificate.StoreSearchCriteria.Add(encryptionStoreCriterion);
 

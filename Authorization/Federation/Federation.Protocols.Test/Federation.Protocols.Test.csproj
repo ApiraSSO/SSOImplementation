@@ -39,6 +39,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,7 +53,9 @@
     <Compile Include="AuthnRequestTests.cs" />
     <Compile Include="HelperTests.cs" />
     <Compile Include="Mock\FederationPartyContextBuilderMock.cs" />
+    <Compile Include="Mock\Saml2SecurityTokenHandlerMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponseTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
