@@ -58,9 +58,11 @@ namespace SSOOwinMiddleware.Handlers
                     }
                     IFormCollection form = await this.Request.ReadFormAsync();
                     
-                    var responseHandler = this._resolver.Resolve<IReponseHandler<ClaimsIdentity>>();
-                    var identity = await responseHandler.Handle(() => form.ToDictionary(x => x.Key, v => form.Get(v.Key))as IDictionary<string, string>);
-                    
+                    var responseHandler = this._resolver.Resolve<IReponseHandler<Func<string, Task<ClaimsIdentity>>>>();
+                    var identityDelegate = await responseHandler.Handle(() => form.ToDictionary(x => x.Key, v => form.Get(v.Key))as IDictionary<string, string>);
+                    var identity = await identityDelegate(base.Options.AuthenticationType);
+                    if(identity != null)
+                        return new AuthenticationTicket(identity, new AuthenticationProperties());
                 }
             }
             return null;

@@ -13,7 +13,7 @@ using Kernel.Federation.Protocols.Response;
 
 namespace Federation.Protocols.Response
 {
-    internal class ResponseHandler : IReponseHandler<ClaimsIdentity>
+    internal class ResponseHandler : IReponseHandler<Func<string, Task<ClaimsIdentity>>>
     {
         private readonly ICompression _compression;
         private readonly IFederationPartyContextBuilder _federationPartyContextBuilder;
@@ -26,7 +26,7 @@ namespace Federation.Protocols.Response
             this._tokenHandler = tokenHandler;
             this._identityProvider = identityProvider;
         }
-        public async Task<ClaimsIdentity> Handle(Func<IDictionary<string, string>> parser)
+        public async Task<Func<string, Task<ClaimsIdentity>>> Handle(Func<IDictionary<string, string>> parser)
         {
             var elements = parser();
             var responseBase64 = elements["SAMLResponse"];
@@ -37,9 +37,15 @@ namespace Federation.Protocols.Response
             this.SaveTemp(responseText);
             var xmlReader = XmlReader.Create(new StringReader(responseText));
             this.ValidateResponseSuccess(xmlReader);
-            var token = this._tokenHandler.ReadToken(xmlReader);
-            var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { "saml2" });
-            return identity["saml2"];
+            var token = _tokenHandler.ReadToken(xmlReader);
+            return async authType =>
+            {
+                if (token == null)
+                    return null;
+
+                var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { authType });
+                return identity[authType];
+            };
         }
 
         //ToDo: sort this out clean up
