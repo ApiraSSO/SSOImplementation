@@ -41,6 +41,7 @@ namespace Federation.Protocols.Response
             throw new NotImplementedException();
         }
 
+        //ToDo: sort this out clean up
         private void ValidateResponseSuccess(XmlReader reader)
         {
             while (!reader.IsStartElement("StatusCode", "urn:oasis:names:tc:SAML:2.0:protocol"))
@@ -52,7 +53,7 @@ namespace Federation.Protocols.Response
             if (String.IsNullOrWhiteSpace(status) || !String.Equals(status, "urn:oasis:names:tc:SAML:2.0:status:Success"))
                 throw new Exception(status);
         }
-
+        //ToDo clean up
         private void SaveTemp(string responseText)
         {
             var writer = XmlWriter.Create(@"D:\Dan\Software\Apira\a.xml");
