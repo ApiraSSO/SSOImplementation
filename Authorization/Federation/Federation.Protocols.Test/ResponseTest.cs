@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -33,21 +34,21 @@ namespace Federation.Protocols.Test
             {
 
                 var encryptedAssertion = (XmlElement)encryptedList[0];
-                //this.Decrypt(encryptedAssertion);
-                var xmlReader = XmlReader.Create(new StringReader(encryptedAssertion.OuterXml));
-                //var h = new Saml2SecurityTokenHandler();
-                var h = new Saml2SecurityTokenHandlerMock();
-                var inner = new X509CertificateStoreTokenResolver("TestCertStore", StoreLocation.LocalMachine);
-                var tr = new IssuerTokenResolver(inner);
+                this.Decrypt(encryptedAssertion);
+                //var xmlReader = XmlReader.Create(new StringReader(encryptedAssertion.OuterXml));
+                ////var h = new Saml2SecurityTokenHandler();
+                //var h = new Saml2SecurityTokenHandlerMock();
+                //var inner = new X509CertificateStoreTokenResolver("TestCertStore", StoreLocation.LocalMachine);
+                //var tr = new IssuerTokenResolver(inner);
                 
-                h.Configuration = new SecurityTokenHandlerConfiguration
-                {
-                    IssuerTokenResolver = tr,
-                    ServiceTokenResolver = tr
+                //h.Configuration = new SecurityTokenHandlerConfiguration
+                //{
+                //    IssuerTokenResolver = tr,
+                //    ServiceTokenResolver = tr
                     
-                };
-                var b = h.CanReadToken(xmlReader);
-                var ass = h.GetAssertion(xmlReader);
+                //};
+                //var b = h.CanReadToken(xmlReader);
+                //var ass = h.GetAssertion(xmlReader);
                 //var t = h.ReadToken(xmlReader);
                 //ACT
                 //ASSERT
@@ -55,6 +56,7 @@ namespace Federation.Protocols.Test
 
 
         }
+
         [Test]
         public void T2()
         {
@@ -62,14 +64,88 @@ namespace Federation.Protocols.Test
             var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
             var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
             this.ValidateResponseSuccess(xmlReader);
-            //xmlReader.MoveToContent();
-            //var innerXml = xmlReader.ReadOuterXml();
-            //var element = xmlReader.ReadElementContentAsString();
+           
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider();
             var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
-            var assertion = saml2SecurityTokenHandler.GetAssertion(reader);
-            
+            var assertion = saml2SecurityTokenHandler.GetAssertion(reader); 
         }
+
+        [Test]
+        public void T1_1()
+        {
+            //ARRANGE
+
+            var doc = new XmlDocument();
+            doc.Load(@"D:\Dan\Software\Apira\a.xml");
+            var el = doc.DocumentElement;
+            var encryptedList = el.GetElementsByTagName(EncryptedAssertion.ElementName, Saml20Constants.Assertion);
+            var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider();
+            var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
+            if (encryptedList.Count == 1)
+            {
+                var encryptedAssertion = (XmlElement)encryptedList[0];
+
+                var decrypted = saml2SecurityTokenHandler.GetPlainTestAsertion(encryptedAssertion);
+            }
+        }
+
+        [Test]
+        public void T3()
+        {
+            //ARRANGE
+            
+            var doc = new XmlDocument();
+            doc.Load(@"D:\Dan\Software\Apira\a.xml");
+            var el = doc.DocumentElement;
+        }
+
+        //[Test]
+        //public void T4()
+        //{
+        //    //ARRANGE
+
+        //    var doc = new XmlDocument();
+        //    doc.Load(@"D:\Dan\Software\Apira\a.xml");
+        //    var el = doc.DocumentElement;
+        //    var encryptedList = el.GetElementsByTagName(EncryptedAssertion.ElementName, Saml20Constants.Assertion);
+        //    if (encryptedList.Count == 1)
+        //    {
+
+        //        var encryptedAssertion = (XmlElement)encryptedList[0];
+               
+        //        var inner = new X509CertificateStoreTokenResolver("TestCertStore", StoreLocation.LocalMachine);
+        //        var tr = new IssuerTokenResolver(inner);
+
+        //        var encryptedDataElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedData.ElementName, Saml20Constants.Xenc, encryptedAssertion);
+
+        //        var encryptedData = new System.Security.Cryptography.Xml.EncryptedData();
+        //        encryptedData.LoadXml(encryptedDataElement);
+        //        var encryptedKey = new System.Security.Cryptography.Xml.EncryptedKey();
+        //        var encryptedKeyElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedKey.ElementName, Saml20Constants.Xenc, encryptedAssertion);
+                
+        //        encryptedKey.LoadXml(encryptedKeyElement);
+        //        var securityKeyIdentifier = new SecurityKeyIdentifier();
+        //        foreach (KeyInfoX509Data v in encryptedKey.KeyInfo)
+        //        {
+        //            var cert = v.Certificates[0] as X509Certificate2;
+        //            var cl1 = new X509RawDataKeyIdentifierClause(cert);
+        //            securityKeyIdentifier.Add(cl1);
+        //        }
+                
+        //        var cl = new EncryptedKeyIdentifierClause(encryptedKey.CipherData.CipherValue, encryptedKey.EncryptionMethod.KeyAlgorithm, securityKeyIdentifier);
+        //        SecurityKey key;
+        //        var b = tr.TryResolveSecurityKey(cl, out key);
+        //        SymmetricSecurityKey symmetricSecurityKey = key as SymmetricSecurityKey;
+               
+        //        SymmetricAlgorithm symmetricAlgorithm = symmetricSecurityKey.GetSymmetricAlgorithm(encryptedData.EncryptionMethod.KeyAlgorithm);
+        //        var encryptedXml = new System.Security.Cryptography.Xml.EncryptedXml();
+        //        var plaintext = encryptedXml.DecryptData(encryptedData, symmetricAlgorithm);
+        //        var assertion = new XmlDocument { PreserveWhitespace = true };
+
+        //        assertion.Load(new StringReader(Encoding.UTF8.GetString(plaintext)));
+                
+        //    }
+        //}
 
         private void ValidateResponseSuccess(XmlReader reader)
         {
@@ -97,7 +173,7 @@ namespace Federation.Protocols.Test
             var cer = store.Certificates.Find(X509FindType.FindBySubjectName, "Apira_DevEnc", false)[0];
            
 
-            var encryptedDataElement = GetElement(EncryptedData.ElementName, Saml20Constants.Xenc, el);
+            var encryptedDataElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedData.ElementName, Saml20Constants.Xenc, el);
             var encryptedData = new System.Security.Cryptography.Xml.EncryptedData();
             encryptedData.LoadXml(encryptedDataElement);
 
@@ -138,17 +214,17 @@ namespace Federation.Protocols.Test
             // Check if there are any <EncryptedKey> elements immediately below the EncryptedAssertion element.
             foreach (XmlNode node in encryptedAssertionDoc.DocumentElement.ChildNodes)
             {
-                if (node.LocalName == EncryptedKey.ElementName && node.NamespaceURI == Saml20Constants.Xenc)
+                if (node.LocalName == Federation.Protocols.Request.Elements.Xenc.EncryptedKey.ElementName && node.NamespaceURI == Saml20Constants.Xenc)
                 {
                     return ToSymmetricKey((XmlElement)node, keyAlgorithm, pk);
                 }
             }
 
             // Check if the key is embedded in the <EncryptedData> element.
-            var encryptedData = GetElement(EncryptedData.ElementName, Saml20Constants.Xenc, encryptedAssertionDoc.DocumentElement);
+            var encryptedData = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedData.ElementName, Saml20Constants.Xenc, encryptedAssertionDoc.DocumentElement);
             if (encryptedData != null)
             {
-                var encryptedKeyElement = GetElement(EncryptedKey.ElementName, Saml20Constants.Xenc, encryptedAssertionDoc.DocumentElement);
+                var encryptedKeyElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedKey.ElementName, Saml20Constants.Xenc, encryptedAssertionDoc.DocumentElement);
                 if (encryptedKeyElement != null)
                 {
                     return ToSymmetricKey(encryptedKeyElement, keyAlgorithm, pk);

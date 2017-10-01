@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -45,6 +49,48 @@ namespace Federation.Protocols.Response
             reader.ReadEndElement();
             return result;
             return base.ReadSubjectConfirmationData(reader);
+        }
+
+        internal XmlDocument GetPlainTestAsertion(XmlElement el)
+        {
+            var encryptedDataElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedData.ElementName, Saml20Constants.Xenc, el);
+
+            var encryptedData = new System.Security.Cryptography.Xml.EncryptedData();
+            encryptedData.LoadXml(encryptedDataElement);
+            var encryptedKey = new System.Security.Cryptography.Xml.EncryptedKey();
+            var encryptedKeyElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedKey.ElementName, Saml20Constants.Xenc, el);
+
+            encryptedKey.LoadXml(encryptedKeyElement);
+            var securityKeyIdentifier = new SecurityKeyIdentifier();
+            foreach (KeyInfoX509Data v in encryptedKey.KeyInfo)
+            {
+                var cert = v.Certificates[0] as X509Certificate2;
+                var cl1 = new X509RawDataKeyIdentifierClause(cert);
+                securityKeyIdentifier.Add(cl1);
+            }
+
+            var cl = new EncryptedKeyIdentifierClause(encryptedKey.CipherData.CipherValue, encryptedKey.EncryptionMethod.KeyAlgorithm, securityKeyIdentifier);
+            SecurityKey key;
+            var success = base.Configuration.ServiceTokenResolver.TryResolveSecurityKey(cl, out key);
+            if (!success)
+                throw new InvalidOperationException("Cannot locate security key");
+
+            SymmetricSecurityKey symmetricSecurityKey = key as SymmetricSecurityKey;
+            if (symmetricSecurityKey == null)
+                throw new InvalidOperationException("key must be symmentric key");
+
+            SymmetricAlgorithm symmetricAlgorithm = symmetricSecurityKey.GetSymmetricAlgorithm(encryptedData.EncryptionMethod.KeyAlgorithm);
+            var encryptedXml = new System.Security.Cryptography.Xml.EncryptedXml();
+            var plaintext = encryptedXml.DecryptData(encryptedData, symmetricAlgorithm);
+            var assertion = new XmlDocument { PreserveWhitespace = true };
+
+            assertion.Load(new StringReader(Encoding.UTF8.GetString(plaintext)));
+            return assertion;
+        }
+        private static XmlElement GetElement(string element, string elementNS, XmlElement doc)
+        {
+            var list = doc.GetElementsByTagName(element, elementNS);
+            return list.Count == 0 ? null : (XmlElement)list[0];
         }
     }
 }
