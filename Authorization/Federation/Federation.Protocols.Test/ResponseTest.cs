@@ -50,7 +50,7 @@ namespace Federation.Protocols.Test
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider();
             var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
             //ACT
-            var token = saml2SecurityTokenHandler.ReadToken(reader);
+            
             var assertion = saml2SecurityTokenHandler.GetAssertion(reader);
             //Assert
             Assert.NotNull(assertion);

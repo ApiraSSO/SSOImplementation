@@ -19,6 +19,7 @@ namespace Federation.Protocols.Initialisation
             dependencyResolver.RegisterType<ResponseHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<Saml2SecurityTokenHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<TokenHandlerConfigurationProvider>(Lifetime.Transient);
+            dependencyResolver.RegisterType<UserClaimsProvider>(Lifetime.Transient);
 
             return Task.CompletedTask;
         }

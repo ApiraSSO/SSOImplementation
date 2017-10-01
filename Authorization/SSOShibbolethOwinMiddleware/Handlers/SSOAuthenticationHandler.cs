@@ -17,6 +17,7 @@ using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace SSOOwinMiddleware.Handlers
 {
@@ -57,8 +58,8 @@ namespace SSOOwinMiddleware.Handlers
                     }
                     IFormCollection form = await this.Request.ReadFormAsync();
                     
-                    var responseHandler = this._resolver.Resolve<IReponseHandler>();
-                    await responseHandler.Handle(() => form.ToDictionary(x => x.Key, v => form.Get(v.Key))as IDictionary<string, string>);
+                    var responseHandler = this._resolver.Resolve<IReponseHandler<ClaimsIdentity>>();
+                    var identity = await responseHandler.Handle(() => form.ToDictionary(x => x.Key, v => form.Get(v.Key))as IDictionary<string, string>);
                     
                 }
             }

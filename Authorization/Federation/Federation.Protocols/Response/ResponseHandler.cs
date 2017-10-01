@@ -2,29 +2,31 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.IO;
-using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using Federation.Protocols.Request;
+using Kernel.Authentication.Claims;
 using Kernel.Compression;
 using Kernel.Federation.FederationPartner;
 using Kernel.Federation.Protocols.Response;
 
 namespace Federation.Protocols.Response
 {
-    internal class ResponseHandler : IReponseHandler
+    internal class ResponseHandler : IReponseHandler<ClaimsIdentity>
     {
         private readonly ICompression _compression;
         private readonly IFederationPartyContextBuilder _federationPartyContextBuilder;
         private readonly ITokenHandler _tokenHandler;
-        public ResponseHandler(ICompression compression, IFederationPartyContextBuilder federationPartyContextBuilder, ITokenHandler tokenHandler)
+        private readonly IUserClaimsProvider<SecurityToken> _identityProvider;
+        public ResponseHandler(ICompression compression, IFederationPartyContextBuilder federationPartyContextBuilder, ITokenHandler tokenHandler, IUserClaimsProvider<SecurityToken> identityProvider)
         {
             this._compression = compression;
             this._federationPartyContextBuilder = federationPartyContextBuilder;
             this._tokenHandler = tokenHandler;
+            this._identityProvider = identityProvider;
         }
-        public async Task Handle(Func<IDictionary<string, string>> parser)
+        public async Task<ClaimsIdentity> Handle(Func<IDictionary<string, string>> parser)
         {
             var elements = parser();
             var responseBase64 = elements["SAMLResponse"];
@@ -36,6 +38,8 @@ namespace Federation.Protocols.Response
             var xmlReader = XmlReader.Create(new StringReader(responseText));
             this.ValidateResponseSuccess(xmlReader);
             var token = this._tokenHandler.ReadToken(xmlReader);
+            var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { "saml2" });
+            return identity["saml2"];
         }
 
         //ToDo: sort this out clean up
