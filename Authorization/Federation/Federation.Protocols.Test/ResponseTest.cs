@@ -50,9 +50,26 @@ namespace Federation.Protocols.Test
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider();
             var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
             //ACT
+            var token = saml2SecurityTokenHandler.ReadToken(reader);
             var assertion = saml2SecurityTokenHandler.GetAssertion(reader);
             //Assert
             Assert.NotNull(assertion);
+
+        }
+
+        [Test]
+        public void Handler_Read_Token_Test()
+        {
+            //ARRANGE
+            var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
+            var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
+            var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider();
+            var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
+            //ACT
+            var token = saml2SecurityTokenHandler.ReadToken(reader);
+            
+            //Assert
+            Assert.NotNull(token);
 
         }
 

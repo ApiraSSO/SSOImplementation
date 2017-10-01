@@ -6,5 +6,6 @@ namespace Kernel.Federation.Protocols.Response
     public interface ITokenHandler
     {
         Saml2Assertion GetAssertion(XmlReader reader);
+        SecurityToken ReadToken(XmlReader reader);
     }
 }

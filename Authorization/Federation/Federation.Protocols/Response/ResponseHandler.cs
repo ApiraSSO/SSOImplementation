@@ -30,15 +30,12 @@ namespace Federation.Protocols.Response
             var responseBase64 = elements["SAMLResponse"];
             var responseBytes = Convert.FromBase64String(responseBase64);
             var responseText = Encoding.UTF8.GetString(responseBytes);
-            
-            //this.SaveTemp(responseText);
-            var xmlReader = XmlReader.Create(new StringReader(responseText));
-            this.ValidateResponseSuccess(xmlReader);
-            var assertion = this._tokenHandler.GetAssertion(xmlReader);
-
             var relayStateCompressed = elements["RelayState"];
             var decompressed = await Helper.DeflateDecompress(relayStateCompressed, this._compression);
-            throw new NotImplementedException();
+            this.SaveTemp(responseText);
+            var xmlReader = XmlReader.Create(new StringReader(responseText));
+            this.ValidateResponseSuccess(xmlReader);
+            var token = this._tokenHandler.ReadToken(xmlReader);
         }
 
         //ToDo: sort this out clean up
@@ -56,12 +53,22 @@ namespace Federation.Protocols.Response
         //ToDo clean up
         private void SaveTemp(string responseText)
         {
-            var writer = XmlWriter.Create(@"D:\Dan\Software\Apira\a.xml");
-            var el = new XmlDocument();
-            el.Load(new StringReader(responseText));
-            el.DocumentElement.WriteTo(writer);
-            writer.Flush();
-            writer.Dispose();
+            try
+            {
+                var path = @"D:\Dan\Software\Apira\Assertions\";
+                var now = DateTimeOffset.Now;
+                var tag = String.Format("{0}{1}{2}{3}{4}", now.Year, now.Month, now.Day, now.Hour, now.Minute);
+                var writer = XmlWriter.Create(String.Format("{0}{1}{2}", path, tag, ".xml"));
+                var el = new XmlDocument();
+                el.Load(new StringReader(responseText));
+                el.DocumentElement.WriteTo(writer);
+                writer.Flush();
+                writer.Dispose();
+            }
+            catch(Exception)
+            {
+                //ignore
+            }
         }
     }
 }

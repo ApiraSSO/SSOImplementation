@@ -20,17 +20,15 @@ namespace Federation.Protocols.Response
         }
         public Saml2Assertion GetAssertion(XmlReader reader)
         {
-            while (!reader.IsStartElement(EncryptedAssertion.ElementName, Saml20Constants.Assertion))
-            {
-                if (!reader.Read())
-                    throw new InvalidOperationException("Can't find assertion element.");
-            }
-            
+            this.MoveToToken(reader);
+
             return this.ReadAssertion(reader);
         }
-        protected override Saml2Assertion ReadAssertion(XmlReader reader)
+
+        new public  SecurityToken ReadToken(XmlReader reader)
         {
-            return base.ReadAssertion(reader);
+            this.MoveToToken(reader);
+            return base.ReadToken(reader);
         }
         
         internal XmlDocument GetPlainTestAsertion(XmlElement el)
@@ -71,6 +69,15 @@ namespace Federation.Protocols.Response
 
             assertion.Load(new StringReader(Encoding.UTF8.GetString(plaintext)));
             return assertion;
+        }
+
+        private void MoveToToken(XmlReader reader)
+        {
+            while (!reader.IsStartElement(EncryptedAssertion.ElementName, Saml20Constants.Assertion))
+            {
+                if (!reader.Read())
+                    throw new InvalidOperationException("Can't find assertion element.");
+            }
         }
 
         private static XmlElement GetElement(string element, string elementNS, XmlElement doc)
