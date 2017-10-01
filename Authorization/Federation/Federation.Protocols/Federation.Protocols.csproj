@@ -104,6 +104,8 @@
     <Compile Include="Request\RequestAbstract.cs" />
     <Compile Include="Request\Saml20Constants.cs" />
     <Compile Include="Response\ResponseHandler.cs" />
+    <Compile Include="Response\Saml2SecurityTokenHandler.cs" />
+    <Compile Include="Response\TokenHandlerConfigurationProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\Shared\Shared.csproj">

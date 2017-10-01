@@ -17,6 +17,8 @@ namespace Federation.Protocols.Initialisation
         {
             dependencyResolver.RegisterType<AuthnRequestBuilder>(Lifetime.Transient);
             dependencyResolver.RegisterType<ResponseHandler>(Lifetime.Transient);
+            dependencyResolver.RegisterType<Saml2SecurityTokenHandler>(Lifetime.Transient);
+            dependencyResolver.RegisterType<TokenHandlerConfigurationProvider>(Lifetime.Transient);
 
             return Task.CompletedTask;
         }

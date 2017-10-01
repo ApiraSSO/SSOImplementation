@@ -11,6 +11,7 @@ using System.Xml;
 using Federation.Protocols.Request;
 using Federation.Protocols.Request.Elements;
 using Federation.Protocols.Request.Elements.Xenc;
+using Federation.Protocols.Response;
 using Federation.Protocols.Test.Mock;
 using NUnit.Framework;
 
@@ -53,6 +54,33 @@ namespace Federation.Protocols.Test
             }
 
 
+        }
+        [Test]
+        public void T2()
+        {
+            //ARRANGE
+            var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
+            var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
+            this.ValidateResponseSuccess(xmlReader);
+            //xmlReader.MoveToContent();
+            //var innerXml = xmlReader.ReadOuterXml();
+            //var element = xmlReader.ReadElementContentAsString();
+            var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider();
+            var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
+            var assertion = saml2SecurityTokenHandler.GetAssertion(reader);
+            
+        }
+
+        private void ValidateResponseSuccess(XmlReader reader)
+        {
+            while (!reader.IsStartElement("StatusCode", "urn:oasis:names:tc:SAML:2.0:protocol"))
+            {
+                if (!reader.Read())
+                    throw new InvalidOperationException("Can't find assertion element.");
+            }
+            var status = reader.GetAttribute("Value");
+            if (String.IsNullOrWhiteSpace(status) || !String.Equals(status, "urn:oasis:names:tc:SAML:2.0:status:Success"))
+                throw new Exception(status);
         }
 
         private static XmlElement GetElement(string element, string elementNS, XmlElement doc)
