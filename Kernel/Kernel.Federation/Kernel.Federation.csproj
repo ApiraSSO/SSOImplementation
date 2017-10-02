@@ -91,7 +91,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CertificateProvider\ICertificateCachePopulator.cs" />
     <Compile Include="Protocols\AuthnRequestContext.cs" />
-    <Compile Include="Protocols\IAuthnRequestBuilder.cs" />
     <Compile Include="FederationPartner\IConfigurationManager.cs" />
     <Compile Include="FederationPartner\IConfigurationRetriever.cs" />
     <Compile Include="FederationPartner\IDocumentRetriever.cs" />

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Federation.Protocols.Bindings.HttpRedirect;
 using Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders;
 using Federation.Protocols.Endocing;
-using Federation.Protocols.Request;
 using Federation.Protocols.Response;
 using Kernel.DependancyResolver;
 using Kernel.Federation.Protocols;
@@ -20,7 +19,6 @@ namespace Federation.Protocols.Initialisation
 
         protected override Task InitialiseInternal(IDependencyResolver dependencyResolver)
         {
-            dependencyResolver.RegisterType<AuthnRequestBuilder>(Lifetime.Transient);
             dependencyResolver.RegisterType<ResponseHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<Saml2SecurityTokenHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<TokenHandlerConfigurationProvider>(Lifetime.Transient);
