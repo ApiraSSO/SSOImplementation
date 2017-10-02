@@ -6,6 +6,7 @@ using Kernel.Federation.FederationPartner;
 using Serialisation.Xml;
 using Kernel.Compression;
 using System.Threading.Tasks;
+using Federation.Protocols.Bindings.HttpRedirect;
 
 namespace Federation.Protocols.Request
 {
@@ -26,11 +27,16 @@ namespace Federation.Protocols.Request
 
         public async Task<Uri> BuildRedirectUri(AuthnRequestContext authnRequestContext)
         {
-            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext, this._federationPartyContextBuilder);
+            var bindingHandler = new HttpRederectBindingHandler();
+            var contex = new HttpRedirectContext(authnRequestContext);
+            await bindingHandler.BuildRequest(contex);
+
+            //var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext, this._federationPartyContextBuilder);
 
             var sb = new StringBuilder();
-            var query = await AuthnRequestHelper.SerialiseAndSign(authnRequest, authnRequestContext, this._serialiser, this._federationPartyContextBuilder, this._certificateManager, this._compression);
-            sb.AppendFormat("{0}?{1}", authnRequest.Destination, query);
+            //var query = await AuthnRequestHelper.SerialiseAndSign(authnRequest, authnRequestContext, this._serialiser, this._federationPartyContextBuilder, this._certificateManager, this._compression);
+            //sb.AppendFormat("{0}?{1}", authnRequest.Destination, query);
+            sb.AppendFormat("{0}?{1}", authnRequestContext.Destination, contex.ClauseBuilder.ToString());
 
             return new Uri(sb.ToString());
         }

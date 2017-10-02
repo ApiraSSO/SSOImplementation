@@ -1,4 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Federation.Protocols.Bindings.HttpRedirect;
+using Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders;
+using Federation.Protocols.Endocing;
 using Federation.Protocols.Request;
 using Federation.Protocols.Response;
 using Kernel.DependancyResolver;
@@ -20,6 +23,11 @@ namespace Federation.Protocols.Initialisation
             dependencyResolver.RegisterType<Saml2SecurityTokenHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<TokenHandlerConfigurationProvider>(Lifetime.Transient);
             dependencyResolver.RegisterType<UserClaimsProvider>(Lifetime.Transient);
+            dependencyResolver.RegisterType<MessageEncoding>(Lifetime.Transient);
+            dependencyResolver.RegisterType<HttpRederectBindingHandler>(Lifetime.Transient);
+            dependencyResolver.RegisterType<SamlRequestBuilder>(Lifetime.Transient);
+            dependencyResolver.RegisterType<RelayStateBuilder>(Lifetime.Transient);
+            dependencyResolver.RegisterType<SignatureBuilder>(Lifetime.Transient);
 
             return Task.CompletedTask;
         }

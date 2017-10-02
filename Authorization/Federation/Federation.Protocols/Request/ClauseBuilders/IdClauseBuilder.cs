@@ -1,4 +1,5 @@
-﻿using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
+﻿using System;
+using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
 
 namespace Federation.Protocols.Request.ClauseBuilders
 {
@@ -6,7 +7,7 @@ namespace Federation.Protocols.Request.ClauseBuilders
     {
         protected override void BuildInternal(AuthnRequest request, EntityDesriptorConfiguration entityDescriptor)
         {
-            request.Id = entityDescriptor.Id;
+            request.Id = String.Format("{0}_{1}", entityDescriptor.Id, Guid.NewGuid().ToString());
         }
     }
 }

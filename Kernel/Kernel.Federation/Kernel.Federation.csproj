@@ -55,6 +55,7 @@
     <Compile Include="MetaData\MetadataGenerateRequest.cs" />
     <Compile Include="MetaData\MetadataPublishContext.cs" />
     <Compile Include="MetaData\MetadataPublishProtocol.cs" />
+    <Compile Include="Protocols\BindingContext.cs" />
     <Compile Include="Protocols\IAuthnRequestClauseBuilder.cs" />
     <Compile Include="FederationPartner\IFederationPartyContextBuilder.cs" />
     <Compile Include="FederationPartner\FederationPartyContext.cs" />
@@ -94,6 +95,11 @@
     <Compile Include="FederationPartner\IConfigurationManager.cs" />
     <Compile Include="FederationPartner\IConfigurationRetriever.cs" />
     <Compile Include="FederationPartner\IDocumentRetriever.cs" />
+    <Compile Include="Protocols\IBindingHandler%271.cs" />
+    <Compile Include="Protocols\IBindingHandler.cs" />
+    <Compile Include="Protocols\IMessageEncoding.cs" />
+    <Compile Include="Protocols\IProtocolHandler.cs" />
+    <Compile Include="Protocols\ISamlClauseBuilder.cs" />
     <Compile Include="Protocols\Response\IReponseHandler.cs" />
     <Compile Include="Protocols\Response\IResponseParser.cs" />
     <Compile Include="Protocols\Response\ITokenHandler.cs" />
