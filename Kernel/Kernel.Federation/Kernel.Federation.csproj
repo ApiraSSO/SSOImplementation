@@ -104,6 +104,7 @@
     <Compile Include="Protocols\Response\IResponseParser.cs" />
     <Compile Include="Protocols\Response\ITokenHandler.cs" />
     <Compile Include="Protocols\Response\ITokenHandlerConfigurationProvider.cs" />
+    <Compile Include="Protocols\SamlProtocolContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kernel.Cache\Kernel.Cache.csproj">

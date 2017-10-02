@@ -27,18 +27,19 @@ namespace Federation.Protocols.Request
 
         public async Task<Uri> BuildRedirectUri(AuthnRequestContext authnRequestContext)
         {
-            var bindingHandler = new HttpRederectBindingHandler();
+            var bindingHandler = new HttpRedirectBindingHandler();
             var contex = new HttpRedirectContext(authnRequestContext);
             await bindingHandler.BuildRequest(contex);
-
+            var url = contex.GetDestinationUrl();
+            return url;
             //var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext, this._federationPartyContextBuilder);
 
-            var sb = new StringBuilder();
-            //var query = await AuthnRequestHelper.SerialiseAndSign(authnRequest, authnRequestContext, this._serialiser, this._federationPartyContextBuilder, this._certificateManager, this._compression);
-            //sb.AppendFormat("{0}?{1}", authnRequest.Destination, query);
-            sb.AppendFormat("{0}?{1}", authnRequestContext.Destination, contex.ClauseBuilder.ToString());
+            //var sb = new StringBuilder();
+            ////var query = await AuthnRequestHelper.SerialiseAndSign(authnRequest, authnRequestContext, this._serialiser, this._federationPartyContextBuilder, this._certificateManager, this._compression);
+            ////sb.AppendFormat("{0}?{1}", authnRequest.Destination, query);
+            //sb.AppendFormat("{0}?{1}", authnRequestContext.Destination, contex.ClauseBuilder.ToString());
 
-            return new Uri(sb.ToString());
+            //return new Uri(sb.ToString());
         }
     }
 }

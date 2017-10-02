@@ -8,6 +8,7 @@ namespace Kernel.Federation.Protocols
 {
     public interface IProtocolHandler<TBinding> where TBinding : IBindingHandler
     {
-        
+        Task HandleRequest(SamlProtocolContext context);
+        Task HandleResponse(SamlProtocolContext context);
     }
 }

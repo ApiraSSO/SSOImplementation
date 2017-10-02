@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Kernel.Federation.Protocols;
 using Kernel.Initialisation;
-using Kernel.Reflection;
 
 namespace Federation.Protocols.Bindings.HttpRedirect
 {
-    internal class HttpRederectBindingHandler : IBindingHandler<HttpRedirectContext>
+    internal class HttpRedirectBindingHandler : IBindingHandler<HttpRedirectContext>
     {
         private static Func<Type, bool> _condition = t => !t.IsAbstract && !t.IsInterface && typeof(ISamlClauseBuilder).IsAssignableFrom(t);
 

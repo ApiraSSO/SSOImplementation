@@ -46,7 +46,7 @@
     <Compile Include="Bindings\HttpRedirect\ClauseBuilders\SignatureBuilder.cs" />
     <Compile Include="Bindings\HttpRedirect\ClauseBuilders\RelayStateBuilder.cs" />
     <Compile Include="Bindings\HttpRedirect\ClauseBuilders\SamlRequestBuilder.cs" />
-    <Compile Include="Bindings\HttpRedirect\HttpRederectBindingHandler.cs" />
+    <Compile Include="Bindings\HttpRedirect\HttpRedirectBindingHandler.cs" />
     <Compile Include="Bindings\HttpRedirect\HttpRedirectContext.cs" />
     <Compile Include="Endocing\MessageEncoding.cs" />
     <Compile Include="Extensions\Saml20AssertionExtensions.cs" />
