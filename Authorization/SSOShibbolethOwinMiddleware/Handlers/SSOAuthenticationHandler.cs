@@ -18,6 +18,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
 using System.Collections.Generic;
 using System.Security.Claims;
+using Federation.Protocols.Bindings.HttpRedirect;
 
 namespace SSOOwinMiddleware.Handlers
 {
@@ -94,33 +95,18 @@ namespace SSOOwinMiddleware.Handlers
             signInUrl = del(handler, this._configuration, new Uri(Bindings.Http_Redirect));
 
             var requestContext = new AuthnRequestContext(signInUrl, federationPartyId);
-            var redirectUriBuilder = this._resolver.Resolve<IAuthnRequestBuilder>();
-            var redirectUri = await redirectUriBuilder.BuildRedirectUri(requestContext);
-            
-            //string baseUri = this.Request.Scheme + Uri.SchemeDelimiter + (object)this.Request.Host + (object)this.Request.PathBase;
-            //string currentUri = baseUri + (object)this.Request.Path + (object)this.Request.QueryString;
-            //AuthenticationProperties properties = challenge.Properties;
-            //if (string.IsNullOrEmpty(properties.RedirectUri))
-            //    properties.RedirectUri = currentUri;
-            //WsFederationMessage federationMessage = new WsFederationMessage();
-            //federationMessage.IssuerAddress = this._configuration.TokenEndpoint ?? string.Empty;
-            //federationMessage.Wtrealm = this.Options.Wtrealm;
-            //federationMessage.Wctx = "WsFedOwinState=" + Uri.EscapeDataString(this.Options.StateDataFormat.Protect(properties));
-            //federationMessage.Wa = "wsignin1.0";
-            //WsFederationMessage wsFederationMessage = federationMessage;
-            //if (!string.IsNullOrWhiteSpace(this.Options.Wreply))
-            //    wsFederationMessage.Wreply = this.Options.Wreply;
-            //RedirectToIdentityProviderNotification<WsFederationMessage, WsFederationAuthenticationOptions> notification = new RedirectToIdentityProviderNotification<WsFederationMessage, WsFederationAuthenticationOptions>(this.Context, this.Options)
-            //{
-            //    ProtocolMessage = wsFederationMessage
-            //};
-            //await this.Options.Notifications.RedirectToIdentityProvider(notification);
-            //if (notification.HandledResponse)
-            //    return;
-            //string signInUrl = notification.ProtocolMessage.CreateSignInUrl();
-            //if (!Uri.IsWellFormedUriString(signInUrl, UriKind.Absolute))
-            //    this._logger.WriteWarning("The sign-in redirect URI is malformed: " + signInUrl);
-            this.Response.Redirect(redirectUri.AbsoluteUri);
+            var protocolContext = new SamlProtocolContext
+            {
+                BindingContext = new HttpRedirectContext(requestContext),
+                RequestHanlerAction = redirectUri => 
+                {
+                    this.Response.Redirect(redirectUri.AbsoluteUri);
+                    return Task.CompletedTask;
+                }
+            };
+            var protocolFactory = this._resolver.Resolve<Func<string, IProtocolHandler>>();
+            var protocolHanlder = protocolFactory(Bindings.Http_Redirect);
+            await protocolHanlder.HandleRequest(protocolContext);
         }
     }
 }

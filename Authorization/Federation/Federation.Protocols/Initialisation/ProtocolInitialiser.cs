@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Federation.Protocols.Bindings.HttpRedirect;
 using Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders;
 using Federation.Protocols.Endocing;
 using Federation.Protocols.Request;
 using Federation.Protocols.Response;
 using Kernel.DependancyResolver;
+using Kernel.Federation.Protocols;
 using Shared.Initialisation;
 
 namespace Federation.Protocols.Initialisation
@@ -28,6 +30,17 @@ namespace Federation.Protocols.Initialisation
             dependencyResolver.RegisterType<SamlRequestBuilder>(Lifetime.Transient);
             dependencyResolver.RegisterType<RelayStateBuilder>(Lifetime.Transient);
             dependencyResolver.RegisterType<SignatureBuilder>(Lifetime.Transient);
+            dependencyResolver.RegisterFactory< Func<string, IProtocolHandler> >(() =>
+            {
+                return b =>
+                {
+                    if (b == Kernel.Federation.MetaData.Configuration.Bindings.Http_Redirect)
+                    {
+                        return new ProtocolHandler<HttpRedirectBindingHandler>(new HttpRedirectBindingHandler());
+                    }
+                    throw new NotSupportedException();
+                };
+            }, Lifetime.Singleton);
 
             return Task.CompletedTask;
         }
