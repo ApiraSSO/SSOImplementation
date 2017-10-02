@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Federation.Protocols.Bindings.HttpPost;
 using Kernel.Federation.Protocols;
 
 namespace Federation.Protocols
@@ -20,9 +21,10 @@ namespace Federation.Protocols
             await context.RequestHanlerAction(context.BindingContext.GetDestinationUrl());
         }
 
-        public Task HandleResponse(SamlProtocolContext context)
+        public async Task HandleResponse(SamlProtocolContext context)
         {
-            throw new NotImplementedException();
+            var httpPostResponseContext = context.HttpPostResponseContext as HttpPostResponseContext;
+            await this._bindingHandler.HandleResponse(httpPostResponseContext);
         }
     }
 }

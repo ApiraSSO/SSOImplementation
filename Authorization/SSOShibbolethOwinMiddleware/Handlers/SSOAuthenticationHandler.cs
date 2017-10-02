@@ -19,6 +19,7 @@ using Microsoft.Owin.Security.Infrastructure;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Federation.Protocols.Bindings.HttpRedirect;
+using Federation.Protocols.Bindings.HttpPost;
 
 namespace SSOOwinMiddleware.Handlers
 {
@@ -57,13 +58,32 @@ namespace SSOOwinMiddleware.Handlers
                         memoryStream.Seek(0L, SeekOrigin.Begin);
                         this.Request.Body = (Stream)memoryStream;
                     }
+
                     IFormCollection form = await this.Request.ReadFormAsync();
-                    
-                    var responseHandler = this._resolver.Resolve<IReponseHandler<Func<string, Task<ClaimsIdentity>>>>();
-                    var identityDelegate = await responseHandler.Handle(() => form.ToDictionary(x => x.Key, v => form.Get(v.Key))as IDictionary<string, string>);
-                    var identity = await identityDelegate(base.Options.AuthenticationType);
-                    if(identity != null)
+
+                    //ToDo: clean up
+                    var protocolFactory = this._resolver.Resolve<Func<string, IProtocolHandler>>();
+                    var protocolHanlder = protocolFactory(Bindings.Http_Post);
+
+                    var protocolContext = new SamlProtocolContext
+                    {
+                        HttpPostResponseContext = new HttpPostResponseContext
+                        {
+                            Form = () => form.ToDictionary(x => x.Key, v => form.Get(v.Key)) as IDictionary<string, string>,
+                            
+                        }
+                    };
+                    await protocolHanlder.HandleResponse(protocolContext);
+                    var responseContext = protocolContext.HttpPostResponseContext as HttpPostResponseContext;
+                    var identity = await responseContext.Result(base.Options.AuthenticationType);
+                    if (identity != null)
                         return new AuthenticationTicket(identity, new AuthenticationProperties());
+                    //clen up end
+                    //var responseHandler = this._resolver.Resolve<IReponseHandler<Func<string, Task<ClaimsIdentity>>>>();
+                    //var identityDelegate = await responseHandler.Handle(() => form.ToDictionary(x => x.Key, v => form.Get(v.Key))as IDictionary<string, string>);
+                    //var identity = await identityDelegate(base.Options.AuthenticationType);
+                    //if(identity != null)
+                    //    return new AuthenticationTicket(identity, new AuthenticationProperties());
                 }
             }
             return null;

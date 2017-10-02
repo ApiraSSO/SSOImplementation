@@ -25,9 +25,11 @@ namespace Federation.Protocols.Bindings.HttpPost
             throw new NotImplementedException();
         }
 
-        public Task HandleResponse<TResponse>(TResponse response)
+        public async Task HandleResponse<TResponse>(TResponse response)
         {
-            throw new NotImplementedException();
+            var postContext = response as HttpPostResponseContext;
+            var result = await this._responseHandler.Handle(postContext.Form);
+            postContext.Result = result;
         }
     }
 }

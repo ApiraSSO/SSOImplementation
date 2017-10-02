@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Federation.Protocols.Bindings.HttpPost;
 using Federation.Protocols.Bindings.HttpRedirect;
 using Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders;
 using Federation.Protocols.Endocing;
@@ -36,7 +37,13 @@ namespace Federation.Protocols.Initialisation
                     {
                         return new ProtocolHandler<HttpRedirectBindingHandler>(new HttpRedirectBindingHandler());
                     }
+                    if (b == Kernel.Federation.MetaData.Configuration.Bindings.Http_Post)
+                    {
+                        var bh = dependencyResolver.Resolve<HttpPostBindingHandler>();
+                        return new ProtocolHandler<HttpPostBindingHandler>(bh);
+                    }
                     throw new NotSupportedException();
+
                 };
             }, Lifetime.Singleton);
 

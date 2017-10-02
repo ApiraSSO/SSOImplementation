@@ -10,5 +10,7 @@ namespace Kernel.Federation.Protocols
     {
         public BindingContext BindingContext { get; set; }
         public Func<Uri, Task> RequestHanlerAction { get; set; }
+
+        public object HttpPostResponseContext { get; set; }
     }
 }
