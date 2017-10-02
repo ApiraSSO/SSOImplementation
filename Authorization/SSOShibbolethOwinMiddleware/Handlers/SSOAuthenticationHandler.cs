@@ -71,13 +71,14 @@ namespace SSOOwinMiddleware.Handlers
                     {
                         ResponseContext = new HttpPostResponseContext
                         {
-                            Form = () => form.ToDictionary(x => x.Key, v => form.Get(v.Key)) as IDictionary<string, string>
+                            AuthenticationMethod = base.Options.AuthenticationType,
+                            Form = form.ToDictionary(x => x.Key, v => form.Get(v.Key)) as IDictionary<string, string>
                         }
                         
                     };
                     await protocolHanlder.HandleResponse(protocolContext);
                     var responseContext = protocolContext.ResponseContext as HttpPostResponseContext;
-                    var identity = await responseContext.Result(base.Options.AuthenticationType);
+                    var identity = responseContext.Result;
                     if (identity != null)
                         return new AuthenticationTicket(identity, new AuthenticationProperties());
                     //clen up end

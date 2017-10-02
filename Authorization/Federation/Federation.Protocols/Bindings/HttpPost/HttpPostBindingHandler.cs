@@ -9,9 +9,9 @@ namespace Federation.Protocols.Bindings.HttpPost
 {
     internal class HttpPostBindingHandler : IBindingHandler
     {
-        private readonly IReponseHandler<Func<string, Task<ClaimsIdentity>>> _responseHandler;
+        private readonly IReponseHandler<ClaimsIdentity> _responseHandler;
 
-        public HttpPostBindingHandler(IReponseHandler<Func<string, Task<ClaimsIdentity>>> responseHandler)
+        public HttpPostBindingHandler(IReponseHandler<ClaimsIdentity> responseHandler)
         {
             this._responseHandler = responseHandler;
         }
@@ -24,7 +24,7 @@ namespace Federation.Protocols.Bindings.HttpPost
         public async Task HandleResponse(SamlResponseContext context)
         {
             var httpPostContext = context as HttpPostResponseContext;
-            var result = await this._responseHandler.Handle(httpPostContext.Form);
+            var result = await this._responseHandler.Handle(httpPostContext);
             httpPostContext.Result = result;
         }
     }

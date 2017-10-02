@@ -9,11 +9,12 @@ using System.Xml;
 using Kernel.Authentication.Claims;
 using Kernel.Compression;
 using Kernel.Federation.FederationPartner;
+using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 using Kernel.Federation.Protocols.Response;
 
 namespace Federation.Protocols.Response
 {
-    internal class ResponseHandler : IReponseHandler<Func<string, Task<ClaimsIdentity>>>
+    internal class ResponseHandler : IReponseHandler<ClaimsIdentity>
     {
         private readonly ICompression _compression;
         private readonly IFederationPartyContextBuilder _federationPartyContextBuilder;
@@ -26,9 +27,9 @@ namespace Federation.Protocols.Response
             this._tokenHandler = tokenHandler;
             this._identityProvider = identityProvider;
         }
-        public async Task<Func<string, Task<ClaimsIdentity>>> Handle(Func<IDictionary<string, string>> parser)
+        public async Task<ClaimsIdentity> Handle(HttpPostResponseContext context)
         {
-            var elements = parser();
+            var elements = context.Form;
             var responseBase64 = elements["SAMLResponse"];
             var responseBytes = Convert.FromBase64String(responseBase64);
             var responseText = Encoding.UTF8.GetString(responseBytes);
@@ -38,14 +39,9 @@ namespace Federation.Protocols.Response
             var xmlReader = XmlReader.Create(new StringReader(responseText));
             this.ValidateResponseSuccess(xmlReader);
             var token = _tokenHandler.ReadToken(xmlReader);
-            return async authType =>
-            {
-                if (token == null)
-                    return null;
-
-                var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { authType });
-                return identity[authType];
-            };
+            var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { context.AuthenticationMethod });
+            return identity[context.AuthenticationMethod];
+           
         }
 
         //ToDo: sort this out clean up
