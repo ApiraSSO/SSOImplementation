@@ -1,27 +1,21 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.IdentityModel.Metadata;
 using System.IO;
-using System.IO.Compression;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
-using Federation.Protocols.Request;
+using Federation.Protocols.Bindings.HttpRedirect;
 using Kernel.DependancyResolver;
 using Kernel.Federation.FederationPartner;
 using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.Protocols;
-using Kernel.Federation.Protocols.Response;
+using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
+using Kernel.Federation.Protocols.Bindings.HttpRedirectBinding;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
-using System.Collections.Generic;
-using System.Security.Claims;
-using Federation.Protocols.Bindings.HttpRedirect;
-using Federation.Protocols.Bindings.HttpPost;
-using Kernel.Federation.Protocols.Bindings.HttpRedirectBinding;
-using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 
 namespace SSOOwinMiddleware.Handlers
 {
@@ -63,7 +57,7 @@ namespace SSOOwinMiddleware.Handlers
 
                     IFormCollection form = await this.Request.ReadFormAsync();
 
-                    //ToDo: clean up
+                    //ToDo: clean up get the associated request
                     var protocolFactory = this._resolver.Resolve<Func<string, IProtocolHandler>>();
                     var protocolHanlder = protocolFactory(Bindings.Http_Post);
 
@@ -81,12 +75,6 @@ namespace SSOOwinMiddleware.Handlers
                     var identity = responseContext.Result;
                     if (identity != null)
                         return new AuthenticationTicket(identity, new AuthenticationProperties());
-                    //clen up end
-                    //var responseHandler = this._resolver.Resolve<IReponseHandler<Func<string, Task<ClaimsIdentity>>>>();
-                    //var identityDelegate = await responseHandler.Handle(() => form.ToDictionary(x => x.Key, v => form.Get(v.Key))as IDictionary<string, string>);
-                    //var identity = await identityDelegate(base.Options.AuthenticationType);
-                    //if(identity != null)
-                    //    return new AuthenticationTicket(identity, new AuthenticationProperties());
                 }
             }
             return null;

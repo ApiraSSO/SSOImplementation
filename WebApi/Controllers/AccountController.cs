@@ -15,7 +15,7 @@ namespace WebApi.Controllers
         [Route("SSOLogon")]
         public async Task<IHttpActionResult> SSOLogon()
         {
-            return Ok();
+            return Ok("Authorised by shibboleth.");
         }
     }
 }

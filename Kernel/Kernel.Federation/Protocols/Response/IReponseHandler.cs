@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 
 namespace Kernel.Federation.Protocols.Response

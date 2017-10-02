@@ -18,6 +18,11 @@ namespace Federation.Protocols.Endocing
             throw new NotImplementedException();
         }
 
+        public async Task<string> DecodeMessage(string message)
+        {
+            return await Helper.DeflateDecompress(message, this._compression);
+        }
+
         public async Task<string> EncodeMessage<TMessage>(TMessage message)
         {
             return await Helper.DeflateEncode(message.ToString(), this._compression);

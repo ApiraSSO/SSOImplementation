@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Federation.Protocols.Bindings.HttpPost;
+﻿using System.Threading.Tasks;
 using Kernel.Federation.Protocols;
 
 namespace Federation.Protocols

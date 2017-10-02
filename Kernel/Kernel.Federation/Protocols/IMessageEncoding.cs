@@ -6,5 +6,6 @@ namespace Kernel.Federation.Protocols
     {
         Task<string> EncodeMessage<TMessage>(TMessage message);
         Task<TMessage> DecodeMessage<TMessage>(string message);
+        Task<string> DecodeMessage(string message);
     }
 }

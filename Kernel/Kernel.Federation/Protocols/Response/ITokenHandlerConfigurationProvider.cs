@@ -2,6 +2,6 @@
 {
     public interface ITokenHandlerConfigurationProvider
     {
-        void Configuration(ITokenHandler handler);
+        void Configuration(ITokenHandler handler, string parnerId);
     }
 }
