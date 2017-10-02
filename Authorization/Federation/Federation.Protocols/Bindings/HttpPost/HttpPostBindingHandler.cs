@@ -2,11 +2,12 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Kernel.Federation.Protocols;
+using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 using Kernel.Federation.Protocols.Response;
 
 namespace Federation.Protocols.Bindings.HttpPost
 {
-    internal class HttpPostBindingHandler : IBindingHandler<HttpPostContext>
+    internal class HttpPostBindingHandler : IBindingHandler
     {
         private readonly IReponseHandler<Func<string, Task<ClaimsIdentity>>> _responseHandler;
 
@@ -14,22 +15,17 @@ namespace Federation.Protocols.Bindings.HttpPost
         {
             this._responseHandler = responseHandler;
         }
-
-        public Task BuildRequest(BindingContext context)
-        {
-            return this.BuildRequest((HttpPostContext)context);
-        }
-
-        public Task BuildRequest(HttpPostContext context)
+        
+        public Task HandleRequest(SamlRequestContext context)
         {
             throw new NotImplementedException();
         }
-
-        public async Task HandleResponse<TResponse>(TResponse response)
+        
+        public async Task HandleResponse(SamlResponseContext context)
         {
-            var postContext = response as HttpPostResponseContext;
-            var result = await this._responseHandler.Handle(postContext.Form);
-            postContext.Result = result;
+            var httpPostContext = context as HttpPostResponseContext;
+            var result = await this._responseHandler.Handle(httpPostContext.Form);
+            httpPostContext.Result = result;
         }
     }
 }

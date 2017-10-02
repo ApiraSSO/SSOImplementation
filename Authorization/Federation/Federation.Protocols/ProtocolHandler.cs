@@ -17,14 +17,12 @@ namespace Federation.Protocols
         
         public async Task HandleRequest(SamlProtocolContext context)
         {
-            await this._bindingHandler.BuildRequest(context.BindingContext);
-            await context.RequestHanlerAction(context.BindingContext.GetDestinationUrl());
+            await this._bindingHandler.HandleRequest(context.RequestContext);
         }
 
         public async Task HandleResponse(SamlProtocolContext context)
         {
-            var httpPostResponseContext = context.HttpPostResponseContext as HttpPostResponseContext;
-            await this._bindingHandler.HandleResponse(httpPostResponseContext);
+            await this._bindingHandler.HandleResponse(context.ResponseContext);
         }
     }
 }

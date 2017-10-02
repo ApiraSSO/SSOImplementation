@@ -44,8 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings\HttpPost\HttpPostBindingHandler.cs" />
-    <Compile Include="Bindings\HttpPost\HttpPostContext.cs" />
-    <Compile Include="Bindings\HttpPost\HttpPostResponseContext.cs" />
     <Compile Include="Bindings\HttpRedirect\ClauseBuilders\SignatureBuilder.cs" />
     <Compile Include="Bindings\HttpRedirect\ClauseBuilders\RelayStateBuilder.cs" />
     <Compile Include="Bindings\HttpRedirect\ClauseBuilders\SamlRequestBuilder.cs" />

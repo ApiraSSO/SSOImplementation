@@ -56,6 +56,8 @@
     <Compile Include="MetaData\MetadataPublishContext.cs" />
     <Compile Include="MetaData\MetadataPublishProtocol.cs" />
     <Compile Include="Protocols\BindingContext.cs" />
+    <Compile Include="Protocols\Bindings\HttpPostBinding\HttpPostResponseContext.cs" />
+    <Compile Include="Protocols\Bindings\HttpRedirectBinding\HttpRedirectRequestContext.cs" />
     <Compile Include="Protocols\IAuthnRequestClauseBuilder.cs" />
     <Compile Include="FederationPartner\IFederationPartyContextBuilder.cs" />
     <Compile Include="FederationPartner\FederationPartyContext.cs" />
@@ -94,7 +96,6 @@
     <Compile Include="FederationPartner\IConfigurationManager.cs" />
     <Compile Include="FederationPartner\IConfigurationRetriever.cs" />
     <Compile Include="FederationPartner\IDocumentRetriever.cs" />
-    <Compile Include="Protocols\IBindingHandler%271.cs" />
     <Compile Include="Protocols\IBindingHandler.cs" />
     <Compile Include="Protocols\IMessageEncoding.cs" />
     <Compile Include="Protocols\IProtocolHandler.cs" />
@@ -104,6 +105,8 @@
     <Compile Include="Protocols\Response\ITokenHandler.cs" />
     <Compile Include="Protocols\Response\ITokenHandlerConfigurationProvider.cs" />
     <Compile Include="Protocols\SamlProtocolContext.cs" />
+    <Compile Include="Protocols\SamlRequestContext.cs" />
+    <Compile Include="Protocols\SamlResponseContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kernel.Cache\Kernel.Cache.csproj">

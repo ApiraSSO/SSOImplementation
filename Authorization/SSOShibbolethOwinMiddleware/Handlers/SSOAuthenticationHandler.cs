@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Federation.Protocols.Bindings.HttpRedirect;
 using Federation.Protocols.Bindings.HttpPost;
+using Kernel.Federation.Protocols.Bindings.HttpRedirectBinding;
+using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 
 namespace SSOOwinMiddleware.Handlers
 {
@@ -67,14 +69,14 @@ namespace SSOOwinMiddleware.Handlers
 
                     var protocolContext = new SamlProtocolContext
                     {
-                        HttpPostResponseContext = new HttpPostResponseContext
+                        ResponseContext = new HttpPostResponseContext
                         {
-                            Form = () => form.ToDictionary(x => x.Key, v => form.Get(v.Key)) as IDictionary<string, string>,
-                            
+                            Form = () => form.ToDictionary(x => x.Key, v => form.Get(v.Key)) as IDictionary<string, string>
                         }
+                        
                     };
                     await protocolHanlder.HandleResponse(protocolContext);
-                    var responseContext = protocolContext.HttpPostResponseContext as HttpPostResponseContext;
+                    var responseContext = protocolContext.ResponseContext as HttpPostResponseContext;
                     var identity = await responseContext.Result(base.Options.AuthenticationType);
                     if (identity != null)
                         return new AuthenticationTicket(identity, new AuthenticationProperties());
@@ -117,11 +119,14 @@ namespace SSOOwinMiddleware.Handlers
             var requestContext = new AuthnRequestContext(signInUrl, federationPartyId);
             var protocolContext = new SamlProtocolContext
             {
-                BindingContext = new HttpRedirectContext(requestContext),
-                RequestHanlerAction = redirectUri => 
+                RequestContext = new HttpRedirectRequestContext
                 {
-                    this.Response.Redirect(redirectUri.AbsoluteUri);
-                    return Task.CompletedTask;
+                    BindingContext = new HttpRedirectContext(requestContext),
+                    RequestHanlerAction = redirectUri =>
+                    {
+                        this.Response.Redirect(redirectUri.AbsoluteUri);
+                        return Task.CompletedTask;
+                    }
                 }
             };
             var protocolFactory = this._resolver.Resolve<Func<string, IProtocolHandler>>();

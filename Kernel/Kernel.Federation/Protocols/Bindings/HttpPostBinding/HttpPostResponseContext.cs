@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Federation.Protocols.Bindings.HttpPost
+namespace Kernel.Federation.Protocols.Bindings.HttpPostBinding
 {
-    public class HttpPostResponseContext
+    public class HttpPostResponseContext : SamlResponseContext
     {
         public Func<IDictionary<string, string>> Form { get; set; }
         public Func<string, Task<ClaimsIdentity>> Result { get; set; }
