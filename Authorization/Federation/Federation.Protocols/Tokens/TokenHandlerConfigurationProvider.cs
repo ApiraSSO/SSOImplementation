@@ -40,17 +40,19 @@ namespace Federation.Protocols.Tokens
 
             var inner = new X509CertificateStoreTokenResolver(x509CertificateContext.StoreName, x509CertificateContext.StoreLocation);
             var tokenResolver = new IssuerTokenResolver(inner);
-            
-            saml2Handler.Configuration = new SecurityTokenHandlerConfiguration
+            var configuration = new SecurityTokenHandlerConfiguration
             {
                 IssuerTokenResolver = tokenResolver,
-                ServiceTokenResolver = tokenResolver,
+                ServiceTokenResolver = inner,
                 AudienceRestriction = new AudienceRestriction(AudienceUriMode.Always),
                 CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom,
                 CertificateValidator = (X509CertificateValidator)this._certificateValidator,
             };
+            configuration.AudienceRestriction.AllowedAudienceUris.Add(new Uri(partnerContex.MetadataContext.EntityId));
+            saml2Handler.Configuration = configuration;
+            
             //ToDo: sort this one
-            saml2Handler.Configuration.AudienceRestriction.AllowedAudienceUris.Add(new Uri("https://imperial.flowz.co.uk/"));
+            
             if(!((ConfigurationBasedIssuerNameRegistry)saml2Handler.Configuration.IssuerNameRegistry).ConfiguredTrustedIssuers.ContainsKey("953926B57F873960222A2F1C4002FAF9636B8D47"))
                 ((ConfigurationBasedIssuerNameRegistry)saml2Handler.Configuration.IssuerNameRegistry).AddTrustedIssuer("953926B57F873960222A2F1C4002FAF9636B8D47", "https://idp.testshib.org/idp/shibboleth");
         }
