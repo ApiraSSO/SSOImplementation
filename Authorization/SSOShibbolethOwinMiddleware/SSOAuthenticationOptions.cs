@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Metadata;
-using System.IdentityModel.Tokens;
 using System.Net.Http;
 using Kernel.Federation.FederationPartner;
 using Microsoft.Owin;
@@ -13,13 +11,7 @@ namespace SSOOwinMiddleware
     {
         public Kernel.Cryptography.Validation.IBackchannelCertificateValidator BackchannelCertificateValidator { get; set; }
 
-        private ICollection<ISecurityTokenValidator> _securityTokenHandlers = new List<ISecurityTokenValidator>()
-        {
-            (ISecurityTokenValidator)new Microsoft.IdentityModel.Tokens.Saml2SecurityTokenHandler(),
-            //(Microsoft.IdentityModel.Tokens.ISecurityTokenValidator) new Microsoft.IdentityModel.Tokens.SamlSecurityTokenHandler(),
-            //(Microsoft.IdentityModel.Tokens.ISecurityTokenValidator) new JwtSecurityTokenHandler()
-        };
-
+       
         private Microsoft.IdentityModel.Tokens.TokenValidationParameters _tokenValidationParameters;
 
 
@@ -48,20 +40,6 @@ namespace SSOOwinMiddleware
         public bool RefreshOnIssuerKeyNotFound { get; set; }
 
         //public WsFederationAuthenticationNotifications Notifications { get; set; }
-
-        public ICollection<ISecurityTokenValidator> SecurityTokenHandlers
-        {
-            get
-            {
-                return this._securityTokenHandlers;
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("SecurityTokenHandlers");
-                this._securityTokenHandlers = value;
-            }
-        }
 
         public string SignInAsAuthenticationType
         {
