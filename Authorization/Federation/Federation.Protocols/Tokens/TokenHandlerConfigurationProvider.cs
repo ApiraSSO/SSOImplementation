@@ -28,6 +28,8 @@ namespace Federation.Protocols.Tokens
             if (saml2Handler == null)
                 throw new InvalidOperationException(String.Format("Expected type: {0} but was: {1}", typeof(System.IdentityModel.Tokens.Saml2SecurityTokenHandler).Name, handler.GetType().Name));
 
+            this._certificateValidator.SetFederationPartyId(partnerId);
+
             var partnerContex = this._federationPartyContextBuilder.BuildContext(partnerId);
             var descriptor = partnerContex.MetadataContext.EntityDesriptorConfiguration.SPSSODescriptors.First();
             var cert = descriptor.KeyDescriptors.First(x => x.IsDefault && x.Use == Kernel.Federation.MetaData.Configuration.Cryptography.KeyUsage.Encryption);
@@ -40,15 +42,19 @@ namespace Federation.Protocols.Tokens
 
             var inner = new X509CertificateStoreTokenResolver(x509CertificateContext.StoreName, x509CertificateContext.StoreLocation);
             var tokenResolver = new IssuerTokenResolver(inner);
+
             var configuration = new SecurityTokenHandlerConfiguration
             {
                 IssuerTokenResolver = tokenResolver,
                 ServiceTokenResolver = inner,
                 AudienceRestriction = new AudienceRestriction(AudienceUriMode.Always),
                 CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom,
-                CertificateValidator = (X509CertificateValidator)this._certificateValidator,
+                CertificateValidator = (X509CertificateValidator)this._certificateValidator
             };
+
+            saml2Handler.SamlSecurityTokenRequirement.CertificateValidator = configuration.CertificateValidator;
             configuration.AudienceRestriction.AllowedAudienceUris.Add(new Uri(partnerContex.MetadataContext.EntityId));
+
             saml2Handler.Configuration = configuration;
             
             //ToDo: sort this one

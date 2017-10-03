@@ -5,7 +5,6 @@ using System.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Xml;
 using Federation.Protocols.Tokens.Validation;
-using Kernel.Cryptography.Validation;
 using Kernel.Federation.Tokens;
 
 namespace Federation.Protocols.Tokens
@@ -41,7 +40,6 @@ namespace Federation.Protocols.Tokens
         {
             try
             {
-                ((ICertificateValidator)base.CertificateValidator).SetFederationPartyId(partnerId);
                 this.Claims = base.ValidateToken(token);
                 return true;
             }
