@@ -45,11 +45,12 @@ namespace Federation.Protocols.Tokens
             {
                 IssuerTokenResolver = tokenResolver,
                 ServiceTokenResolver = tokenResolver,
-                AudienceRestriction = new AudienceRestriction(System.IdentityModel.Selectors.AudienceUriMode.Never),
+                AudienceRestriction = new AudienceRestriction(AudienceUriMode.Always),
                 CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom,
                 CertificateValidator = (X509CertificateValidator)this._certificateValidator,
             };
             //ToDo: sort this one
+            saml2Handler.Configuration.AudienceRestriction.AllowedAudienceUris.Add(new Uri("https://imperial.flowz.co.uk/"));
             if(!((ConfigurationBasedIssuerNameRegistry)saml2Handler.Configuration.IssuerNameRegistry).ConfiguredTrustedIssuers.ContainsKey("953926B57F873960222A2F1C4002FAF9636B8D47"))
                 ((ConfigurationBasedIssuerNameRegistry)saml2Handler.Configuration.IssuerNameRegistry).AddTrustedIssuer("953926B57F873960222A2F1C4002FAF9636B8D47", "https://idp.testshib.org/idp/shibboleth");
         }

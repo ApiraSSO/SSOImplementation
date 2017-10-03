@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Kernel.Authentication.Claims;
-using Kernel.Federation.FederationPartner;
 using Kernel.Federation.Protocols;
 using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 using Kernel.Federation.Protocols.Response;
@@ -19,13 +18,11 @@ namespace Federation.Protocols.Response
     internal class ResponseHandler : IReponseHandler<ClaimsIdentity>
     {
         private readonly IRelayStateHandler _relayStateHandler;
-        private readonly IFederationPartyContextBuilder _federationPartyContextBuilder;
         private readonly ITokenHandler _tokenHandler;
         private readonly IUserClaimsProvider<SecurityToken> _identityProvider;
-        public ResponseHandler(IRelayStateHandler relayStateHandler, IFederationPartyContextBuilder federationPartyContextBuilder, ITokenHandler tokenHandler, IUserClaimsProvider<SecurityToken> identityProvider)
+        public ResponseHandler(IRelayStateHandler relayStateHandler, ITokenHandler tokenHandler, IUserClaimsProvider<SecurityToken> identityProvider)
         {
             this._relayStateHandler = relayStateHandler;
-            this._federationPartyContextBuilder = federationPartyContextBuilder;
             this._tokenHandler = tokenHandler;
             this._identityProvider = identityProvider;
         }
@@ -44,10 +41,12 @@ namespace Federation.Protocols.Response
             var xmlReader = XmlReader.Create(new StringReader(responseText));
             this.ValidateResponseSuccess(xmlReader);
             var token = _tokenHandler.ReadToken(xmlReader, relayState.ToString());
+            //sort this out
             var validator = this._tokenHandler as ITokenValidator;
             var validationResult = new List<ValidationResult>();
             var isValid = validator.Validate(token, validationResult, relayState.ToString());
-
+            if (!isValid)
+                throw new InvalidOperationException(validationResult.ToArray()[0].ErrorMessage);
             //ToDo: Decide how to do it 03/10/17. Inject this one when you've decided what to do
             var foo = new ClaimsProvider();
             var identity = await foo.GenerateUserIdentitiesAsync((Federation.Protocols.Tokens.SecurityTokenHandler)this._tokenHandler, new[] { context.AuthenticationMethod });
