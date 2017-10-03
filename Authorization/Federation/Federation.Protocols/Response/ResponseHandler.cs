@@ -49,7 +49,7 @@ namespace Federation.Protocols.Response
 
             //ToDo: Decide how to do it 03/10/17. Inject this one when you've decided what to do
             var foo = new ClaimsProvider();
-            var identity = await foo.GenerateUserIdentitiesAsync((Federation.Protocols.Response.Saml2SecurityTokenHandler)this._tokenHandler, new[] { context.AuthenticationMethod });
+            var identity = await foo.GenerateUserIdentitiesAsync((Federation.Protocols.Response.SecurityTokenHandler)this._tokenHandler, new[] { context.AuthenticationMethod });
             //var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { context.AuthenticationMethod });
             return identity[context.AuthenticationMethod];
            

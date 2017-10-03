@@ -115,8 +115,9 @@
     <Compile Include="Request\ProxyRestriction.cs" />
     <Compile Include="Request\RequestAbstract.cs" />
     <Compile Include="Request\Saml20Constants.cs" />
+    <Compile Include="Response\TokenHelper.cs" />
     <Compile Include="Response\ResponseHandler.cs" />
-    <Compile Include="Response\Saml2SecurityTokenHandler.cs" />
+    <Compile Include="Response\SecurityTokenHandler.cs" />
     <Compile Include="Response\TokenHandlerConfigurationProvider.cs" />
     <Compile Include="ClaimsProvider.cs" />
     <Compile Include="UserClaimsProvider.cs" />

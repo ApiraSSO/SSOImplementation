@@ -50,7 +50,7 @@ namespace Federation.Protocols.Test
             var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
             var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
-            var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
+            var saml2SecurityTokenHandler = new Federation.Protocols.Response.SecurityTokenHandler(tokenHandlerConfigurationProvider);
             //ACT
 
             var assertion = saml2SecurityTokenHandler.GetAssertion(reader, "testshib");
@@ -68,7 +68,7 @@ namespace Federation.Protocols.Test
             var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
             var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
-            var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
+            var saml2SecurityTokenHandler = new Federation.Protocols.Response.SecurityTokenHandler(tokenHandlerConfigurationProvider);
             //ACT
             var token = saml2SecurityTokenHandler.ReadToken(reader, "testshib");
             //var claims = saml2SecurityTokenHandler.ValidateToken(token);
@@ -89,12 +89,12 @@ namespace Federation.Protocols.Test
             var certValidator = new CertificateValidatorMock();
             var encryptedList = el.GetElementsByTagName(EncryptedAssertion.ElementName, Saml20Constants.Assertion);
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
-            var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
+            var saml2SecurityTokenHandler = new Federation.Protocols.Response.SecurityTokenHandler(tokenHandlerConfigurationProvider);
             if (encryptedList.Count == 1)
             {
                 var encryptedAssertion = (XmlElement)encryptedList[0];
-
-                var decrypted = saml2SecurityTokenHandler.GetPlainTestAsertion(encryptedAssertion, "testshib");
+                saml2SecurityTokenHandler.SetConfigurationFor("testShib");
+                var decrypted = TokenHelper.GetPlainTestAsertion(saml2SecurityTokenHandler.Configuration.ServiceTokenResolver, encryptedAssertion);
             }
         }
 

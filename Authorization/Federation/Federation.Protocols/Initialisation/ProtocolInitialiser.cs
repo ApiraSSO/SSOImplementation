@@ -22,7 +22,7 @@ namespace Federation.Protocols.Initialisation
         protected override Task InitialiseInternal(IDependencyResolver dependencyResolver)
         {
             dependencyResolver.RegisterType<ResponseHandler>(Lifetime.Transient);
-            dependencyResolver.RegisterType<Saml2SecurityTokenHandler>(Lifetime.Transient);
+            dependencyResolver.RegisterType<SecurityTokenHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<TokenHandlerConfigurationProvider>(Lifetime.Transient);
             dependencyResolver.RegisterType<UserClaimsProvider>(Lifetime.Transient);
             dependencyResolver.RegisterType<MessageEncoding>(Lifetime.Transient);

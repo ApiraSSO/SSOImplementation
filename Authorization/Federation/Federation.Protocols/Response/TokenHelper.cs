@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
 using System.IO;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
@@ -11,55 +9,13 @@ using System.Text;
 using System.Xml;
 using Federation.Protocols.Request;
 using Federation.Protocols.Request.Elements;
-using Kernel.Cryptography.Validation;
-using Kernel.Federation.Protocols.Response;
 
 namespace Federation.Protocols.Response
 {
-    public class Saml2SecurityTokenHandler : System.IdentityModel.Tokens.Saml2SecurityTokenHandler, ITokenHandler, ITokenValidator
+    internal class TokenHelper
     {
-        ITokenHandlerConfigurationProvider _tokenHandlerConfigurationProvider;
-
-        public Saml2SecurityTokenHandler(ITokenHandlerConfigurationProvider tokenHandlerConfigurationProvider)
+        internal static XmlDocument GetPlainTestAsertion(SecurityTokenResolver securityTokenResolver, XmlElement el)
         {
-            this._tokenHandlerConfigurationProvider = tokenHandlerConfigurationProvider;
-        }
-        public IEnumerable<ClaimsIdentity> Claims { get; private set; }
-        public Saml2Assertion GetAssertion(XmlReader reader, string partnerId)
-        {
-            this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
-            this.MoveToToken(reader);
-
-            return this.ReadAssertion(reader);
-        }
-
-        public  SecurityToken ReadToken(XmlReader reader, string partnerId)
-        {
-            this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
-            this.MoveToToken(reader);
-            return base.ReadToken(reader);
-        }
-
-        public bool Validate(SecurityToken token, ICollection<ValidationResult> validationResult, string partnerId)
-        {
-            try
-            {
-                ((ICertificateValidator)base.CertificateValidator).SetFederationPartyId(partnerId);
-                this.Claims = base.ValidateToken(token);
-                return true;
-            }catch(Exception ex)
-            {
-                validationResult.Add(new ValidationResult(ex.Message));
-                return false;
-            }
-        }
-        protected override void ValidateConfirmationData(Saml2SubjectConfirmationData confirmationData)
-        {
-            //base.ValidateConfirmationData(confirmationData);
-        }
-        internal XmlDocument GetPlainTestAsertion(XmlElement el, string partnerId)
-        {
-            this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
             var encryptedDataElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedData.ElementName, Saml20Constants.Xenc, el);
 
             var encryptedData = new System.Security.Cryptography.Xml.EncryptedData();
@@ -80,7 +36,7 @@ namespace Federation.Protocols.Response
 
             var clause = new EncryptedKeyIdentifierClause(encryptedKey.CipherData.CipherValue, encryptedKey.EncryptionMethod.KeyAlgorithm, securityKeyIdentifier);
             SecurityKey key;
-            var success = base.Configuration.ServiceTokenResolver.TryResolveSecurityKey(clause, out key);
+            var success = securityTokenResolver.TryResolveSecurityKey(clause, out key);
             if (!success)
                 throw new InvalidOperationException("Cannot locate security key");
 
@@ -90,7 +46,7 @@ namespace Federation.Protocols.Response
 
             SymmetricAlgorithm symmetricAlgorithm = symmetricSecurityKey.GetSymmetricAlgorithm(encryptedData.EncryptionMethod.KeyAlgorithm);
             var encryptedXml = new System.Security.Cryptography.Xml.EncryptedXml();
-            
+
             var plaintext = encryptedXml.DecryptData(encryptedData, symmetricAlgorithm);
             var assertion = new XmlDocument { PreserveWhitespace = true };
 
@@ -98,7 +54,13 @@ namespace Federation.Protocols.Response
             return assertion;
         }
 
-        private void MoveToToken(XmlReader reader)
+        internal static XmlElement GetElement(string element, string elementNS, XmlElement doc)
+        {
+            var list = doc.GetElementsByTagName(element, elementNS);
+            return list.Count == 0 ? null : (XmlElement)list[0];
+        }
+
+        internal static void MoveToToken(XmlReader reader)
         {
             while (!reader.IsStartElement(EncryptedAssertion.ElementName, Saml20Constants.Assertion))
             {
@@ -106,12 +68,5 @@ namespace Federation.Protocols.Response
                     throw new InvalidOperationException("Can't find assertion element.");
             }
         }
-
-        private static XmlElement GetElement(string element, string elementNS, XmlElement doc)
-        {
-            var list = doc.GetElementsByTagName(element, elementNS);
-            return list.Count == 0 ? null : (XmlElement)list[0];
-        }
-        
     }
 }
