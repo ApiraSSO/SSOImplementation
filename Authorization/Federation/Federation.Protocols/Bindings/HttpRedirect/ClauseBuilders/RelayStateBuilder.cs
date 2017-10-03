@@ -6,10 +6,10 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
 {
     internal class RelayStateBuilder : ISamlClauseBuilder
     {
-        private readonly IMessageEncoding _messageEncoding;
-        public RelayStateBuilder(IMessageEncoding messageEncoding)
+        private readonly IRelayStateSerialiser _relayStateSerialiser;
+        public RelayStateBuilder(IRelayStateSerialiser relayStateSerialiser)
         {
-            this._messageEncoding = messageEncoding;
+            this._relayStateSerialiser = relayStateSerialiser;
         }
         public uint Order { get { return 1; } }
 
@@ -22,7 +22,7 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
                 return;
 
             context.ClauseBuilder.Append("&RelayState=");
-            var rsEncoded = await this._messageEncoding.EncodeMessage<string>(context.RelayState);
+            var rsEncoded = await this._relayStateSerialiser.Serialize(context.RelayState);
             var rsEncodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(rsEncoded));
             context.ClauseBuilder.Append(rsEncodedEscaped);
         }
