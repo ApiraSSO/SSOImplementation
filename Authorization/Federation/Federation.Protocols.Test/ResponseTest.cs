@@ -45,10 +45,11 @@ namespace Federation.Protocols.Test
         public void Handler_ReadAssertion_Test()
         {
             //ARRANGE
+            var certValidator = new CertificateValidatorMock();
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
             var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
             var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
-            var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder);
+            var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
             var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
             //ACT
 
@@ -62,14 +63,16 @@ namespace Federation.Protocols.Test
         public void Handler_Read_Token_Test()
         {
             //ARRANGE
+            var certValidator = new CertificateValidatorMock();
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
             var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
             var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
-            var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder);
+            var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
             var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
             //ACT
             var token = saml2SecurityTokenHandler.ReadToken(reader, "testshib");
-
+            //var claims = saml2SecurityTokenHandler.ValidateToken(token);
+            
             //Assert
             Assert.NotNull(token);
 
@@ -83,8 +86,9 @@ namespace Federation.Protocols.Test
             var doc = new XmlDocument();
             doc.Load(@"D:\Dan\Software\Apira\a.xml");
             var el = doc.DocumentElement;
+            var certValidator = new CertificateValidatorMock();
             var encryptedList = el.GetElementsByTagName(EncryptedAssertion.ElementName, Saml20Constants.Assertion);
-            var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder);
+            var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
             var saml2SecurityTokenHandler = new Federation.Protocols.Response.Saml2SecurityTokenHandler(tokenHandlerConfigurationProvider);
             if (encryptedList.Count == 1)
             {

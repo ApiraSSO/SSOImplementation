@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens;
 using System.IO;
 using System.Security.Cryptography;
@@ -8,11 +10,12 @@ using System.Text;
 using System.Xml;
 using Federation.Protocols.Request;
 using Federation.Protocols.Request.Elements;
+using Kernel.Cryptography.Validation;
 using Kernel.Federation.Protocols.Response;
 
 namespace Federation.Protocols.Response
 {
-    public class Saml2SecurityTokenHandler : System.IdentityModel.Tokens.Saml2SecurityTokenHandler, ITokenHandler
+    public class Saml2SecurityTokenHandler : System.IdentityModel.Tokens.Saml2SecurityTokenHandler, ITokenHandler, ITokenValidator
     {
         ITokenHandlerConfigurationProvider _tokenHandlerConfigurationProvider;
 
@@ -35,7 +38,24 @@ namespace Federation.Protocols.Response
             this.MoveToToken(reader);
             return base.ReadToken(reader);
         }
-        
+
+        public bool Validate(SecurityToken token, ICollection<ValidationResult> validationResult, string partnerId)
+        {
+            try
+            {
+                ((ICertificateValidator)base.CertificateValidator).SetFederationPartyId(partnerId);
+                var claims = base.ValidateToken(token);
+                return true;
+            }catch(Exception ex)
+            {
+                validationResult.Add(new ValidationResult(ex.Message));
+                return false;
+            }
+        }
+        protected override void ValidateConfirmationData(Saml2SubjectConfirmationData confirmationData)
+        {
+            //base.ValidateConfirmationData(confirmationData);
+        }
         internal XmlDocument GetPlainTestAsertion(XmlElement el, string partnerId)
         {
             this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
@@ -91,5 +111,6 @@ namespace Federation.Protocols.Response
             var list = doc.GetElementsByTagName(element, elementNS);
             return list.Count == 0 ? null : (XmlElement)list[0];
         }
+        
     }
 }

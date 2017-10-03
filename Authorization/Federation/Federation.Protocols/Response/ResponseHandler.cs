@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens;
 using System.IO;
 using System.Security.Claims;
@@ -38,6 +40,10 @@ namespace Federation.Protocols.Response
             var xmlReader = XmlReader.Create(new StringReader(responseText));
             this.ValidateResponseSuccess(xmlReader);
             var token = _tokenHandler.ReadToken(xmlReader, relayState.ToString());
+            var validator = this._tokenHandler as ITokenValidator;
+            var validationResult = new List<ValidationResult>();
+            var isValid = validator.Validate(token, validationResult, relayState.ToString());
+
             var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { context.AuthenticationMethod });
             return identity[context.AuthenticationMethod];
            
