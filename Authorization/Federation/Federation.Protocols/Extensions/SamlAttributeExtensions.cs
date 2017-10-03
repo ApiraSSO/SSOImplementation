@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using System.IdentityModel.Tokens;
 using System.Security.Claims;
 
@@ -10,11 +10,11 @@ namespace Federation.Protocols.Extensions
     {
        
 
-        public static IEnumerable<Claim> ToClaims(this Saml2Attribute value, string issuer)
+        public static IEnumerable<Claim> ToClaims(this Saml2Attribute attribute, string issuer)
         {
-            if (value == null)
+            if (attribute == null)
                 throw new ArgumentNullException("value");
-            return new[] { new Claim(value.Name, value.Name, issuer) };
+            return attribute.Values.Select(x => new Claim(attribute.FriendlyName, x, attribute.AttributeValueXsiType, issuer));
         }
     }
 }
