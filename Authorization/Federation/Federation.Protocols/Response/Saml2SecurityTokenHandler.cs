@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens;
 using System.IO;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
@@ -23,7 +24,7 @@ namespace Federation.Protocols.Response
         {
             this._tokenHandlerConfigurationProvider = tokenHandlerConfigurationProvider;
         }
-
+        public IEnumerable<ClaimsIdentity> Claims { get; private set; }
         public Saml2Assertion GetAssertion(XmlReader reader, string partnerId)
         {
             this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
@@ -44,7 +45,7 @@ namespace Federation.Protocols.Response
             try
             {
                 ((ICertificateValidator)base.CertificateValidator).SetFederationPartyId(partnerId);
-                var claims = base.ValidateToken(token);
+                this.Claims = base.ValidateToken(token);
                 return true;
             }catch(Exception ex)
             {

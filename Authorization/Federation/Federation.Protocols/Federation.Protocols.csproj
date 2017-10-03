@@ -118,6 +118,7 @@
     <Compile Include="Response\ResponseHandler.cs" />
     <Compile Include="Response\Saml2SecurityTokenHandler.cs" />
     <Compile Include="Response\TokenHandlerConfigurationProvider.cs" />
+    <Compile Include="ClaimsProvider.cs" />
     <Compile Include="UserClaimsProvider.cs" />
   </ItemGroup>
   <ItemGroup>

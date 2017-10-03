@@ -30,13 +30,16 @@ namespace Federation.Protocols.Response
         }
         public async Task<ClaimsIdentity> Handle(HttpPostResponseContext context)
         {
+            //ToDo handle this properly, response handling, token validation, claims generation etc
             var elements = context.Form;
             var responseBase64 = elements["SAMLResponse"];
             var responseBytes = Convert.FromBase64String(responseBase64);
             var responseText = Encoding.UTF8.GetString(responseBytes);
             
             var relayState = await this._relayStateHandler.GetRelayStateFromFormData(elements);
-            //this.SaveTemp(responseText);
+#if(DEBUG)
+            this.SaveTemp(responseText);
+#endif
             var xmlReader = XmlReader.Create(new StringReader(responseText));
             this.ValidateResponseSuccess(xmlReader);
             var token = _tokenHandler.ReadToken(xmlReader, relayState.ToString());
@@ -44,7 +47,10 @@ namespace Federation.Protocols.Response
             var validationResult = new List<ValidationResult>();
             var isValid = validator.Validate(token, validationResult, relayState.ToString());
 
-            var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { context.AuthenticationMethod });
+            //ToDo: Decide how to do it 03/10/17. Inject this one when you've decided what to do
+            var foo = new ClaimsProvider();
+            var identity = await foo.GenerateUserIdentitiesAsync((Federation.Protocols.Response.Saml2SecurityTokenHandler)this._tokenHandler, new[] { context.AuthenticationMethod });
+            //var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { context.AuthenticationMethod });
             return identity[context.AuthenticationMethod];
            
         }
@@ -62,24 +68,24 @@ namespace Federation.Protocols.Response
                 throw new Exception(status);
         }
         //ToDo clean up
-        //private void SaveTemp(string responseText)
-        //{
-        //    try
-        //    {
-        //        var path = @"D:\Dan\Software\Apira\Assertions\";
-        //        var now = DateTimeOffset.Now;
-        //        var tag = String.Format("{0}{1}{2}{3}{4}", now.Year, now.Month, now.Day, now.Hour, now.Minute);
-        //        var writer = XmlWriter.Create(String.Format("{0}{1}{2}", path, tag, ".xml"));
-        //        var el = new XmlDocument();
-        //        el.Load(new StringReader(responseText));
-        //        el.DocumentElement.WriteTo(writer);
-        //        writer.Flush();
-        //        writer.Dispose();
-        //    }
-        //    catch(Exception)
-        //    {
-        //        //ignore
-        //    }
-        //}
+        private void SaveTemp(string responseText)
+        {
+            try
+            {
+                var path = @"D:\Dan\Software\Apira\Assertions\";
+                var now = DateTimeOffset.Now;
+                var tag = String.Format("{0}{1}{2}{3}{4}", now.Year, now.Month, now.Day, now.Hour, now.Minute);
+                var writer = XmlWriter.Create(String.Format("{0}{1}{2}", path, tag, ".xml"));
+                var el = new XmlDocument();
+                el.Load(new StringReader(responseText));
+                el.DocumentElement.WriteTo(writer);
+                writer.Flush();
+                writer.Dispose();
+            }
+            catch (Exception)
+            {
+                //ignore
+            }
+        }
     }
 }

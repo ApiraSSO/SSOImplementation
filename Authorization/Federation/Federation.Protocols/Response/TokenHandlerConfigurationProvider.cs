@@ -48,8 +48,8 @@ namespace Federation.Protocols.Response
                 AudienceRestriction = new AudienceRestriction(System.IdentityModel.Selectors.AudienceUriMode.Never),
                 CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom,
                 CertificateValidator = (X509CertificateValidator)this._certificateValidator,
-                //IssuerNameRegistry = new 
             };
+            //ToDo: sort this one
             ((ConfigurationBasedIssuerNameRegistry)saml2Handler.Configuration.IssuerNameRegistry).AddTrustedIssuer("953926B57F873960222A2F1C4002FAF9636B8D47", "https://idp.testshib.org/idp/shibboleth");
         }
     }
