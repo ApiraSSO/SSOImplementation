@@ -21,24 +21,24 @@ namespace Federation.Protocols.Response
             this._tokenHandlerConfigurationProvider = tokenHandlerConfigurationProvider;
         }
 
-        public Saml2Assertion GetAssertion(XmlReader reader, string parnerId)
+        public Saml2Assertion GetAssertion(XmlReader reader, string partnerId)
         {
-            this._tokenHandlerConfigurationProvider.Configuration(this, parnerId);
+            this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
             this.MoveToToken(reader);
 
             return this.ReadAssertion(reader);
         }
 
-        public  SecurityToken ReadToken(XmlReader reader, string parnerId)
+        public  SecurityToken ReadToken(XmlReader reader, string partnerId)
         {
-            this._tokenHandlerConfigurationProvider.Configuration(this, parnerId);
+            this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
             this.MoveToToken(reader);
             return base.ReadToken(reader);
         }
         
-        internal XmlDocument GetPlainTestAsertion(XmlElement el, string parnerId)
+        internal XmlDocument GetPlainTestAsertion(XmlElement el, string partnerId)
         {
-            this._tokenHandlerConfigurationProvider.Configuration(this, parnerId);
+            this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
             var encryptedDataElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedData.ElementName, Saml20Constants.Xenc, el);
 
             var encryptedData = new System.Security.Cryptography.Xml.EncryptedData();
