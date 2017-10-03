@@ -19,7 +19,7 @@ namespace Federation.Protocols.Test.RelayState
             var messageEncoder = new MessageEncoding(compressor);
             var serialiser = new RelaystateSerialiser(messageEncoder) as IRelayStateSerialiser;
             //ACT
-            var serialised = serialiser.Serialize(relayState);
+            var serialised = await serialiser.Serialize(relayState);
             var deserialised = await serialiser.Deserialize(serialised);
             //ASSERT
             Assert.AreEqual(relayState, deserialised);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Kernel.Federation.Protocols;
+using Kernel.Serialisation;
 
 namespace Federation.Protocols.RelayState
 {
@@ -29,22 +30,26 @@ namespace Federation.Protocols.RelayState
             throw new NotImplementedException();
         }
 
+        public async Task<string> Serialize(object data)
+        {
+            var encoded = await this._encoding.EncodeMessage(data.ToString());
+            return encoded;
+        }
+
         public void Serialize(Stream stream, object[] o)
         {
             throw new NotImplementedException();
         }
-
-        public string Serialize(object o)
-        {
-            var encodedTask =  this._encoding.EncodeMessage(o.ToString());
-            encodedTask.Wait();
-            return encodedTask.Result;
-        }
-
+        
         async Task<object> IRelayStateSerialiser.Deserialize(string data)
         {
             var decoded = await this._encoding.DecodeMessage(data);
             return decoded;
+        }
+
+        string ISerializer.Serialize(object o)
+        {
+            throw new NotImplementedException();
         }
     }
 }

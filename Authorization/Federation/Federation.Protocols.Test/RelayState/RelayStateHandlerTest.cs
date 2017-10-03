@@ -22,7 +22,7 @@ namespace Federation.Protocols.Test.RelayState
             var serialiser = new RelaystateSerialiser(messageEncoder) as IRelayStateSerialiser;
             var handler = new RelayStateHandler(serialiser);
             //ACT
-            var serialised = serialiser.Serialize(relayState);
+            var serialised = await serialiser.Serialize(relayState);
             form.Add("RelayState", serialised);
             var deserialised = await handler.GetRelayStateFromFormData(form);
             //ASSERT
