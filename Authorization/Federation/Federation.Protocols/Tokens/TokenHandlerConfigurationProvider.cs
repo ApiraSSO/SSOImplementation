@@ -5,9 +5,9 @@ using System.Linq;
 using Kernel.Cryptography.CertificateManagement;
 using Kernel.Cryptography.Validation;
 using Kernel.Federation.FederationPartner;
-using Kernel.Federation.Protocols.Response;
+using Kernel.Federation.Tokens;
 
-namespace Federation.Protocols.Response
+namespace Federation.Protocols.Tokens
 {
     internal class TokenHandlerConfigurationProvider : ITokenHandlerConfigurationProvider
     {
@@ -50,7 +50,8 @@ namespace Federation.Protocols.Response
                 CertificateValidator = (X509CertificateValidator)this._certificateValidator,
             };
             //ToDo: sort this one
-            ((ConfigurationBasedIssuerNameRegistry)saml2Handler.Configuration.IssuerNameRegistry).AddTrustedIssuer("953926B57F873960222A2F1C4002FAF9636B8D47", "https://idp.testshib.org/idp/shibboleth");
+            if(!((ConfigurationBasedIssuerNameRegistry)saml2Handler.Configuration.IssuerNameRegistry).ConfiguredTrustedIssuers.ContainsKey("953926B57F873960222A2F1C4002FAF9636B8D47"))
+                ((ConfigurationBasedIssuerNameRegistry)saml2Handler.Configuration.IssuerNameRegistry).AddTrustedIssuer("953926B57F873960222A2F1C4002FAF9636B8D47", "https://idp.testshib.org/idp/shibboleth");
         }
     }
 }

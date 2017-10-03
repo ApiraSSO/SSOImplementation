@@ -1,4 +1,4 @@
-﻿namespace Kernel.Federation.Protocols.Response
+﻿namespace Kernel.Federation.Tokens
 {
     public interface ITokenHandlerConfigurationProvider
     {

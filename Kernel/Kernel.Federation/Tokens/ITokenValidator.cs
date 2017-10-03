@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens;
 
-namespace Kernel.Federation.Protocols.Response
+namespace Kernel.Federation.Tokens
 {
     public interface ITokenValidator
     {

@@ -2,27 +2,23 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens;
-using System.IO;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Cryptography.Xml;
-using System.Text;
 using System.Xml;
-using Federation.Protocols.Request;
-using Federation.Protocols.Request.Elements;
+using Federation.Protocols.Tokens.Validation;
 using Kernel.Cryptography.Validation;
-using Kernel.Federation.Protocols.Response;
+using Kernel.Federation.Tokens;
 
-namespace Federation.Protocols.Response
+namespace Federation.Protocols.Tokens
 {
-    public class SecurityTokenHandler : Saml2SecurityTokenHandler, ITokenHandler, ITokenValidator
+    internal class SecurityTokenHandler : Saml2SecurityTokenHandler, ITokenHandler, ITokenValidator
     {
-        ITokenHandlerConfigurationProvider _tokenHandlerConfigurationProvider;
+        private readonly ITokenHandlerConfigurationProvider _tokenHandlerConfigurationProvider;
+        private readonly ValidatorInvoker _validatorInvoker;
 
-        public SecurityTokenHandler(ITokenHandlerConfigurationProvider tokenHandlerConfigurationProvider)
+        public SecurityTokenHandler(ITokenHandlerConfigurationProvider tokenHandlerConfigurationProvider, ValidatorInvoker validatorInvoker)
         {
             this._tokenHandlerConfigurationProvider = tokenHandlerConfigurationProvider;
+            this._validatorInvoker = validatorInvoker;
         }
         internal IEnumerable<ClaimsIdentity> Claims { get; private set; }
 
@@ -58,7 +54,7 @@ namespace Federation.Protocols.Response
 
         protected override void ValidateConfirmationData(Saml2SubjectConfirmationData confirmationData)
         {
-            //base.ValidateConfirmationData(confirmationData);
+            this._validatorInvoker.Validate(confirmationData);
         }
         
         internal void SetConfigurationFor(string partnerId)

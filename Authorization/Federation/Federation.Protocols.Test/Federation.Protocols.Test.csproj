@@ -59,6 +59,8 @@
     <Compile Include="RelayState\RelayStateHandlerTest.cs" />
     <Compile Include="RelayState\RelayStateSerialiserTest.cs" />
     <Compile Include="ResponseTest.cs" />
+    <Compile Include="Mock\Tokens\SubjectConfirmationDataValidatorMock.cs" />
+    <Compile Include="Tokens\ValidatorInvokerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Federation.Protocols.Response;
+using Federation.Protocols.Tokens;
 using Kernel.Authentication.Claims;
 
 namespace Federation.Protocols

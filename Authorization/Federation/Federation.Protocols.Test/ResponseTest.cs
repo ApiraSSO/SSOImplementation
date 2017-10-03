@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Security.Cryptography.Xml;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using Federation.Protocols.Request;
 using Federation.Protocols.Request.Elements;
-using Federation.Protocols.Request.Elements.Xenc;
-using Federation.Protocols.Response;
 using Federation.Protocols.Test.Mock;
+using Federation.Protocols.Test.Mock.Tokens;
+using Federation.Protocols.Tokens;
+using Federation.Protocols.Tokens.Validation;
 using NUnit.Framework;
 
 namespace Federation.Protocols.Test
@@ -50,7 +46,9 @@ namespace Federation.Protocols.Test
             var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
             var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
-            var saml2SecurityTokenHandler = new Federation.Protocols.Response.SecurityTokenHandler(tokenHandlerConfigurationProvider);
+            var validator = new SubjectConfirmationDataValidatorMock(() => { });
+            var invoker = new ValidatorInvoker(t => validator);
+            var saml2SecurityTokenHandler = new Federation.Protocols.Tokens.SecurityTokenHandler(tokenHandlerConfigurationProvider, invoker);
             //ACT
 
             var assertion = saml2SecurityTokenHandler.GetAssertion(reader, "testshib");
@@ -68,7 +66,9 @@ namespace Federation.Protocols.Test
             var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
             var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
-            var saml2SecurityTokenHandler = new Federation.Protocols.Response.SecurityTokenHandler(tokenHandlerConfigurationProvider);
+            var validator = new SubjectConfirmationDataValidatorMock(() => { });
+            var invoker = new ValidatorInvoker(t => validator);
+            var saml2SecurityTokenHandler = new Federation.Protocols.Tokens.SecurityTokenHandler(tokenHandlerConfigurationProvider, invoker);
             //ACT
             var token = saml2SecurityTokenHandler.ReadToken(reader, "testshib");
             //var claims = saml2SecurityTokenHandler.ValidateToken(token);
@@ -89,7 +89,9 @@ namespace Federation.Protocols.Test
             var certValidator = new CertificateValidatorMock();
             var encryptedList = el.GetElementsByTagName(EncryptedAssertion.ElementName, Saml20Constants.Assertion);
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
-            var saml2SecurityTokenHandler = new Federation.Protocols.Response.SecurityTokenHandler(tokenHandlerConfigurationProvider);
+            var validator = new SubjectConfirmationDataValidatorMock(() => { });
+            var invoker = new ValidatorInvoker(t => validator);
+            var saml2SecurityTokenHandler = new Federation.Protocols.Tokens.SecurityTokenHandler(tokenHandlerConfigurationProvider, invoker);
             if (encryptedList.Count == 1)
             {
                 var encryptedAssertion = (XmlElement)encryptedList[0];

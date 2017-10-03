@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens;
 using System.Xml;
 
-namespace Kernel.Federation.Protocols.Response
+namespace Kernel.Federation.Tokens
 {
     public interface ITokenHandler
     {

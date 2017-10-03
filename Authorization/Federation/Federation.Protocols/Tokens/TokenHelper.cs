@@ -10,7 +10,7 @@ using System.Xml;
 using Federation.Protocols.Request;
 using Federation.Protocols.Request.Elements;
 
-namespace Federation.Protocols.Response
+namespace Federation.Protocols.Tokens
 {
     internal class TokenHelper
     {
