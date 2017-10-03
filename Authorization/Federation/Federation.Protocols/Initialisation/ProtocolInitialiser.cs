@@ -4,6 +4,7 @@ using Federation.Protocols.Bindings.HttpPost;
 using Federation.Protocols.Bindings.HttpRedirect;
 using Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders;
 using Federation.Protocols.Endocing;
+using Federation.Protocols.RelayState;
 using Federation.Protocols.Response;
 using Kernel.DependancyResolver;
 using Kernel.Federation.Protocols;
@@ -29,6 +30,9 @@ namespace Federation.Protocols.Initialisation
             dependencyResolver.RegisterType<SamlRequestBuilder>(Lifetime.Transient);
             dependencyResolver.RegisterType<RelayStateBuilder>(Lifetime.Transient);
             dependencyResolver.RegisterType<SignatureBuilder>(Lifetime.Transient);
+            dependencyResolver.RegisterType<RelayStateHandler>(Lifetime.Transient);
+            dependencyResolver.RegisterType<RelaystateSerialiser>(Lifetime.Transient);
+
             dependencyResolver.RegisterFactory< Func<string, IProtocolHandler> >(() =>
             {
                 return b =>

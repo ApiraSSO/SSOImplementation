@@ -41,7 +41,6 @@ namespace Federation.Protocols.Response
             {
                 IssuerTokenResolver = tokenResolver,
                 ServiceTokenResolver = tokenResolver
-
             };
         }
     }

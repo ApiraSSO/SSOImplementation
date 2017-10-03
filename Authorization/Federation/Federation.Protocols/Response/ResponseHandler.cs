@@ -15,13 +15,13 @@ namespace Federation.Protocols.Response
 {
     internal class ResponseHandler : IReponseHandler<ClaimsIdentity>
     {
-        private readonly IMessageEncoding _messageEncoding;
+        private readonly IRelayStateHandler _relayStateHandler;
         private readonly IFederationPartyContextBuilder _federationPartyContextBuilder;
         private readonly ITokenHandler _tokenHandler;
         private readonly IUserClaimsProvider<SecurityToken> _identityProvider;
-        public ResponseHandler(IMessageEncoding messageEncoding, IFederationPartyContextBuilder federationPartyContextBuilder, ITokenHandler tokenHandler, IUserClaimsProvider<SecurityToken> identityProvider)
+        public ResponseHandler(IRelayStateHandler relayStateHandler, IFederationPartyContextBuilder federationPartyContextBuilder, ITokenHandler tokenHandler, IUserClaimsProvider<SecurityToken> identityProvider)
         {
-            this._messageEncoding = messageEncoding;
+            this._relayStateHandler = relayStateHandler;
             this._federationPartyContextBuilder = federationPartyContextBuilder;
             this._tokenHandler = tokenHandler;
             this._identityProvider = identityProvider;
@@ -32,12 +32,12 @@ namespace Federation.Protocols.Response
             var responseBase64 = elements["SAMLResponse"];
             var responseBytes = Convert.FromBase64String(responseBase64);
             var responseText = Encoding.UTF8.GetString(responseBytes);
-            var relayStateCompressed = elements["RelayState"];
-            var decompressed = await this._messageEncoding.DecodeMessage(relayStateCompressed);
+            
+            var relayState = await this._relayStateHandler.GetRelayStateFromFormData(elements);
             //this.SaveTemp(responseText);
             var xmlReader = XmlReader.Create(new StringReader(responseText));
             this.ValidateResponseSuccess(xmlReader);
-            var token = _tokenHandler.ReadToken(xmlReader, decompressed);
+            var token = _tokenHandler.ReadToken(xmlReader, relayState.ToString());
             var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { context.AuthenticationMethod });
             return identity[context.AuthenticationMethod];
            

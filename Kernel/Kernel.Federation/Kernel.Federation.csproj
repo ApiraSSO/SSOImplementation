@@ -99,6 +99,8 @@
     <Compile Include="Protocols\IBindingHandler.cs" />
     <Compile Include="Protocols\IMessageEncoding.cs" />
     <Compile Include="Protocols\IProtocolHandler.cs" />
+    <Compile Include="Protocols\IRelayStateHandler.cs" />
+    <Compile Include="Protocols\IRelayStateSerialiser.cs" />
     <Compile Include="Protocols\ISamlClauseBuilder.cs" />
     <Compile Include="Protocols\Response\IReponseHandler.cs" />
     <Compile Include="Protocols\Response\IResponseParser.cs" />
