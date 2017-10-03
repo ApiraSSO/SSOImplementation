@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Metadata;
 using System.Security.Cryptography.X509Certificates;
 using Kernel.Cryptography.CertificateManagement;
@@ -54,7 +55,7 @@ namespace InlineMetadataContextProvider
             return orgConfiguration;
         }
 
-        public static KeyDescriptorConfiguration BuildKeyDescriptorConfiguration()
+        public static IEnumerable<KeyDescriptorConfiguration> BuildKeyDescriptorConfiguration()
         {
             var certificateContext = new X509CertificateContext
             {
@@ -69,7 +70,21 @@ namespace InlineMetadataContextProvider
                 Use = KeyUsage.Signing,
                 CertificateContext = certificateContext
             };
-            return keyDescriptorConfiguration;
+
+            var encrCertificateContext = new X509CertificateContext
+            {
+                StoreName = "TestCertStore",
+                ValidOnly = false,
+                StoreLocation = StoreLocation.LocalMachine
+            };
+            encrCertificateContext.SearchCriteria.Add(new CertificateSearchCriteria { SearchValue = "Apira_DevEnc", SearchCriteriaType = X509FindType.FindBySubjectName });
+            var encrKeyDescriptorConfiguration = new KeyDescriptorConfiguration
+            {
+                IsDefault = true,
+                Use = KeyUsage.Encryption,
+                CertificateContext = certificateContext
+            };
+            return new[] { keyDescriptorConfiguration, encrKeyDescriptorConfiguration };
         }
 
         public static SPSSODescriptorConfiguration BuildSPSSODescriptorConfiguration()
@@ -95,7 +110,10 @@ namespace InlineMetadataContextProvider
             sPSSODescriptorConfiguration.ProtocolSupported.Add(new Uri("urn:oasis:names:tc:SAML:2.0:protocol"));
             //key descriptors
             var keyDescriptorConfiguration = MetadataHelper.BuildKeyDescriptorConfiguration();
-            sPSSODescriptorConfiguration.KeyDescriptors.Add(keyDescriptorConfiguration);
+            foreach (var k in keyDescriptorConfiguration)
+            {
+                sPSSODescriptorConfiguration.KeyDescriptors.Add(k);
+            }
 
             //assertinon service
             var indexedEndPointConfiguration = new IndexedEndPointConfiguration

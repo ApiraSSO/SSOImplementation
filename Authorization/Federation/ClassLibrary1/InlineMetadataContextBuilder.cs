@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens;
+using System.Linq;
 using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.MetaData.Configuration.Cryptography;
@@ -23,7 +24,8 @@ namespace InlineMetadataContextProvider
             };
 
             context.MetadataSigningContext = new MetadataSigningContext(SecurityAlgorithms.RsaSha1Signature, SecurityAlgorithms.Sha1Digest);
-            context.MetadataSigningContext.KeyDescriptors.Add(keyDescriptorConfiguration);
+
+            context.MetadataSigningContext.KeyDescriptors.Add(keyDescriptorConfiguration.First(x => x.IsDefault && x.Use == KeyUsage.Signing));
             return context;
         }
 
