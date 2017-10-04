@@ -60,6 +60,7 @@
     <Compile Include="RelayState\RelayStateSerialiserTest.cs" />
     <Compile Include="ResponseTest.cs" />
     <Compile Include="Mock\Tokens\SubjectConfirmationDataValidatorMock.cs" />
+    <Compile Include="Tokens\TokenSerialiserTests.cs" />
     <Compile Include="Tokens\ValidatorInvokerTests.cs" />
   </ItemGroup>
   <ItemGroup>

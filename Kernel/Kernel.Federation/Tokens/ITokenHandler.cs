@@ -7,5 +7,6 @@ namespace Kernel.Federation.Tokens
     {
         Saml2Assertion GetAssertion(XmlReader reader, string partnerId);
         SecurityToken ReadToken(XmlReader reader, string partnerId);
+        TokenHandlingResponse HandleToken(HandleTokenContext context);
     }
 }

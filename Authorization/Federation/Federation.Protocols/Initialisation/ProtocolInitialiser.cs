@@ -35,6 +35,7 @@ namespace Federation.Protocols.Initialisation
             dependencyResolver.RegisterType<RelayStateHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<RelaystateSerialiser>(Lifetime.Transient);
             dependencyResolver.RegisterType<SubjectConfirmationDataValidator>(Lifetime.Transient);
+            dependencyResolver.RegisterType<TokenSerialiser>(Lifetime.Transient);
 
             dependencyResolver.RegisterFactory<Func<Type, object>>(() => dependencyResolver.Resolve, Lifetime.Transient);
             dependencyResolver.RegisterFactory< Func<string, IProtocolHandler> >(() =>

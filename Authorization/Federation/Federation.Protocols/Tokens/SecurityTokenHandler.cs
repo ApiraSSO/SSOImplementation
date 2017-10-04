@@ -11,11 +11,21 @@ namespace Federation.Protocols.Tokens
 {
     internal class SecurityTokenHandler : Saml2SecurityTokenHandler, ITokenHandler, ITokenValidator
     {
+        //ToDo: remove
         private readonly ITokenHandlerConfigurationProvider _tokenHandlerConfigurationProvider;
+        //ToDo: remove
         private readonly ValidatorInvoker _validatorInvoker;
+
+        private readonly ITokenSerialiser _tokenSerialiser;
 
         public SecurityTokenHandler(ITokenHandlerConfigurationProvider tokenHandlerConfigurationProvider, ValidatorInvoker validatorInvoker)
         {
+            this._tokenHandlerConfigurationProvider = tokenHandlerConfigurationProvider;
+            this._validatorInvoker = validatorInvoker;
+        }
+        public SecurityTokenHandler(ITokenSerialiser tokenSerialiser, ITokenHandlerConfigurationProvider tokenHandlerConfigurationProvider, ValidatorInvoker validatorInvoker)
+        {
+            this._tokenSerialiser = tokenSerialiser;
             this._tokenHandlerConfigurationProvider = tokenHandlerConfigurationProvider;
             this._validatorInvoker = validatorInvoker;
         }
@@ -29,17 +39,22 @@ namespace Federation.Protocols.Tokens
             return this.ReadAssertion(reader);
         }
 
+        public TokenHandlingResponse HandleToken(HandleTokenContext context)
+        {
+            throw new NotImplementedException();
+        }
+
         public  SecurityToken ReadToken(XmlReader reader, string partnerId)
         {
-            this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
-            TokenHelper.MoveToToken(reader);
-            return base.ReadToken(reader);
+            var token = this._tokenSerialiser.DeserialiseToken(reader, partnerId);
+            return token;
         }
 
         public bool Validate(SecurityToken token, ICollection<ValidationResult> validationResult, string partnerId)
         {
             try
             {
+                this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
                 this.Claims = base.ValidateToken(token);
                 return true;
             }

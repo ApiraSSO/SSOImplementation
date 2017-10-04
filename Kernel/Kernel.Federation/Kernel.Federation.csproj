@@ -105,13 +105,17 @@
     <Compile Include="Protocols\ISamlClauseBuilder.cs" />
     <Compile Include="Protocols\Response\IReponseHandler.cs" />
     <Compile Include="Protocols\Response\IResponseParser.cs" />
+    <Compile Include="Tokens\HandleTokenContext.cs" />
     <Compile Include="Tokens\ITokenClauseValidator.cs" />
     <Compile Include="Tokens\ITokenHandler.cs" />
+    <Compile Include="Tokens\ITokenConfigurationProvider.cs" />
     <Compile Include="Tokens\ITokenHandlerConfigurationProvider.cs" />
+    <Compile Include="Tokens\ITokenSerialiser.cs" />
     <Compile Include="Tokens\ITokenValidator.cs" />
     <Compile Include="Protocols\SamlProtocolContext.cs" />
     <Compile Include="Protocols\SamlRequestContext.cs" />
     <Compile Include="Protocols\SamlResponseContext.cs" />
+    <Compile Include="Tokens\TokenHandlingResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kernel.Cache\Kernel.Cache.csproj">
