@@ -14,7 +14,7 @@ namespace Federation.Protocols.Tokens
 {
     internal class TokenHelper
     {
-        internal static XmlDocument GetPlainTestAsertion(SecurityTokenResolver securityTokenResolver, XmlElement el)
+        internal static XmlDocument GetPlainAsertion(SecurityTokenResolver securityTokenResolver, XmlElement el)
         {
             var encryptedDataElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedData.ElementName, Saml20Constants.Xenc, el);
 

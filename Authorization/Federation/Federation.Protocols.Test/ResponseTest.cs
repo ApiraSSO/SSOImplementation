@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IdentityModel.Tokens;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -80,28 +81,7 @@ namespace Federation.Protocols.Test
 
         }
 
-        [Test]
-        public void Handler_Decrypt_assertion_Test()
-        {
-            throw new NotImplementedException();
-            ////ARRANGE
-            //var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
-            //var doc = new XmlDocument();
-            //doc.Load(@"D:\Dan\Software\Apira\a.xml");
-            //var el = doc.DocumentElement;
-            //var certValidator = new CertificateValidatorMock();
-            //var encryptedList = el.GetElementsByTagName(EncryptedAssertion.ElementName, Saml20Constants.Assertion);
-            //var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
-            //var validator = new SubjectConfirmationDataValidatorMock(() => { });
-            //var invoker = new ValidatorInvoker(t => validator);
-            //var saml2SecurityTokenHandler = new Federation.Protocols.Tokens.SecurityTokenHandler(tokenHandlerConfigurationProvider, invoker);
-            //if (encryptedList.Count == 1)
-            //{
-            //    var encryptedAssertion = (XmlElement)encryptedList[0];
-            //    saml2SecurityTokenHandler.SetConfigurationFor("testShib");
-            //    var decrypted = TokenHelper.GetPlainTestAsertion(saml2SecurityTokenHandler.Configuration.ServiceTokenResolver, encryptedAssertion);
-            //}
-        }
+       
 
         [Test]
         [Ignore("Redundant")]
@@ -115,7 +95,7 @@ namespace Federation.Protocols.Test
         }
 
         [Test]
-        [Ignore("Redundant")]
+        //[Ignore("Redundant")]
         public void T3_local()
         {
             //ARRANGE
