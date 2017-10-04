@@ -95,7 +95,7 @@ namespace Federation.Protocols.Test
         }
 
         [Test]
-        //[Ignore("Redundant")]
+        [Ignore("Redundant")]
         public void T3_local()
         {
             //ARRANGE
