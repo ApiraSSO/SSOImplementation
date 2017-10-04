@@ -108,12 +108,22 @@ namespace Federation.Protocols.Test
         public void T3()
         {
             //ARRANGE
-            
+            var path = @"D:\Dan\Software\Apira\a.xml";
             var doc = new XmlDocument();
-            doc.Load(@"D:\Dan\Software\Apira\a.xml");
+            doc.Load(path);
             var el = doc.DocumentElement;
         }
-        
+
+        [Test]
+        [Ignore("Redundant")]
+        public void T3_local()
+        {
+            //ARRANGE
+            var path = @"D:\Dan\Software\Apira\Assertions\FromLocal\20171041056.xml";
+            var doc = new XmlDocument();
+            doc.Load(path);
+            var el = doc.DocumentElement;
+        }
         #region Zombies To be removed
         private static XmlElement GetElement(string element, string elementNS, XmlElement doc)
         {

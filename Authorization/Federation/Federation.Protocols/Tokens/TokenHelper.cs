@@ -62,7 +62,7 @@ namespace Federation.Protocols.Tokens
 
         internal static void MoveToToken(XmlReader reader)
         {
-            while (!reader.IsStartElement(EncryptedAssertion.ElementName, Saml20Constants.Assertion))
+            while (!(reader.IsStartElement(EncryptedAssertion.ElementName, Saml20Constants.Assertion) || reader.IsStartElement("Assertion", Saml20Constants.Assertion)))
             {
                 if (!reader.Read())
                     throw new InvalidOperationException("Can't find assertion element.");
