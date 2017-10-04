@@ -109,7 +109,6 @@
     <Compile Include="Tokens\ITokenClauseValidator.cs" />
     <Compile Include="Tokens\ITokenHandler.cs" />
     <Compile Include="Tokens\ITokenConfigurationProvider.cs" />
-    <Compile Include="Tokens\ITokenHandlerConfigurationProvider.cs" />
     <Compile Include="Tokens\ITokenSerialiser.cs" />
     <Compile Include="Tokens\ITokenValidator.cs" />
     <Compile Include="Protocols\SamlProtocolContext.cs" />
