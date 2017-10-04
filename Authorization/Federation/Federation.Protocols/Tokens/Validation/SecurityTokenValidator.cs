@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens;
-using System.Security.Claims;
 using Kernel.Federation.Tokens;
 
 namespace Federation.Protocols.Tokens.Validation
@@ -19,8 +18,6 @@ namespace Federation.Protocols.Tokens.Validation
             this._validatorInvoker = validatorInvoker;
         }
        
-        internal IEnumerable<ClaimsIdentity> Claims { get; private set; }
-       
         public bool Validate(SecurityToken token, ICollection<ValidationResult> validationResult, string partnerId)
         {
             try
@@ -28,7 +25,7 @@ namespace Federation.Protocols.Tokens.Validation
                 var configuration = this._tokenHandlerConfigurationProvider.GetConfiguration(partnerId);
                 base.CertificateValidator = configuration.CertificateValidator;
                 base.Configuration = configuration;
-                this.Claims = base.ValidateToken(token);
+                var claims = base.ValidateToken(token);
                 return true;
             }
             catch (Exception ex)

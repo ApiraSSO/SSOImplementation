@@ -19,8 +19,9 @@ namespace Federation.Protocols.Response
     {
         private readonly IRelayStateHandler _relayStateHandler;
         private readonly ITokenHandler _tokenHandler;
-        private readonly IUserClaimsProvider<SecurityToken> _identityProvider;
-        public ResponseHandler(IRelayStateHandler relayStateHandler, ITokenHandler tokenHandler, IUserClaimsProvider<SecurityToken> identityProvider)
+        //private readonly IUserClaimsProvider<SecurityToken> _identityProvider;
+        private readonly IUserClaimsProvider<Saml2SecurityToken> _identityProvider;
+        public ResponseHandler(IRelayStateHandler relayStateHandler, ITokenHandler tokenHandler, IUserClaimsProvider<Saml2SecurityToken> identityProvider)
         {
             this._relayStateHandler = relayStateHandler;
             this._tokenHandler = tokenHandler;
@@ -49,9 +50,9 @@ namespace Federation.Protocols.Response
             if (!isValid)
                 throw new InvalidOperationException(validationResult.ToArray()[0].ErrorMessage);
             //ToDo: Decide how to do it 03/10/17. Inject this one when you've decided what to do
-            var foo = new ClaimsProvider();
-            var identity = await foo.GenerateUserIdentitiesAsync((Federation.Protocols.Tokens.SecurityTokenHandler)this._tokenHandler, new[] { context.AuthenticationMethod });
-            //var identity = await this._identityProvider.GenerateUserIdentitiesAsync(token, new[] { context.AuthenticationMethod });
+            //var foo = new ClaimsProvider();
+            //var identity = await foo.GenerateUserIdentitiesAsync((Federation.Protocols.Tokens.SecurityTokenHandler)this._tokenHandler, new[] { context.AuthenticationMethod });
+            var identity = await this._identityProvider.GenerateUserIdentitiesAsync((Saml2SecurityToken)token, new[] { context.AuthenticationMethod });
             return identity[context.AuthenticationMethod];
            
         }

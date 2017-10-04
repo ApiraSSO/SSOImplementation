@@ -90,6 +90,20 @@ namespace Federation.Protocols.Tokens
             };
             
             configuration.AudienceRestriction.AllowedAudienceUris.Add(new Uri(partnerContex.MetadataContext.EntityId));
+
+            //ToDo: sort this one
+
+            if (!((ConfigurationBasedIssuerNameRegistry)configuration.IssuerNameRegistry).ConfiguredTrustedIssuers.ContainsKey("953926B57F873960222A2F1C4002FAF9636B8D47"))
+                ((ConfigurationBasedIssuerNameRegistry)configuration.IssuerNameRegistry).AddTrustedIssuer("953926B57F873960222A2F1C4002FAF9636B8D47", "https://idp.testshib.org/idp/shibboleth");
+            return configuration;
+        }
+
+        public SecurityTokenHandlerConfiguration GetTrustedIssuersConfiguration()
+        {
+            var configuration = new SecurityTokenHandlerConfiguration
+            {
+               
+            };
             
             //ToDo: sort this one
 

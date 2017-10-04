@@ -31,7 +31,7 @@ namespace Federation.Protocols.Tokens
             this._tokenHandlerConfigurationProvider = tokenHandlerConfigurationProvider;
             this._validatorInvoker = validatorInvoker;
         }
-        internal IEnumerable<ClaimsIdentity> Claims { get; private set; }
+        //internal IEnumerable<ClaimsIdentity> Claims { get; private set; }
 
         public Saml2Assertion GetAssertion(XmlReader reader, string partnerId)
         {
@@ -54,18 +54,7 @@ namespace Federation.Protocols.Tokens
 
         public bool Validate(SecurityToken token, ICollection<ValidationResult> validationResult, string partnerId)
         {
-            try
-            {
-                var foo = this._tokenValidator.Validate(token, validationResult, partnerId);
-                this._tokenHandlerConfigurationProvider.Configuration(this, partnerId);
-                this.Claims = base.ValidateToken(token);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                validationResult.Add(new ValidationResult(ex.Message));
-                return false;
-            }
+            return this._tokenValidator.Validate(token, validationResult, partnerId);
         }
 
         protected override void ValidateConfirmationData(Saml2SubjectConfirmationData confirmationData)

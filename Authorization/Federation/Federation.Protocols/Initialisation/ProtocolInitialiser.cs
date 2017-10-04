@@ -26,7 +26,7 @@ namespace Federation.Protocols.Initialisation
             dependencyResolver.RegisterType<ResponseHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<SecurityTokenHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<TokenHandlerConfigurationProvider>(Lifetime.Transient);
-            dependencyResolver.RegisterType<UserClaimsProvider>(Lifetime.Transient);
+            dependencyResolver.RegisterType<ClaimsProvider>(Lifetime.Transient);
             dependencyResolver.RegisterType<MessageEncoding>(Lifetime.Transient);
             dependencyResolver.RegisterType<HttpRedirectBindingHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<SamlRequestBuilder>(Lifetime.Transient);
