@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IdentityModel.Tokens;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -7,10 +6,6 @@ using System.Text;
 using System.Xml;
 using Federation.Protocols.Request;
 using Federation.Protocols.Request.Elements;
-using Federation.Protocols.Test.Mock;
-using Federation.Protocols.Test.Mock.Tokens;
-using Federation.Protocols.Tokens;
-using Federation.Protocols.Tokens.Validation;
 using NUnit.Framework;
 
 namespace Federation.Protocols.Test
@@ -34,55 +29,8 @@ namespace Federation.Protocols.Test
                 var encryptedAssertion = (XmlElement)encryptedList[0];
                 this.Decrypt(encryptedAssertion);
             }
-
-
         }
-
-        [Test]
-        public void Handler_ReadAssertion_Test()
-        {
-            throw new NotImplementedException();
-            //ARRANGE
-            //var certValidator = new CertificateValidatorMock();
-            //var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
-            //var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
-            //var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
-            //var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
-            //var validator = new SubjectConfirmationDataValidatorMock(() => { });
-            //var invoker = new ValidatorInvoker(t => validator);
-            //var saml2SecurityTokenHandler = new Federation.Protocols.Tokens.SecurityTokenHandler(tokenHandlerConfigurationProvider, invoker);
-            ////ACT
-
-            //var assertion = saml2SecurityTokenHandler.GetAssertion(reader, "testshib");
-            ////Assert
-            //Assert.NotNull(assertion);
-
-        }
-
-        [Test]
-        public void Handler_Read_Token_Test()
-        {
-            throw new NotImplementedException();
-            ////ARRANGE
-            //var certValidator = new CertificateValidatorMock();
-            //var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
-            //var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
-            //var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
-            //var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
-            //var validator = new SubjectConfirmationDataValidatorMock(() => { });
-            //var invoker = new ValidatorInvoker(t => validator);
-            //var saml2SecurityTokenHandler = new Federation.Protocols.Tokens.SecurityTokenHandler(tokenHandlerConfigurationProvider, invoker);
-            ////ACT
-            //var token = saml2SecurityTokenHandler.ReadToken(reader, "testshib");
-            ////var claims = saml2SecurityTokenHandler.ValidateToken(token);
-
-            ////Assert
-            //Assert.NotNull(token);
-
-        }
-
-       
-
+        
         [Test]
         [Ignore("Redundant")]
         public void T3()
