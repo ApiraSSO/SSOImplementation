@@ -121,6 +121,7 @@
     <Compile Include="Tokens\TokenHandlerConfigurationProvider.cs" />
     <Compile Include="ClaimsProvider.cs" />
     <Compile Include="Tokens\TokenSerialiser.cs" />
+    <Compile Include="Tokens\Validation\SecurityTokenValidator.cs" />
     <Compile Include="Tokens\Validation\SubjectConfirmationDataValidator.cs" />
     <Compile Include="Tokens\Validation\ValidatorInvoker.cs" />
     <Compile Include="UserClaimsProvider.cs" />

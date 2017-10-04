@@ -43,9 +43,9 @@ namespace Federation.Protocols.Response
             var token = _tokenHandler.ReadToken(xmlReader, relayState.ToString());
             //sort this out
             var issuer = ((Saml2SecurityToken)token).IssuerToken as X509SecurityToken;
-            var validator = this._tokenHandler as ITokenValidator;
+            //var validator = this._tokenHandler as ITokenValidator;
             var validationResult = new List<ValidationResult>();
-            var isValid = validator.Validate(token, validationResult, relayState.ToString());
+            var isValid = _tokenHandler.Validate(token, validationResult, relayState.ToString());
             if (!isValid)
                 throw new InvalidOperationException(validationResult.ToArray()[0].ErrorMessage);
             //ToDo: Decide how to do it 03/10/17. Inject this one when you've decided what to do

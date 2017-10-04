@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 using Federation.Protocols.Test.Mock;
 using Federation.Protocols.Tokens;
 using NUnit.Framework;
@@ -27,8 +22,7 @@ namespace Federation.Protocols.Test.Tokens
             
             //ACT
             var token = tokenSerialiser.DeserialiseToken(reader, "testshib");
-            //var claims = saml2SecurityTokenHandler.ValidateToken(token);
-
+            
             //Assert
             Assert.NotNull(token);
         }
