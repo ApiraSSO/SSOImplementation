@@ -54,6 +54,27 @@ namespace Federation.Protocols.Tokens
             return assertion;
         }
 
+        internal static bool VerifySignature(XmlElement el)
+        {
+            var cspParams = new CspParameters();
+            cspParams.KeyContainerName = "XML_DSIG_RSA_KEY";
+            var rsaKey = new RSACryptoServiceProvider(cspParams);
+            
+            //xmlDoc.PreserveWhitespace = true;
+            
+            var assertionElement = el.LocalName == "Assertion" ? el : TokenHelper.GetElement("Assertion", "urn:oasis:names:tc:SAML:2.0:assertion", el);
+            var signEl = TokenHelper.GetElement("Signature", "http://www.w3.org/2000/09/xmldsig#", assertionElement);
+            var certEl = TokenHelper.GetElement("X509Certificate", "http://www.w3.org/2000/09/xmldsig#", signEl);
+
+            var signedXml = new SignedXml(el);
+
+            var dcert2 = new X509Certificate2(Convert.FromBase64String(certEl.InnerText));
+
+            signedXml.LoadXml(signEl);
+            var valid = signedXml.CheckSignature(dcert2, true);
+            return valid;
+        }
+
         internal static XmlElement GetElement(string element, string elementNS, XmlElement doc)
         {
             var list = doc.GetElementsByTagName(element, elementNS);
