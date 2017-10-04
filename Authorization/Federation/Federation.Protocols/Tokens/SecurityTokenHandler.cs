@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens;
-using System.Xml;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Kernel.Authentication.Claims;
 using Kernel.Federation.Tokens;
 
 namespace Federation.Protocols.Tokens
@@ -11,27 +12,30 @@ namespace Federation.Protocols.Tokens
     {
         private readonly ITokenSerialiser _tokenSerialiser;
         private readonly ITokenValidator _tokenValidator;
-        
-        public SecurityTokenHandler(ITokenSerialiser tokenSerialiser, ITokenValidator tokenValidator)
+        private readonly IUserClaimsProvider<Saml2SecurityToken> _identityProvider;
+
+        public SecurityTokenHandler(ITokenSerialiser tokenSerialiser, ITokenValidator tokenValidator, IUserClaimsProvider<Saml2SecurityToken> identityProvider)
         {
             this._tokenSerialiser = tokenSerialiser;
             this._tokenValidator = tokenValidator;
+            this._identityProvider = identityProvider;
         }
         
-        public TokenHandlingResponse HandleToken(HandleTokenContext context)
+        public async Task<TokenHandlingResponse> HandleToken(HandleTokenContext context)
         {
-            throw new NotImplementedException();
-        }
+            var partnerId = context.RelayState.ToString();
+            ClaimsIdentity identity = null;
+            var token = this._tokenSerialiser.DeserialiseToken(context.Token, partnerId);
+            var validationResult = new List<ValidationResult>();
+            var isValid = this._tokenValidator.Validate(token, validationResult, partnerId);
 
-        public  SecurityToken ReadToken(XmlReader reader, string partnerId)
-        {
-            var token = this._tokenSerialiser.DeserialiseToken(reader, partnerId);
-            return token;
-        }
+            if (isValid)
+            {
+                var identities = await this._identityProvider.GenerateUserIdentitiesAsync((Saml2SecurityToken)token, new[] { context.AuthenticationMethod });
+                identity = identities[context.AuthenticationMethod];
+            }
 
-        public bool Validate(SecurityToken token, ICollection<ValidationResult> validationResult, string partnerId)
-        {
-            return this._tokenValidator.Validate(token, validationResult, partnerId);
+            return new TokenHandlingResponse(token, identity, validationResult);
         }
     }
 }

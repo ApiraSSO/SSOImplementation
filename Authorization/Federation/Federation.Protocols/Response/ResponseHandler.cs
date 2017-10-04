@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens;
 using System.IO;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using Kernel.Authentication.Claims;
 using Kernel.Federation.Protocols;
 using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 using Kernel.Federation.Protocols.Response;
@@ -19,13 +15,11 @@ namespace Federation.Protocols.Response
     {
         private readonly IRelayStateHandler _relayStateHandler;
         private readonly ITokenHandler _tokenHandler;
-        //private readonly IUserClaimsProvider<SecurityToken> _identityProvider;
-        private readonly IUserClaimsProvider<Saml2SecurityToken> _identityProvider;
-        public ResponseHandler(IRelayStateHandler relayStateHandler, ITokenHandler tokenHandler, IUserClaimsProvider<Saml2SecurityToken> identityProvider)
+        
+        public ResponseHandler(IRelayStateHandler relayStateHandler, ITokenHandler tokenHandler)
         {
             this._relayStateHandler = relayStateHandler;
             this._tokenHandler = tokenHandler;
-            this._identityProvider = identityProvider;
         }
         public async Task<ClaimsIdentity> Handle(HttpPostResponseContext context)
         {
@@ -39,22 +33,12 @@ namespace Federation.Protocols.Response
 #if(DEBUG)
             this.SaveTemp(responseText);
 #endif
+
             var xmlReader = XmlReader.Create(new StringReader(responseText));
             this.ValidateResponseSuccess(xmlReader);
-            var token = _tokenHandler.ReadToken(xmlReader, relayState.ToString());
-            //sort this out
-            var issuer = ((Saml2SecurityToken)token).IssuerToken as X509SecurityToken;
-            //var validator = this._tokenHandler as ITokenValidator;
-            var validationResult = new List<ValidationResult>();
-            var isValid = _tokenHandler.Validate(token, validationResult, relayState.ToString());
-            if (!isValid)
-                throw new InvalidOperationException(validationResult.ToArray()[0].ErrorMessage);
-            //ToDo: Decide how to do it 03/10/17. Inject this one when you've decided what to do
-            //var foo = new ClaimsProvider();
-            //var identity = await foo.GenerateUserIdentitiesAsync((Federation.Protocols.Tokens.SecurityTokenHandler)this._tokenHandler, new[] { context.AuthenticationMethod });
-            var identity = await this._identityProvider.GenerateUserIdentitiesAsync((Saml2SecurityToken)token, new[] { context.AuthenticationMethod });
-            return identity[context.AuthenticationMethod];
-           
+            var handlerContext = new HandleTokenContext(xmlReader, relayState, context.AuthenticationMethod);
+            var response = await this._tokenHandler.HandleToken(handlerContext);
+            return response.Identity;
         }
 
         //ToDo: sort this out clean up
