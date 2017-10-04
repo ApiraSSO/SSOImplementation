@@ -33,12 +33,22 @@ namespace Federation.Protocols.Response
 #if(DEBUG)
             this.SaveTemp(responseText);
 #endif
-
-            var xmlReader = XmlReader.Create(new StringReader(responseText));
-            this.ValidateResponseSuccess(xmlReader);
-            var handlerContext = new HandleTokenContext(xmlReader, relayState, context.AuthenticationMethod);
-            var response = await this._tokenHandler.HandleToken(handlerContext);
-            return response.Identity;
+            using (var reader = new StringReader(responseText))
+            {
+                using (var xmlReader = XmlReader.Create(reader))
+                {
+                    this.ValidateResponseSuccess(xmlReader);
+                }
+            }
+            using (var reader = new StringReader(responseText))
+            {
+                using (var xmlReader = XmlReader.Create(reader))
+                {
+                    var handlerContext = new HandleTokenContext(xmlReader, relayState, context.AuthenticationMethod);
+                    var response = await this._tokenHandler.HandleToken(handlerContext);
+                    return response.Identity;
+                }
+            }
         }
 
         //ToDo: sort this out clean up

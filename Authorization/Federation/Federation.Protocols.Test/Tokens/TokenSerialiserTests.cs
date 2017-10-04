@@ -15,7 +15,7 @@ namespace Federation.Protocols.Test.Tokens
             //ARRANGE
             var certValidator = new CertificateValidatorMock();
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
-            var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\a.xml");
+            var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\Assertions\20171041624.xml");
             var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
             
