@@ -91,7 +91,7 @@ namespace Federation.Protocols.Test.Tokens
             var el = doc.DocumentElement;
             var inner = new X509CertificateStoreTokenResolver("TestCertStore", StoreLocation.LocalMachine);
 
-            var encryptedList = el.GetElementsByTagName(EncryptedAssertion.ElementName, Saml20Constants.Assertion);
+            var encryptedList = el.GetElementsByTagName(HttpRedirectBindingConstants.EncryptedAssertion, Saml20Constants.Assertion);
             XmlDocument result = null;
 
             //ACT

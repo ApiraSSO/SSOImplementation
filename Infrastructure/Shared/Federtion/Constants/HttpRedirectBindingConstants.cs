@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shared.Federtion.Constants
+﻿namespace Shared.Federtion.Constants
 {
     public class HttpRedirectBindingConstants
     {
@@ -32,5 +26,11 @@ namespace Shared.Federtion.Constants
         /// Signature name
         /// </summary>
         public const string Signature = "Signature";
+
+        public const string EncryptedData = "EncryptedData";
+
+        public const string EncryptedKey = "EncryptedKey";
+
+        public const string EncryptedAssertion = "EncryptedAssertion";
     }
 }

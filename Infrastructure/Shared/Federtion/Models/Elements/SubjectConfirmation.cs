@@ -48,7 +48,6 @@ namespace Shared.Federtion.Models
         /// </summary>
         /// <value>The item.</value>
         [XmlElement("BaseID", typeof(BaseIdAbstract), Order = 1)]
-        [XmlElement(EncryptedElement.ElementName, typeof(EncryptedElement), Order = 1)]
         [XmlElement("NameID", typeof(NameId), Order = 1)]
         public object Item { get; set; }
 

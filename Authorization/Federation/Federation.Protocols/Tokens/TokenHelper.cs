@@ -8,7 +8,6 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Xml;
 using Shared.Federtion.Constants;
-using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Tokens
 {
@@ -16,12 +15,12 @@ namespace Federation.Protocols.Tokens
     {
         internal static XmlDocument GetPlainAsertion(SecurityTokenResolver securityTokenResolver, XmlElement el)
         {
-            var encryptedDataElement = GetElement(Shared.Federtion.Models.EncryptedData.ElementName, Saml20Constants.Xenc, el);
+            var encryptedDataElement = GetElement(HttpRedirectBindingConstants.EncryptedData, Saml20Constants.Xenc, el);
 
             var encryptedData = new System.Security.Cryptography.Xml.EncryptedData();
             encryptedData.LoadXml(encryptedDataElement);
             var encryptedKey = new System.Security.Cryptography.Xml.EncryptedKey();
-            var encryptedKeyElement = GetElement(Shared.Federtion.Models.EncryptedKey.ElementName, Saml20Constants.Xenc, el);
+            var encryptedKeyElement = GetElement(HttpRedirectBindingConstants.EncryptedKey, Saml20Constants.Xenc, el);
 
             encryptedKey.LoadXml(encryptedKeyElement);
             var securityKeyIdentifier = new SecurityKeyIdentifier();
@@ -81,7 +80,7 @@ namespace Federation.Protocols.Tokens
 
         internal static void MoveToToken(XmlReader reader)
         {
-            while (!(reader.IsStartElement(EncryptedAssertion.ElementName, Saml20Constants.Assertion) || reader.IsStartElement("Assertion", Saml20Constants.Assertion)))
+            while (!(reader.IsStartElement(HttpRedirectBindingConstants.EncryptedAssertion, Saml20Constants.Assertion) || reader.IsStartElement("Assertion", Saml20Constants.Assertion)))
             {
                 if (!reader.Read())
                     throw new InvalidOperationException("Can't find assertion element.");

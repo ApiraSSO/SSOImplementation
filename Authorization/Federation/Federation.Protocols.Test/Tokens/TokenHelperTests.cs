@@ -4,7 +4,6 @@ using System.Xml;
 using Federation.Protocols.Tokens;
 using NUnit.Framework;
 using Shared.Federtion.Constants;
-using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Test.Tokens
 {
@@ -20,7 +19,7 @@ namespace Federation.Protocols.Test.Tokens
             var el = doc.DocumentElement;
             var inner = new X509CertificateStoreTokenResolver("TestCertStore", StoreLocation.LocalMachine);
             
-            var encryptedList = el.GetElementsByTagName(EncryptedAssertion.ElementName, Saml20Constants.Assertion);
+            var encryptedList = el.GetElementsByTagName(HttpRedirectBindingConstants.EncryptedAssertion, Saml20Constants.Assertion);
             XmlDocument result = null;
             
             //ACT
