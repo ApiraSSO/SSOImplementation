@@ -73,6 +73,10 @@
       <Project>{E43F61D6-1957-48E8-9D1A-5B55B736C09E}</Project>
       <Name>DeflateCompression</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Infrastructure\Shared\Shared.csproj">
+      <Project>{FA2CD1BF-A890-4306-9EDB-A1B10042E57E}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Kernel\Kernel.Compression\Kernel.Compression.csproj">
       <Project>{439DC5B8-1177-454E-94EC-8A8D2DDC9E22}</Project>
       <Name>Kernel.Compression</Name>

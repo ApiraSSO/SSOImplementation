@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Federation.Protocols.Request;
 using Kernel.Federation.Protocols;
 using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 using Kernel.Federation.Protocols.Response;
@@ -25,7 +26,7 @@ namespace Federation.Protocols.Response
         {
             //ToDo handle this properly, response handling, token validation, claims generation etc
             var elements = context.Form;
-            var responseBase64 = elements["SAMLResponse"];
+            var responseBase64 = elements[HttpRedirectBindingConstants.SamlResponse];
             var responseBytes = Convert.FromBase64String(responseBase64);
             var responseText = Encoding.UTF8.GetString(responseBytes);
             

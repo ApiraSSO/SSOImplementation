@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Federation.Protocols.Request
 {
-    internal class HttpRedirectBindingConstants
+    public class HttpRedirectBindingConstants
     {
         /// <summary>
         /// SAMLResponse name
