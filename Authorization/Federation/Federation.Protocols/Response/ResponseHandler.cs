@@ -9,6 +9,7 @@ using Kernel.Federation.Protocols;
 using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 using Kernel.Federation.Protocols.Response;
 using Kernel.Federation.Tokens;
+using Shared.Federtion.Constants;
 
 namespace Federation.Protocols.Response
 {
@@ -55,13 +56,13 @@ namespace Federation.Protocols.Response
         //ToDo: sort this out clean up
         private void ValidateResponseSuccess(XmlReader reader)
         {
-            while (!reader.IsStartElement("StatusCode", "urn:oasis:names:tc:SAML:2.0:protocol"))
+            while (!reader.IsStartElement("StatusCode", Saml20Constants.Protocol))
             {
                 if (!reader.Read())
                     throw new InvalidOperationException("Can't find status code element.");
             }
             var status = reader.GetAttribute("Value");
-            if (String.IsNullOrWhiteSpace(status) || !String.Equals(status, "urn:oasis:names:tc:SAML:2.0:status:Success"))
+            if (String.IsNullOrWhiteSpace(status) || !String.Equals(status, StatusCodes.Success))
                 throw new Exception(status);
         }
         //ToDo clean up

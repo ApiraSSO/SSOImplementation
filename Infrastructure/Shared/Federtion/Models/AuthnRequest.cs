@@ -32,9 +32,7 @@ namespace Federation.Protocols.Request
         /// The XML Element name of this class
         /// </summary>
         public const string ElementName = "AuthnRequest";
-
         
-
         #region Attributes
 
         /// <summary>
