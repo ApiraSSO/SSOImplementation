@@ -54,6 +54,7 @@
     <Compile Include="HelperTests.cs" />
     <Compile Include="Mock\CertificateValidatorMock.cs" />
     <Compile Include="Mock\FederationPartyContextBuilderMock.cs" />
+    <Compile Include="Mock\FileHelper.cs" />
     <Compile Include="Mock\Saml2SecurityTokenHandlerMock.cs" />
     <Compile Include="Mock\Tokens\SecurityTokenHandlerMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
