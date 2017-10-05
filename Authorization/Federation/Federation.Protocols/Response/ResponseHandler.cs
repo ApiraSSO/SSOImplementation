@@ -33,7 +33,7 @@ namespace Federation.Protocols.Response
             
             var relayState = await this._relayStateHandler.GetRelayStateFromFormData(elements);
 #if(DEBUG)
-            this.SaveTemp(responseText);
+            this.SaveTemp(responseText, relayState);
 #endif
             using (var reader = new StringReader(responseText))
             {
@@ -66,15 +66,16 @@ namespace Federation.Protocols.Response
                 throw new Exception(status);
         }
         //ToDo clean up
-        private void SaveTemp(string responseText)
+        private void SaveTemp(string responseText, object relayState)
         {
             try
             {
-                var path = @"D:\Dan\Software\Apira\Assertions\";
+                var partner = relayState.ToString();
+                var path = String.Format(@"D:\Dan\Software\Apira\Assertions\{0}", partner == "local" ? @"\Local" : String.Empty);
                 var now = DateTimeOffset.Now;
                 var tag = String.Format("{0}{1}{2}{3}{4}", now.Year, now.Month, now.Day, now.Hour, now.Minute);
                 var writer = XmlWriter.Create(String.Format("{0}{1}{2}", path, tag, ".xml"));
-                var el = new XmlDocument();
+                var el = new XmlDocument { PreserveWhitespace = true };
                 el.Load(new StringReader(responseText));
                 el.DocumentElement.WriteTo(writer);
                 writer.Flush();

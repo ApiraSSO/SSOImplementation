@@ -19,7 +19,7 @@ namespace Federation.Protocols.Test.Tokens
             //ARRANGE
             var certValidator = new CertificateValidatorMock();
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
-            var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\Assertions\20171041624.xml");
+            var xmlReader = XmlReader.Create(@"D:\Dan\Software\Apira\Assertions\20171051545.xml");
             var reader = XmlReader.Create(xmlReader, xmlReader.Settings);
             var tokenHandlerConfigurationProvider = new TokenHandlerConfigurationProvider(federationPartyContextBuilder, certValidator);
             
@@ -36,7 +36,7 @@ namespace Federation.Protocols.Test.Tokens
         public void DeserialiseTokenTest_signed_only_assertion()
         {
             //ARRANGE
-            var path = @"D:\Dan\Software\Apira\Assertions\FromLocal\20171041056.xml";
+            var path = @"D:\Dan\Software\Apira\Assertions\Local\20171051548.xml";
             var certValidator = new CertificateValidatorMock();
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
             var xmlReader = XmlReader.Create(path);
@@ -46,17 +46,17 @@ namespace Federation.Protocols.Test.Tokens
             var tokenSerialiser = new TokenSerialiser(tokenHandlerConfigurationProvider);
            
             //ACT
-            var token = tokenSerialiser.DeserialiseToken(reader, "testshib");
+            var token = tokenSerialiser.DeserialiseToken(reader, "local");
 
             //Assert
             Assert.NotNull(token);
         }
 
         [Test]
-        public void DeserialiseTokenTest_signed_only_assertion_raw()
+        public void DeserialiseTokenTest_signed_only_assertion_read_assertion()
         {
             //ARRANGE
-            var path = @"D:\Dan\Software\Apira\Assertions\FromLocal\20171041550.xml";
+            var path = @"D:\Dan\Software\Apira\Assertions\Local\20171051548.xml";
             
             var certValidator = new CertificateValidatorMock();
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
@@ -75,10 +75,10 @@ namespace Federation.Protocols.Test.Tokens
         }
 
         [Test]
-        public void DeserialiseTokenTest_signed_only_assertion_raw1()
+        public void DeserialiseTokenTest_encrypted_assertion_manual_signarure_verification()
         {
             //ARRANGE
-            var path = @"D:\Dan\Software\Apira\Assertions\20171041824.xml";
+            var path = @"D:\Dan\Software\Apira\Assertions\20171051545.xml";
             var doc = new XmlDocument();
             doc.Load(path);
             var el = doc.DocumentElement;
@@ -100,10 +100,10 @@ namespace Federation.Protocols.Test.Tokens
         }
 
         [Test]
-        public void DeserialiseTokenTest_signed_only_assertion_raw2()
+        public void DeserialiseTokenTest_signed_only_assertion_manual_signature_verification()
         {
             //ARRANGE
-            var path = @"D:\Dan\Software\Apira\Assertions\FromLocal\20171041550.xml";
+            var path = @"D:\Dan\Software\Apira\Assertions\Local\20171051548.xml";
 
             var xmlDoc = new XmlDocument();
             xmlDoc.PreserveWhitespace = true;
