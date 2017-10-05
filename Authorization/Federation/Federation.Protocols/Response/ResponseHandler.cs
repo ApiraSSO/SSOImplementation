@@ -4,7 +4,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using Federation.Protocols.Request;
 using Kernel.Federation.Protocols;
 using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 using Kernel.Federation.Protocols.Response;
@@ -71,7 +70,7 @@ namespace Federation.Protocols.Response
             try
             {
                 var partner = relayState.ToString();
-                var path = String.Format(@"D:\Dan\Software\Apira\Assertions\{0}", partner == "local" ? @"\Local" : String.Empty);
+                var path = String.Format(@"D:\Dan\Software\Apira\Assertions\{0}", partner == "local" ? @"Local\" : String.Empty);
                 var now = DateTimeOffset.Now;
                 var tag = String.Format("{0}{1}{2}{3}{4}", now.Year, now.Month, now.Day, now.Hour, now.Minute);
                 var writer = XmlWriter.Create(String.Format("{0}{1}{2}", path, tag, ".xml"));

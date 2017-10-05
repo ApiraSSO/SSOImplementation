@@ -61,7 +61,7 @@ namespace Federation.Protocols.Tokens
             var rsaKey = new RSACryptoServiceProvider(cspParams);
             
             var assertionElement = el.LocalName == "Assertion" ? el : TokenHelper.GetElement("Assertion", "urn:oasis:names:tc:SAML:2.0:assertion", el);
-            var signEl = TokenHelper.GetElement("Signature", "http://www.w3.org/2000/09/xmldsig#", assertionElement);
+            var signEl = TokenHelper.GetElement("Signature", "http://www.w3.org/2000/09/xmldsig#", el);
             var certEl = TokenHelper.GetElement("X509Certificate", "http://www.w3.org/2000/09/xmldsig#", signEl);
 
             var signedXml = new SignedXml(assertionElement);

@@ -36,7 +36,7 @@ namespace Federation.Protocols.Test.Tokens
         public void DeserialiseTokenTest_signed_only_assertion()
         {
             //ARRANGE
-            var path = @"D:\Dan\Software\Apira\Assertions\Local\20171051548.xml";
+            var path = @"D:\Dan\Software\Apira\Assertions\Local\2017105177.xml";
             var certValidator = new CertificateValidatorMock();
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
             var xmlReader = XmlReader.Create(path);
@@ -103,7 +103,7 @@ namespace Federation.Protocols.Test.Tokens
         public void DeserialiseTokenTest_signed_only_assertion_manual_signature_verification()
         {
             //ARRANGE
-            var path = @"D:\Dan\Software\Apira\Assertions\Local\20171051548.xml";
+            var path = @"D:\Dan\Software\Apira\Assertions\Local\2017105177.xml";
 
             var xmlDoc = new XmlDocument();
             xmlDoc.PreserveWhitespace = true;
