@@ -7,7 +7,6 @@ namespace Kernel.Federation.Tokens
 {
     public class TokenHandlingResponse
     {
-        private bool _isValid;
         public TokenHandlingResponse(SecurityToken token, ClaimsIdentity identity, ICollection<ValidationResult> validationResults)
         {
             this.Token = token;
@@ -19,7 +18,7 @@ namespace Kernel.Federation.Tokens
         {
             get
             {
-                return this._isValid && this.ValidationResults != null && this.ValidationResults.Count == 0;
+                return this.ValidationResults != null && this.ValidationResults.Count == 0;
             }
         }
         public ClaimsIdentity Identity { get; }

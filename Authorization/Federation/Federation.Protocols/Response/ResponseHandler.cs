@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.IO;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Kernel.Extensions;
 using Kernel.Federation.Protocols;
 using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 using Kernel.Federation.Protocols.Response;
@@ -47,6 +49,8 @@ namespace Federation.Protocols.Response
                 {
                     var handlerContext = new HandleTokenContext(xmlReader, relayState, context.AuthenticationMethod);
                     var response = await this._tokenHandler.HandleToken(handlerContext);
+                    if (!response.IsValid)
+                        throw new Exception(EnumerableExtensions.Aggregate(response.ValidationResults.Select(x => x.ErrorMessage)));
                     return response.Identity;
                 }
             }
