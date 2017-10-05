@@ -1,8 +1,8 @@
-﻿using Federation.Protocols.Request.Attributes;
-using System;
+﻿using System;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// The SAML20 <c>StatementAbstract</c> class. It's the base class for all statements in SAML20.

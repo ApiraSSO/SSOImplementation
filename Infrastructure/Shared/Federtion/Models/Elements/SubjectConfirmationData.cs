@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// The &lt;SubjectConfirmationData&gt; element has the SubjectConfirmationDataType complex type. It

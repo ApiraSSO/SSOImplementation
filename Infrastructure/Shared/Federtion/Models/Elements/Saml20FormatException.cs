@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Federation.Protocols.Request.Elements
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// Thrown when a token does not comply with the SAML 2.0 specification.

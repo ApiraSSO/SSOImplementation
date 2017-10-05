@@ -1,15 +1,12 @@
-﻿using System;
-using System.IdentityModel.Tokens;
-using System.Security.Cryptography;
+﻿using System.IdentityModel.Tokens;
 using System.Security.Cryptography.X509Certificates;
-using System.Security.Cryptography.Xml;
 using System.Xml;
-using Federation.Protocols.Request;
-using Federation.Protocols.Request.Elements;
 using Federation.Protocols.Test.Mock;
 using Federation.Protocols.Test.Mock.Tokens;
 using Federation.Protocols.Tokens;
 using NUnit.Framework;
+using Shared.Federtion.Constants;
+using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Test.Tokens
 {

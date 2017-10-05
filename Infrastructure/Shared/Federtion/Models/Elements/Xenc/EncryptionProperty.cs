@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements.Xenc
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// Additional information items concerning the generation of the EncryptedData or EncryptedKey can be placed 

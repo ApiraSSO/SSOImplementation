@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace Federation.Protocols.Request.Elements
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// Helpers for converting between string and DateTime representations of UTC date-times

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Attributes
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// The &lt;Attribute&gt; element identifies an attribute by name and optionally includes its value(s). It has the

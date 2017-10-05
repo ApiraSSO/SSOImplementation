@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Attributes
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// The &lt;RequestedAttribute&gt; element specifies a service provider's interest in a specific SAML

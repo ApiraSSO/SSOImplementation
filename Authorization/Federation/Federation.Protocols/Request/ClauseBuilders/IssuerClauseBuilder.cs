@@ -1,4 +1,5 @@
 ﻿using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
+using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Request.ClauseBuilders
 {

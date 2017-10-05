@@ -1,8 +1,9 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements
+namespace Shared.Federtion.Models
 {
 
     /// <summary>

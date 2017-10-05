@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements.XmlDSig
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// <para>

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// All SAML requests are of types that are derived from the abstract RequestAbstractType complex type.

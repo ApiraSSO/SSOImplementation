@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements.Xenc
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// ReferenceList is an element that contains pointers from a key value of an EncryptedKey to items 

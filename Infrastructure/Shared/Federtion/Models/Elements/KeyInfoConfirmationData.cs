@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// The KeyInfoConfirmationDataType complex type constrains a &lt;SubjectConfirmationData&gt;

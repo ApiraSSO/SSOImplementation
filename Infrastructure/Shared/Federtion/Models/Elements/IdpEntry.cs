@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// The &lt;IDPEntry&gt; element specifies a single identity provider trusted by the requester to authenticate the

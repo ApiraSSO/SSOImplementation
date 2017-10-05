@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
-using Federation.Protocols.Request.Elements.XmlDSig;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements.Xenc
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// The Transforms type

@@ -44,15 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Federtion\AudienceRestriction.cs" />
+    <Compile Include="Federtion\Models\AudienceRestriction.cs" />
     <Compile Include="Federtion\Constants\NameIdentifierFormats.cs" />
     <Compile Include="Federtion\Constants\ProtocolBindings.cs" />
     <Compile Include="Federtion\Constants\Reasons.cs" />
     <Compile Include="Federtion\Constants\StatusCodes.cs" />
     <Compile Include="Federtion\Constants\SubjectConfirmationMethods.cs" />
     <Compile Include="Federtion\Models\AuthnRequest.cs" />
-    <Compile Include="Federtion\ConditionAbstract.cs" />
-    <Compile Include="Federtion\Conditions.cs" />
+    <Compile Include="Federtion\Models\ConditionAbstract.cs" />
+    <Compile Include="Federtion\Models\Conditions.cs" />
     <Compile Include="Federtion\ConfigurationManager.cs" />
     <Compile Include="Federtion\Constants\HttpRedirectBindingConstants.cs" />
     <Compile Include="Federtion\MetadataWriter.cs" />
@@ -94,9 +94,9 @@
     <Compile Include="Federtion\Models\Elements\Xenc\ReferenceType.cs" />
     <Compile Include="Federtion\Models\Elements\Xenc\TransformsType.cs" />
     <Compile Include="Federtion\Models\Elements\XmlDSig\Transform.cs" />
-    <Compile Include="Federtion\NameId.cs" />
-    <Compile Include="Federtion\OneTimeUse.cs" />
-    <Compile Include="Federtion\ProxyRestriction.cs" />
+    <Compile Include="Federtion\Models\NameId.cs" />
+    <Compile Include="Federtion\Models\OneTimeUse.cs" />
+    <Compile Include="Federtion\Models\ProxyRestriction.cs" />
     <Compile Include="Federtion\Models\RequestAbstract.cs" />
     <Compile Include="Federtion\Constants\Saml20Constants.cs" />
     <Compile Include="Initialisation\Initialiser.cs" />

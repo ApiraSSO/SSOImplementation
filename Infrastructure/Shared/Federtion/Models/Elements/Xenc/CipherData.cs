@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements.Xenc
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// The CipherData is a mandatory element that provides the encrypted data. It must either contain the 

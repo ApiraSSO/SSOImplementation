@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request
+namespace Shared.Federtion.Models
 {
     [Serializable]
     [XmlType(Namespace = Saml20Constants.Assertion)]

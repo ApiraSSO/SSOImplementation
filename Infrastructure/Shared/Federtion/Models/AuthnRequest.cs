@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
-using Federation.Protocols.Request.Elements;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// To request that an identity provider issue an assertion with an authentication statement, a presenter

@@ -1,4 +1,4 @@
-﻿namespace Federation.Protocols.Request
+﻿namespace Shared.Federtion.Constants
 {
     /// <summary>
     /// Constants related to SAML 2.0

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements.Xenc
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// EncryptionMethod is an optional element that describes the encryption algorithm applied to the cipher data. 

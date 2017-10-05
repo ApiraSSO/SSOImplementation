@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
-using Federation.Protocols.Request.Elements.Xenc;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Elements
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// Represents an encrypted element

@@ -1,6 +1,7 @@
-﻿using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
+﻿using Kernel.Federation.FederationPartner;
+using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
 using Kernel.Federation.Protocols;
-using Kernel.Federation.FederationPartner;
+using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Request.ClauseBuilders
 {

@@ -7,8 +7,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Xml;
-using Federation.Protocols.Request;
-using Federation.Protocols.Request.Elements;
+using Shared.Federtion.Constants;
+using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Tokens
 {
@@ -16,12 +16,12 @@ namespace Federation.Protocols.Tokens
     {
         internal static XmlDocument GetPlainAsertion(SecurityTokenResolver securityTokenResolver, XmlElement el)
         {
-            var encryptedDataElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedData.ElementName, Saml20Constants.Xenc, el);
+            var encryptedDataElement = GetElement(Shared.Federtion.Models.EncryptedData.ElementName, Saml20Constants.Xenc, el);
 
             var encryptedData = new System.Security.Cryptography.Xml.EncryptedData();
             encryptedData.LoadXml(encryptedDataElement);
             var encryptedKey = new System.Security.Cryptography.Xml.EncryptedKey();
-            var encryptedKeyElement = GetElement(Federation.Protocols.Request.Elements.Xenc.EncryptedKey.ElementName, Saml20Constants.Xenc, el);
+            var encryptedKeyElement = GetElement(Shared.Federtion.Models.EncryptedKey.ElementName, Saml20Constants.Xenc, el);
 
             encryptedKey.LoadXml(encryptedKeyElement);
             var securityKeyIdentifier = new SecurityKeyIdentifier();

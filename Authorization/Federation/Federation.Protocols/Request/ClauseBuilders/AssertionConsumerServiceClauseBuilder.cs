@@ -1,5 +1,6 @@
-﻿using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
-using System.Linq;
+﻿using System.Linq;
+using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
+using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Request.ClauseBuilders
 {

@@ -12,6 +12,8 @@ using Kernel.Federation.FederationPartner;
 using Kernel.Federation.Protocols;
 using Kernel.Reflection;
 using Serialisation.Xml;
+using Shared.Federtion.Constants;
+using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Request
 {

@@ -6,6 +6,7 @@ using Federation.Protocols.Request;
 using Kernel.Cryptography.CertificateManagement;
 using Kernel.Federation.FederationPartner;
 using Kernel.Federation.Protocols;
+using Shared.Federtion.Constants;
 
 namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
 {

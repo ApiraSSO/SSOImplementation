@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Federation.Protocols.Request
+namespace Shared.Federtion.Constants
 {
     public class HttpRedirectBindingConstants
     {

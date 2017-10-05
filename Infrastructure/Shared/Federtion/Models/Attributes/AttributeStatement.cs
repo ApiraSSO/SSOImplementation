@@ -1,8 +1,8 @@
-﻿using Federation.Protocols.Request.Elements;
-using System;
+﻿using System;
 using System.Xml.Serialization;
+using Shared.Federtion.Constants;
 
-namespace Federation.Protocols.Request.Attributes
+namespace Shared.Federtion.Models
 {
     /// <summary>
     /// The &lt;AttributeStatement&gt; element describes a statement by the SAML authority asserting that the
