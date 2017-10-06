@@ -16,6 +16,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
+using Shared.Federtion.Factories;
 
 namespace SSOOwinMiddleware.Handlers
 {
@@ -102,7 +103,7 @@ namespace SSOOwinMiddleware.Handlers
             var metadataType = this._configuration.GetType();
             var handlerType = typeof(IMetadataHandler<>).MakeGenericType(metadataType);
             var handler = this._resolver.Resolve(handlerType);
-            var del = HandlerFactory.GetDelegateForIdpLocation(metadataType);
+            var del = IdpMetadataHandlerFactory.GetDelegateForIdpLocation(metadataType);
             signInUrl = del(handler, this._configuration, new Uri(Bindings.Http_Redirect));
 
             var requestContext = new AuthnRequestContext(signInUrl, federationPartyId);

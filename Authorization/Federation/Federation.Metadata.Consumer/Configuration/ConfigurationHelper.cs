@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using Federation.Metadata.FederationPartner.Handlers;
 using Kernel.DependancyResolver;
 using Kernel.Federation.MetaData;
+using Shared.Federtion.Factories;
 
 namespace Federation.Metadata.FederationPartner.Configuration
 {
@@ -24,7 +25,7 @@ namespace Federation.Metadata.FederationPartner.Configuration
             var handlerType = typeof(IMetadataHandler<>).MakeGenericType(metadata.GetType());
             var handler = dependencyResolver.Resolve(handlerType);
 
-            var del = HandlerFactory.GetDelegateForIdpDescriptors(metadata.GetType(), typeof(IdentityProviderSingleSignOnDescriptor));
+            var del = IdpMetadataHandlerFactory.GetDelegateForIdpDescriptors(metadata.GetType(), typeof(IdentityProviderSingleSignOnDescriptor));
             var idps = del(handler, metadata).Cast<IdentityProviderSingleSignOnDescriptor>();
 
             var identityRegister = SecurityTokenHandlerConfiguration.DefaultIssuerNameRegistry as ConfigurationBasedIssuerNameRegistry;

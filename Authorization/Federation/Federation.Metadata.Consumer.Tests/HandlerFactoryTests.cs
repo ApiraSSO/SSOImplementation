@@ -3,6 +3,7 @@ using System.Linq;
 using Federation.Metadata.Consumer.Tests.Mock;
 using Federation.Metadata.FederationPartner.Handlers;
 using NUnit.Framework;
+using Shared.Federtion.Factories;
 
 namespace Federation.Metadata.Consumer.Tests
 {
@@ -16,7 +17,7 @@ namespace Federation.Metadata.Consumer.Tests
             var metadata = EntityDescriptorProviderMock.GetEntityDescriptor();
             var handler = new MetadataEntitityDescriptorHandler();
             //ACT
-            var del = HandlerFactory.GetDelegateForIdpDescriptors(typeof(EntityDescriptor), typeof(IdentityProviderSingleSignOnDescriptor));
+            var del = IdpMetadataHandlerFactory.GetDelegateForIdpDescriptors(typeof(EntityDescriptor), typeof(IdentityProviderSingleSignOnDescriptor));
             var idps = del(handler, metadata)
                 .ToList();
             //ASSERT
@@ -30,7 +31,7 @@ namespace Federation.Metadata.Consumer.Tests
             var metadata = EntityDescriptorProviderMock.GetEntitiesDescriptor();
             var handler = new MetadataEntitiesDescriptorHandler();
             //ACT
-            var del = HandlerFactory.GetDelegateForIdpDescriptors(typeof(EntitiesDescriptor), typeof(IdentityProviderSingleSignOnDescriptor));
+            var del = IdpMetadataHandlerFactory.GetDelegateForIdpDescriptors(typeof(EntitiesDescriptor), typeof(IdentityProviderSingleSignOnDescriptor));
             var idps = del(handler, metadata)
                 .ToList();
             //ASSERT

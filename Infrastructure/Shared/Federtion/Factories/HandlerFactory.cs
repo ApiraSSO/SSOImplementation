@@ -5,14 +5,14 @@ using System.IdentityModel.Metadata;
 using System.Linq.Expressions;
 using Kernel.Federation.MetaData;
 
-namespace Federation.Metadata.FederationPartner.Handlers
+namespace Shared.Federtion.Factories
 {
-    internal class HandlerFactory
+    public partial class IdpMetadataHandlerFactory
     {
-        private static ConcurrentDictionary<Type, Func<object, MetadataBase, IEnumerable<SingleSignOnDescriptor>>> _cache = new ConcurrentDictionary<Type, Func<object, MetadataBase, IEnumerable<SingleSignOnDescriptor>>>();
+        private static ConcurrentDictionary<Type, Func<object, MetadataBase, IEnumerable<SingleSignOnDescriptor>>> _cache1 = new ConcurrentDictionary<Type, Func<object, MetadataBase, IEnumerable<SingleSignOnDescriptor>>>();
         public static Func<object, MetadataBase, IEnumerable<SingleSignOnDescriptor>> GetDelegateForIdpDescriptors(Type metadataType, Type descriptorType)
         {
-            return HandlerFactory._cache.GetOrAdd(metadataType, t => HandlerFactory.BuildDelegate(t, descriptorType));
+            return IdpMetadataHandlerFactory._cache1.GetOrAdd(metadataType, t => IdpMetadataHandlerFactory.BuildDelegate(t, descriptorType));
         }
 
         private static Func<object, MetadataBase, IEnumerable<SingleSignOnDescriptor>> BuildDelegate(Type t, Type descriptorType)

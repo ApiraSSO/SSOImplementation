@@ -35,6 +35,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Federtion\Factories\HandlerFactory.cs" />
+    <Compile Include="Federtion\Factories\IdpMetadataHandlerFactory.cs" />
     <Compile Include="Federtion\Models\AudienceRestriction.cs" />
     <Compile Include="Federtion\Constants\NameIdentifierFormats.cs" />
     <Compile Include="Federtion\Constants\ProtocolBindings.cs" />

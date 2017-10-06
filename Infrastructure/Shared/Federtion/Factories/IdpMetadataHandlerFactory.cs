@@ -4,14 +4,14 @@ using System.IdentityModel.Metadata;
 using System.Linq.Expressions;
 using Kernel.Federation.MetaData;
 
-namespace SSOOwinMiddleware.Handlers
+namespace Shared.Federtion.Factories
 {
-    internal class HandlerFactory
+    public partial class IdpMetadataHandlerFactory
     {
         private static ConcurrentDictionary<Type, Func<object, MetadataBase, Uri, Uri>> _cache = new ConcurrentDictionary<Type, Func<object, MetadataBase, Uri, Uri>>();
         public static Func<object, MetadataBase, Uri, Uri> GetDelegateForIdpLocation(Type descriptorType)
         {
-            return HandlerFactory._cache.GetOrAdd(descriptorType, t => HandlerFactory.BuildDelegate(t));
+            return IdpMetadataHandlerFactory._cache.GetOrAdd(descriptorType, t => IdpMetadataHandlerFactory.BuildDelegate(t));
         }
 
         private static Func<object, MetadataBase, Uri, Uri> BuildDelegate(Type t)
