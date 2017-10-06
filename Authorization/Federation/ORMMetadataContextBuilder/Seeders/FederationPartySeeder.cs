@@ -48,7 +48,7 @@ namespace ORMMetadataContextProvider.Seeders
             {
                 RefreshInterval = 30,
                 AutoRefreshInterval = 1000,
-                MetadataPath = "https://nadim/idp/shibboleth",
+                MetadataPath = "https://dg-mfb/idp/shibboleth",
                 MetadataLocation = "HTTP",
                 FederationPartyId = "local"
             };

@@ -10,7 +10,7 @@ namespace Federation.Protocols.Test.Mock
 
         public FederationPartyContext BuildContext(string federationPartyId)
         {
-            return new FederationPartyContext("local", "https://nadim/idp/shibboleth")
+            return new FederationPartyContext("local", "https://dg-mfb/idp/shibboleth")
             {
                 MetadataContext = this._inlineMetadataContextBuilder.BuildContext(new MetadataGenerateRequest(MetadataType.SP, "local")),
             };
