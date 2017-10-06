@@ -27,7 +27,7 @@ namespace Federation.Protocols.Tokens
             var descriptor = partnerContex.MetadataContext.EntityDesriptorConfiguration.SPSSODescriptors.First();
             var cert = descriptor.KeyDescriptors.First(x => x.IsDefault && x.Use == Kernel.Federation.MetaData.Configuration.Cryptography.KeyUsage.Encryption);
             if (cert.CertificateContext == null)
-                throw new ArgumentNullException("certificate contexr");
+                throw new ArgumentNullException("certificate context");
 
             var x509CertificateContext = cert.CertificateContext as X509CertificateContext;
             if (x509CertificateContext == null)
@@ -52,10 +52,7 @@ namespace Federation.Protocols.Tokens
 
         public SecurityTokenHandlerConfiguration GetTrustedIssuersConfiguration()
         {
-            var configuration = new SecurityTokenHandlerConfiguration
-            {
-               
-            };
+            var configuration = new SecurityTokenHandlerConfiguration();
             return configuration;
         }
     }
