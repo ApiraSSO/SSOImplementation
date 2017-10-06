@@ -1,4 +1,6 @@
-﻿using System.IdentityModel.Metadata;
+﻿using System;
+using System.IdentityModel.Metadata;
+using Shared.Federtion.Constants;
 
 namespace Federation.Metadata.Consumer.Tests.Mock
 {
@@ -8,6 +10,7 @@ namespace Federation.Metadata.Consumer.Tests.Mock
         {
             var descriptor = new EntityDescriptor();
             var idpRole = new IdentityProviderSingleSignOnDescriptor();
+            idpRole.SingleSignOnServices.Add(new ProtocolEndpoint(new Uri(ProtocolBindings.HttpRedirect), new Uri("http://localhost:60879")));
             descriptor.RoleDescriptors.Add(idpRole);
             return descriptor;
         }
