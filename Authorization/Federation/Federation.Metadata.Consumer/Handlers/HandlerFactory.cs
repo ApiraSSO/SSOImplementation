@@ -17,14 +17,25 @@ namespace Federation.Metadata.FederationPartner.Handlers
 
         private static Func<object, MetadataBase, IEnumerable<SingleSignOnDescriptor>> BuildDelegate(Type t, Type descriptorType)
         {
+            if (t == null)
+                throw new ArgumentNullException("metadata type");
+
+            if (descriptorType == null)
+                throw new ArgumentNullException("descriptor type");
+
             var handlerType = typeof(IMetadataHandler<>)
                 .MakeGenericType(t);
-            var minfo = handlerType.GetMethod("GetRoleDescriptors").MakeGenericMethod(descriptorType);
+
+            var minfo = handlerType.GetMethod("GetRoleDescriptors");
+            if (minfo == null)
+                throw new MissingMethodException("IMetadataHandler", "GetRoleDescriptors");
+
+            var minfoGeneric = minfo.MakeGenericMethod(descriptorType);
             var handlerPar = Expression.Parameter(typeof(object));
             
             var metadataPar = Expression.Parameter(typeof(MetadataBase));
             var convertHandlerEx = Expression.Convert(handlerPar, handlerType);
-            var callEx = Expression.Call(convertHandlerEx, minfo, Expression.Convert(metadataPar,t));
+            var callEx = Expression.Call(convertHandlerEx, minfoGeneric, Expression.Convert(metadataPar,t));
             var lambda = Expression.Lambda<Func<object, MetadataBase, IEnumerable<SingleSignOnDescriptor>>>(callEx, handlerPar, metadataPar);
             return lambda.Compile();
         }

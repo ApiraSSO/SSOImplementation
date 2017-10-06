@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Metadata;
 using System.IdentityModel.Tokens;
 using System.Linq;
@@ -13,15 +12,20 @@ namespace Federation.Metadata.FederationPartner.Configuration
     internal class ConfigurationHelper
     {
         //ToDo Sort this out propertly
-        public static void OnReceived(MetadataBase m, IDependencyResolver dependencyResolver)
+        public static void OnReceived(MetadataBase metadata, IDependencyResolver dependencyResolver)
         {
-            IEnumerable<IdentityProviderSingleSignOnDescriptor> idps = Enumerable.Empty<IdentityProviderSingleSignOnDescriptor>();
+            if (metadata == null)
+                throw new ArgumentNullException("metadata");
+
+            if (dependencyResolver == null)
+                throw new ArgumentNullException("dependencyResolver");
+            
             string entityId = "RegisteredIssuer";
-            var handlerType = typeof(IMetadataHandler<>).MakeGenericType(m.GetType());
+            var handlerType = typeof(IMetadataHandler<>).MakeGenericType(metadata.GetType());
             var handler = dependencyResolver.Resolve(handlerType);
 
-            var del = HandlerFactory.GetDelegateForIdpDescriptors(m.GetType(), typeof(IdentityProviderSingleSignOnDescriptor));
-            idps = del(handler, m).Cast<IdentityProviderSingleSignOnDescriptor>();
+            var del = HandlerFactory.GetDelegateForIdpDescriptors(metadata.GetType(), typeof(IdentityProviderSingleSignOnDescriptor));
+            var idps = del(handler, metadata).Cast<IdentityProviderSingleSignOnDescriptor>();
 
             var identityRegister = SecurityTokenHandlerConfiguration.DefaultIssuerNameRegistry as ConfigurationBasedIssuerNameRegistry;
             if (identityRegister == null)

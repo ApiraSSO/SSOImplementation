@@ -16,9 +16,16 @@ namespace SSOOwinMiddleware.Handlers
 
         private static Func<object, MetadataBase, Uri, Uri> BuildDelegate(Type t)
         {
+            if (t == null)
+                throw new ArgumentNullException("type");
+
             var handlerType = typeof(IMetadataHandler<>)
                 .MakeGenericType(t);
+
             var minfo = handlerType.GetMethod("ReadIdpLocation");
+            if (minfo == null)
+                throw new MissingMethodException("IMetadataHandler", "ReadIdpLocation");
+
             var handlerPar = Expression.Parameter(typeof(object));
             var bindingPar = Expression.Parameter(typeof(Uri));
             var metadataPar = Expression.Parameter(typeof(MetadataBase));
