@@ -8,7 +8,7 @@ namespace Federation.Metadata.FederationPartner.Handlers
 {
     internal class MetadataEntitiesDescriptorHandler : IMetadataHandler<EntitiesDescriptor>
     {
-        public IEnumerable<TRole> GetRoleDescroptors<TRole>(EntitiesDescriptor metadata)
+        public IEnumerable<TRole> GetRoleDescriptors<TRole>(EntitiesDescriptor metadata)
         {
             return metadata.ChildEntities.SelectMany(x => x.RoleDescriptors.OfType<TRole>());
         }

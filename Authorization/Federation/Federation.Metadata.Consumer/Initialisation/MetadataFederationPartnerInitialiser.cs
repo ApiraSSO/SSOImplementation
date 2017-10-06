@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Federation.Metadata.FederationPartner.Configuration;
 using Federation.Metadata.FederationPartner.Handlers;
 using Kernel.DependancyResolver;
+using Kernel.Federation.MetaData;
 using Shared.Initialisation;
 
 namespace Federation.Metadata.FederationPartner.Initialisation
@@ -27,35 +28,23 @@ namespace Federation.Metadata.FederationPartner.Initialisation
             dependencyResolver.RegisterType<MetadataEntitityDescriptorHandler>(Lifetime.Transient);
             dependencyResolver.RegisterFactory<Action<MetadataBase>>(() => m => 
             {
-                this.Temp(m);
+                this.Temp(m, dependencyResolver);
 
             }, Lifetime.Singleton);
             return Task.CompletedTask;
         }
 
         //ToDo Sort this out
-        private void Temp(MetadataBase m)
+        private void Temp(MetadataBase m, IDependencyResolver dependencyResolver)
         {
             IEnumerable<IdentityProviderSingleSignOnDescriptor> idps = Enumerable.Empty<IdentityProviderSingleSignOnDescriptor>();
-            string entityId = String.Empty;
-            var descriptor = m as EntityDescriptor;
+            string entityId = "RegisteredIssuer";
+            var handlerType = typeof(IMetadataHandler<>).MakeGenericType(m.GetType());
+            var handler = dependencyResolver.Resolve(handlerType);
+
+            var del = HandlerFactory.GetDelegateForIdpDescriptors(m.GetType(), typeof(IdentityProviderSingleSignOnDescriptor));
+            idps = del(handler, m).Cast<IdentityProviderSingleSignOnDescriptor>();
            
-            if (descriptor != null)
-            {
-                entityId = descriptor.EntityId.Id;
-                var handler = new MetadataEntitityDescriptorHandler();
-                idps = handler.GetRoleDescroptors<IdentityProviderSingleSignOnDescriptor>(descriptor);
-            }
-
-            var descriptor1 = m as EntitiesDescriptor;
-            
-            if (descriptor1 != null)
-            {
-                entityId = "multiyEntitiesId";
-                var handler = new MetadataEntitiesDescriptorHandler();
-                idps = handler.GetRoleDescroptors<IdentityProviderSingleSignOnDescriptor>(descriptor1);
-            }
-
             var identityRegister = SecurityTokenHandlerConfiguration.DefaultIssuerNameRegistry as ConfigurationBasedIssuerNameRegistry;
             if (identityRegister == null)
                 throw new NotSupportedException();
