@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Metadata;
+﻿using System.IdentityModel.Metadata;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Federation.Metadata.Consumer.Tests.Mock;
 using Federation.Metadata.FederationPartner.Handlers;
 using NUnit.Framework;
