@@ -49,10 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HandlerFactoryTests.cs" />
     <Compile Include="ConfigurationManagerTests.cs" />
     <Compile Include="MetadataRetrieverMetadataTests.cs" />
     <Compile Include="Mock\CertificateValidationConfigurationProvider.cs" />
     <Compile Include="Mock\ConfigurationRetrieverMock.cs" />
+    <Compile Include="Mock\EntityDescriptorProviderMock.cs" />
     <Compile Include="Mock\FederationPartyContextBuilderMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
