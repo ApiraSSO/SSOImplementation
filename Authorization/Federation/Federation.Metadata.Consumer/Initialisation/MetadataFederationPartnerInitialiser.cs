@@ -28,14 +28,14 @@ namespace Federation.Metadata.FederationPartner.Initialisation
             dependencyResolver.RegisterType<MetadataEntitityDescriptorHandler>(Lifetime.Transient);
             dependencyResolver.RegisterFactory<Action<MetadataBase>>(() => m => 
             {
-                this.Temp(m, dependencyResolver);
+                this.OnReCeived(m, dependencyResolver);
 
             }, Lifetime.Singleton);
             return Task.CompletedTask;
         }
 
         //ToDo Sort this out
-        private void Temp(MetadataBase m, IDependencyResolver dependencyResolver)
+        private void OnReCeived(MetadataBase m, IDependencyResolver dependencyResolver)
         {
             IEnumerable<IdentityProviderSingleSignOnDescriptor> idps = Enumerable.Empty<IdentityProviderSingleSignOnDescriptor>();
             string entityId = "RegisteredIssuer";
