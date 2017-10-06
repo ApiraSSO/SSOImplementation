@@ -13,18 +13,19 @@ namespace Federation.Metadata.FederationPartner.Configuration
     {
         private readonly IDocumentRetriever _retriever;
         private readonly IMetadataSerialiser<MetadataBase> _metadataSerialiser;
-        private readonly Action<MetadataBase> _metadataRecieved;
 
         private readonly XmlReaderSettings _safeSettings = new XmlReaderSettings()
         {
             DtdProcessing = DtdProcessing.Prohibit
         };
-        public WsFederationConfigurationRetriever(IDocumentRetriever retriever, IMetadataSerialiser<MetadataBase> metadataSerialiser, Action<MetadataBase> metadataRecieved)
+
+        public WsFederationConfigurationRetriever(IDocumentRetriever retriever, IMetadataSerialiser<MetadataBase> metadataSerialiser)
         {
             this._metadataSerialiser = metadataSerialiser;
             this._retriever = retriever;
-            this._metadataRecieved = metadataRecieved;
         }
+
+        public Action<MetadataBase> MetadataReceivedCallback { get; set; }
 
         public Task<MetadataBase> GetAsync(FederationPartyContext context, CancellationToken cancel)
         {
@@ -45,7 +46,8 @@ namespace Federation.Metadata.FederationPartner.Configuration
             using (XmlReader reader = XmlReader.Create(new StringReader(document), this._safeSettings))
             {
                 var federationConfiguration =this._metadataSerialiser.Deserialise(reader);
-                this._metadataRecieved(federationConfiguration);
+                if(this.MetadataReceivedCallback != null)
+                    this.MetadataReceivedCallback(federationConfiguration);
                 return federationConfiguration;
             }
         }
