@@ -34,7 +34,7 @@ namespace Federation.Metadata.FederationPartner.Initialisation
             return Task.CompletedTask;
         }
 
-        //ToDo Sort this out
+        //ToDo Sort this out propertly
         private void OnReceived(MetadataBase m, IDependencyResolver dependencyResolver)
         {
             IEnumerable<IdentityProviderSingleSignOnDescriptor> idps = Enumerable.Empty<IdentityProviderSingleSignOnDescriptor>();
