@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IdentityModel.Metadata;
+using System.IdentityModel.Tokens;
+using System.Threading.Tasks;
 using Federation.Metadata.FederationPartner.Configuration;
 using Federation.Metadata.FederationPartner.Handlers;
 using Kernel.DependancyResolver;
@@ -19,6 +22,10 @@ namespace Federation.Metadata.FederationPartner.Initialisation
             dependencyResolver.RegisterType<FederationConfigurationManager>(Lifetime.Singleton);
             dependencyResolver.RegisterType<MetadataEntitiesDescriptorHandler>(Lifetime.Transient);
             dependencyResolver.RegisterType<MetadataEntitityDescriptorHandler>(Lifetime.Transient);
+            dependencyResolver.RegisterFactory<Action<MetadataBase>>(() => m => 
+            {
+                var identityRegister = SecurityTokenHandlerConfiguration.DefaultIssuerNameRegistry as ConfigurationBasedIssuerNameRegistry;
+            }, Lifetime.Singleton);
             return Task.CompletedTask;
         }
     }

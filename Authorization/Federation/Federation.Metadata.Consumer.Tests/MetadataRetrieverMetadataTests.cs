@@ -45,7 +45,7 @@ namespace Federation.Metadata.Consumer.Tests
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certValidator = new CertificateValidator(configurationProvider);
             var serialiser = new FederationMetadataSerialiser(certValidator);
-            var configurationRetriever = new WsFederationConfigurationRetriever(documentRetrieer, serialiser);
+            var configurationRetriever = new WsFederationConfigurationRetriever(documentRetrieer, serialiser, m => { });
 
 
 
