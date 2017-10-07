@@ -31,24 +31,18 @@ namespace Federation.Metadata.FederationPartner.Configuration
             var identityRegister = SecurityTokenHandlerConfiguration.DefaultIssuerNameRegistry as ConfigurationBasedIssuerNameRegistry;
             if (identityRegister == null)
                 throw new NotSupportedException();
-
-            foreach (var d in idps)
+            var foo = idps.SelectMany(x => x.Keys.SelectMany(y => y.KeyInfo.Select(cl =>
             {
-                foreach (var k in d.Keys)
-                {
-                    var kinfo = k.KeyInfo;
-                    foreach (var c in kinfo)
-                    {
-                        var bi = c as BinaryKeyIdentifierClause;
-
-                        var raw = bi.GetBuffer();
-                        var cert1 = new X509Certificate2(raw);
-                        if (identityRegister.ConfiguredTrustedIssuers.Keys.Contains(cert1.Thumbprint))
-                            continue;
-                        identityRegister.AddTrustedIssuer(cert1.Thumbprint, entityId);
-                    }
-                }
-            }
+                var bi = cl as BinaryKeyIdentifierClause;
+                var raw = bi.GetBuffer();
+                var cert = new X509Certificate2(raw);
+                return cert;
+            }))).Aggregate(identityRegister, (t, next) => 
+            {
+                if (!identityRegister.ConfiguredTrustedIssuers.Keys.Contains(next.Thumbprint))
+                    identityRegister.AddTrustedIssuer(next.Thumbprint, entityId);
+                return t;
+            });
         }
     }
 }
