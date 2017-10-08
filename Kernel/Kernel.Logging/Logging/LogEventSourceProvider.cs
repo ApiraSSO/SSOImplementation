@@ -11,13 +11,13 @@
         
         private static IDictionary<string, string> _sources;
 
-        public const string EventLogName = "S3IDLog";
+        public const string EventLogName = "Flowz";
 
         static LogEventSourceProvider()
         {
             _sources = new Dictionary<string, string>();
 
-            _sources[_defaultSource] =  "PAS3 Application";
+            _sources[_defaultSource] = "Flowz Application";
         }
 
         public static string GetSourceName(string applicationName)
