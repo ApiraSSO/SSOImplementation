@@ -42,9 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigurationHelper.cs" />
     <Compile Include="Configuration\FederationConfigurationManager.cs" />
     <Compile Include="Configuration\WsFederationConfigurationRetriever.cs" />
-    <Compile Include="Handlers\HandlerFactory.cs" />
     <Compile Include="Handlers\MetadataEntitityDescriptorHandler.cs" />
     <Compile Include="Handlers\MetadataEntitiesDescriptorHandler.cs" />
     <Compile Include="Initialisation\MetadataFederationPartnerInitialiser.cs" />

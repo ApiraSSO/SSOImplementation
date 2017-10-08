@@ -11,6 +11,26 @@ namespace SecurityManagement
 {
     public class CertificateManager : ICertificateManager
     {
+        public bool TryAddCertificateToStore(string storeName, StoreLocation location, X509Certificate2 certificate, bool createIfNotExist)
+        {
+            try
+            {
+                using (var store = new X509Store(storeName, location))
+                {
+                    var flags = OpenFlags.ReadWrite;
+                    if (!createIfNotExist)
+                        flags &= OpenFlags.OpenExistingOnly;
+                    store.Open(flags);
+                    store.Add(certificate);
+                    return true;
+                }
+            }
+            catch(Exception)
+            {
+                return false;
+            }
+        }
+
         public X509Certificate2 GetCertificate(string path, SecureString password)
         {
             return new X509Certificate2(path, password);
