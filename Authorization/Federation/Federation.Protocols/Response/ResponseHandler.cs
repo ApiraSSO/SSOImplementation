@@ -74,7 +74,7 @@ namespace Federation.Protocols.Response
             try
             {
                 var partner = relayState.ToString();
-                var path = String.Format(@"C:opt\Assertions\{0}", partner == "local" ? @"Local\" : String.Empty);
+                var path = String.Format(@"D:\Dan\Software\Apira\Assertions\{0}", partner == "local" ? @"Local\" : String.Empty);
                 var now = DateTimeOffset.Now;
                 var tag = String.Format("{0}{1}{2}{3}{4}", now.Year, now.Month, now.Day, now.Hour, now.Minute);
                 var writer = XmlWriter.Create(String.Format("{0}{1}{2}", path, tag, ".xml"));
