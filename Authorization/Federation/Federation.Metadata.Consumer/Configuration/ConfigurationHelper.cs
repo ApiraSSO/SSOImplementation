@@ -3,7 +3,6 @@ using System.IdentityModel.Metadata;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using Federation.Metadata.FederationPartner.Handlers;
 using Kernel.DependancyResolver;
 using Kernel.Federation.MetaData;
 using Shared.Federtion.Factories;
@@ -12,7 +11,6 @@ namespace Federation.Metadata.FederationPartner.Configuration
 {
     internal class ConfigurationHelper
     {
-        //ToDo Sort this out propertly
         public static void OnReceived(MetadataBase metadata, IDependencyResolver dependencyResolver)
         {
             if (metadata == null)
@@ -30,12 +28,16 @@ namespace Federation.Metadata.FederationPartner.Configuration
 
             var identityRegister = SecurityTokenHandlerConfiguration.DefaultIssuerNameRegistry as ConfigurationBasedIssuerNameRegistry;
             if (identityRegister == null)
-                throw new NotSupportedException();
-            var foo = idps.SelectMany(x => x.Keys.SelectMany(y => y.KeyInfo.Select(cl =>
+                return;
+
+            var register = idps.SelectMany(x => x.Keys.SelectMany(y => y.KeyInfo.Select(cl =>
             {
-                var bi = cl as BinaryKeyIdentifierClause;
-                var raw = bi.GetBuffer();
-                var cert = new X509Certificate2(raw);
+                var binaryClause = cl as BinaryKeyIdentifierClause;
+                if (binaryClause == null)
+                    throw new InvalidOperationException(String.Format("Expected type: {0} but it was: {1}", typeof(BinaryKeyIdentifierClause), cl.GetType()));
+
+                var certContent = binaryClause.GetBuffer();
+                var cert = new X509Certificate2(certContent);
                 return cert;
             }))).Aggregate(identityRegister, (t, next) => 
             {
