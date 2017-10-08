@@ -9,7 +9,7 @@ namespace ORMMetadataContextProvider.Tests.Mock
         {
             return new SqlConnectionStringBuilder
             {
-                DataSource = "DG-MFB\\SQLEXPRESS_2016",
+                DataSource = "NADIM\\SQLEXPRESS",
                 InitialCatalog = "SSOConfiguraion",
                 IntegratedSecurity = true
             };
