@@ -35,7 +35,7 @@ namespace Federation.Protocols.Response
             
             var relayState = await this._relayStateHandler.GetRelayStateFromFormData(elements);
 #if(DEBUG)
-            LoggerManager.WriteInformationToEventLog(String.Format("Response recieved\r\n: {0}", responseText));
+            LoggerManager.WriteInformationToEventLog(String.Format("Response recieved:\r\n {0}", responseText));
 #endif
             using (var reader = new StringReader(responseText))
             {

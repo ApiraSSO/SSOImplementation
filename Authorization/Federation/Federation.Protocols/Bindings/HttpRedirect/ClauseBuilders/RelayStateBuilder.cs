@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Kernel.Federation.Protocols;
+using Shared.Federtion.Constants;
 
 namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
 {
@@ -21,7 +22,7 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
             if (String.IsNullOrWhiteSpace(context.RelayState))
                 return;
 
-            context.ClauseBuilder.Append("&RelayState=");
+            context.ClauseBuilder.AppendFormat("&{0}=", HttpRedirectBindingConstants.RelayState);
             var rsEncoded = await this._relayStateSerialiser.Serialize(context.RelayState);
             var rsEncodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(rsEncoded));
             context.ClauseBuilder.Append(rsEncodedEscaped);
