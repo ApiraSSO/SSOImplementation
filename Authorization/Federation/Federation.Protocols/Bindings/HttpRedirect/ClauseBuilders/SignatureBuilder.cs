@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
-using Federation.Protocols.Request;
 using Kernel.Cryptography.CertificateManagement;
 using Kernel.Federation.Protocols;
 using Shared.Federtion.Constants;
@@ -41,7 +41,7 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
 
         internal void SignRequest(StringBuilder sb, CertificateContext certContext)
         {
-            AuthnRequestHelper.AppendSignarureAlgorithm(sb);
+            this.AppendSignarureAlgorithm(sb);
             this.SignData(sb, certContext);
         }
         internal void SignData(StringBuilder sb, CertificateContext certContext)
@@ -49,6 +49,11 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
             var base64 = this._certificateManager.SignToBase64(sb.ToString(), certContext);
             var escaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(base64));
             sb.AppendFormat("&{0}={1}", HttpRedirectBindingConstants.Signature, escaped);
+        }
+
+        internal void AppendSignarureAlgorithm(StringBuilder builder)
+        {
+            builder.AppendFormat("&{0}={1}", HttpRedirectBindingConstants.SigAlg, Uri.EscapeDataString(SignedXml.XmlDsigRSASHA1Url));
         }
     }
 }
