@@ -39,21 +39,6 @@ namespace Federation.Protocols.Request
             return request;
         }
 
-        internal static string Serialise(AuthnRequest request, IXmlSerialiser serialiser)
-        {
-            serialiser.XmlNamespaces.Add("samlp", Saml20Constants.Protocol);
-            serialiser.XmlNamespaces.Add("saml", Saml20Constants.Assertion);
-            
-            using (var ms = new MemoryStream())
-            {
-                serialiser.Serialize(ms, new[] { request });
-                ms.Position = 0;
-                var streamReader = new StreamReader(ms);
-                var xmlString = streamReader.ReadToEnd();
-                return xmlString;
-            }
-        }
-
         internal static async Task AppendRequest(StringBuilder builder, string request, ICompression compression)
         {
             var compressed = await Helper.DeflateEncode(request, compression);

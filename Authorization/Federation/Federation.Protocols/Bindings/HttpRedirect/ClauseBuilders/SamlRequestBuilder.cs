@@ -10,12 +10,10 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
 {
     internal class SamlRequestBuilder : ISamlClauseBuilder
     {
-        private readonly IXmlSerialiser _serialiser;
-        private readonly IMessageEncoding _messageEncoding;
-        public SamlRequestBuilder(IXmlSerialiser serialiser, IMessageEncoding messageEncoding)
+        private readonly IAuthnRequestSerialiser _authnRequestSerialiser;
+        public SamlRequestBuilder(IAuthnRequestSerialiser authnRequestSerialiser)
         {
-            this._serialiser = serialiser;
-            this._messageEncoding = messageEncoding;
+            this._authnRequestSerialiser = authnRequestSerialiser;
         }
         public uint Order { get { return 0; } }
 
@@ -29,15 +27,13 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
                 throw new InvalidOperationException(String.Format("Binding context must be of type:{0}. It was: {1}", typeof(HttpRedirectContext).Name, context.GetType().Name));
             var authnRequest = AuthnRequestHelper.BuildAuthnRequest(httpRedirectContext.AuthnRequestContext);
 
-            var serialised = AuthnRequestHelper.Serialise(authnRequest, this._serialiser);
-            await this.AppendRequest(context.ClauseBuilder, serialised);
+            var serialised = this._authnRequestSerialiser.Serialize(authnRequest);//AuthnRequestHelper.Serialise(authnRequest, this._serialiser);
+            this.AppendRequest(context.ClauseBuilder, serialised);
         }
 
-        internal async Task AppendRequest(StringBuilder builder, string request)
+        internal void AppendRequest(StringBuilder builder, string request)
         {
-            var compressed = await this._messageEncoding.EncodeMessage<string>(request);
-            var encodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(compressed));
-            builder.AppendFormat("{0}={1}", HttpRedirectBindingConstants.SamlRequest, encodedEscaped);
+            builder.AppendFormat("{0}={1}", HttpRedirectBindingConstants.SamlRequest, request);
         }
     }
 }
