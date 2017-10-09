@@ -6,9 +6,8 @@ namespace Federation.Protocols.Request.ClauseBuilders
 {
     internal abstract class ClauseBuilder : IAuthnRequestClauseBuilder<AuthnRequest>
     {
-        public void Build(AuthnRequest request, FederationPartyContext federationParty)
+        public void Build(AuthnRequest request, AuthnRequestConfiguration configuration)
         {
-            var configuration = federationParty.GetRequestConfigurationFromContext();
             this.BuildInternal(request, configuration);
         }
 

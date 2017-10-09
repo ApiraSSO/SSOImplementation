@@ -31,10 +31,11 @@ namespace Federation.Protocols.Request
                 Version = authnRequestContext.Version,
                 IssueInstant = DateTime.UtcNow
             };
+            var requestConfig = federationParty.GetRequestConfigurationFromContext();
             var buiders = AuthnRequestHelper.GetBuilders();
             foreach(var b in buiders)
             {
-                b.Build(request, federationParty);
+                b.Build(request, requestConfig);
             }
             return request;
         }
