@@ -1,16 +1,13 @@
-﻿using System.Linq;
-using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
+﻿using Kernel.Federation.FederationPartner;
 using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Request.ClauseBuilders
 {
     internal class AssertionConsumerServiceClauseBuilder : ClauseBuilder
     {
-        protected override void BuildInternal(AuthnRequest request, EntityDesriptorConfiguration entityDescriptor)
+        protected override void BuildInternal(AuthnRequest request, AuthnRequestConfiguration configuration)
         {
-            var defaultEndpoint = entityDescriptor.SPSSODescriptors.SelectMany(x => x.AssertionConsumerServices)
-                .Single(x => x.IsDefault.GetValueOrDefault());
-            request.AssertionConsumerServiceIndex = (ushort)defaultEndpoint.Index;
+            request.AssertionConsumerServiceIndex = configuration.AssertionConsumerServiceIndex;
         }
     }
 }

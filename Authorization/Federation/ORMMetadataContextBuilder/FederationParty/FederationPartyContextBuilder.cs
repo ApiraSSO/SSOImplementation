@@ -39,7 +39,9 @@ namespace ORMMetadataContextProvider.FederationParty
         private void BuildMetadataContext(FederationPartyContext federationPartyContext, MetadataSettings metadataSettings)
         {
             var metadataContextBuilder = new MetadataContextBuilder(this._dbContext, this._cacheProvider);
-            federationPartyContext.MetadataContext = metadataContextBuilder.BuildFromDbSettings(metadataSettings);
+            var metadata = metadataContextBuilder.BuildFromDbSettings(metadataSettings);
+            federationPartyContext.MetadataContext = metadata;
+            federationPartyContext.RequestConfiguration = new AuthnRequestConfiguration(metadata.EntityDesriptorConfiguration);
         }
 
         public void Dispose()

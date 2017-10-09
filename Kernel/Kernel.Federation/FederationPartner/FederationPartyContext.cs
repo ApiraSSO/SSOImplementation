@@ -40,6 +40,7 @@ namespace Kernel.Federation.FederationPartner
         public string MetadataAddress { get; }
         public string FederationPartyId { get; }
         public MetadataContext MetadataContext { get; set; }
+        public AuthnRequestConfiguration RequestConfiguration { get; set; }
         public TimeSpan AutomaticRefreshInterval
         {
             get
