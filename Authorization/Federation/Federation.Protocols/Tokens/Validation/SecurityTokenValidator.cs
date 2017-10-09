@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens;
 using Kernel.Federation.Tokens;
+using Kernel.Logging;
 
 namespace Federation.Protocols.Tokens.Validation
 {
@@ -31,6 +32,7 @@ namespace Federation.Protocols.Tokens.Validation
             catch (Exception ex)
             {
                 validationResult.Add(new ValidationResult(ex.Message));
+                LoggerManager.WriteExceptionToEventLog(ex);
                 return false;
             }
         }

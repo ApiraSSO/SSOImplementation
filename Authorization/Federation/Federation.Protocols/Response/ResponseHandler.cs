@@ -11,6 +11,7 @@ using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 using Kernel.Federation.Protocols.Response;
 using Kernel.Federation.Tokens;
 using Shared.Federtion.Constants;
+using Kernel.Logging;
 
 namespace Federation.Protocols.Response
 {
@@ -34,7 +35,7 @@ namespace Federation.Protocols.Response
             
             var relayState = await this._relayStateHandler.GetRelayStateFromFormData(elements);
 #if(DEBUG)
-            this.SaveTemp(responseText, relayState);
+            LoggerManager.WriteInformationToEventLog(String.Format("Response recieved:\r\n {0}", responseText));
 #endif
             using (var reader = new StringReader(responseText))
             {
@@ -67,27 +68,6 @@ namespace Federation.Protocols.Response
             var status = reader.GetAttribute("Value");
             if (String.IsNullOrWhiteSpace(status) || !String.Equals(status, StatusCodes.Success))
                 throw new Exception(status);
-        }
-        //ToDo clean up
-        private void SaveTemp(string responseText, object relayState)
-        {
-            try
-            {
-                var partner = relayState.ToString();
-                var path = String.Format(@"C:opt\Assertions\{0}", partner == "local" ? @"Local\" : String.Empty);
-                var now = DateTimeOffset.Now;
-                var tag = String.Format("{0}{1}{2}{3}{4}", now.Year, now.Month, now.Day, now.Hour, now.Minute);
-                var writer = XmlWriter.Create(String.Format("{0}{1}{2}", path, tag, ".xml"));
-                var el = new XmlDocument { PreserveWhitespace = true };
-                el.Load(new StringReader(responseText));
-                el.DocumentElement.WriteTo(writer);
-                writer.Flush();
-                writer.Dispose();
-            }
-            catch (Exception)
-            {
-                //ignore
-            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Kernel.Federation.Protocols;
+using Shared.Federtion.Constants;
 
 namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
 {
@@ -21,10 +22,14 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
             if (String.IsNullOrWhiteSpace(context.RelayState))
                 return;
 
-            context.ClauseBuilder.Append("&RelayState=");
+            
             var rsEncoded = await this._relayStateSerialiser.Serialize(context.RelayState);
+            if (String.IsNullOrWhiteSpace(rsEncoded))
+                throw new InvalidOperationException("Invalid relay state after serialisation. It was null or empty string.");
+
             var rsEncodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(rsEncoded));
-            context.ClauseBuilder.Append(rsEncodedEscaped);
+            
+            context.ClauseBuilder.AppendFormat("&{0}={1}", HttpRedirectBindingConstants.RelayState, rsEncodedEscaped);
         }
     }
 }

@@ -5,6 +5,7 @@ using Federation.Protocols.Request;
 using Kernel.Federation.FederationPartner;
 using Kernel.Federation.Protocols;
 using Serialisation.Xml;
+using Shared.Federtion.Constants;
 
 namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
 {
@@ -39,8 +40,7 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
         {
             var compressed = await this._messageEncoding.EncodeMessage<string>(request);
             var encodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(compressed));
-            builder.Append("SAMLRequest=");
-            builder.Append(encodedEscaped);
+            builder.AppendFormat("{0}={1}", HttpRedirectBindingConstants.SamlRequest, encodedEscaped);
         }
     }
 }
