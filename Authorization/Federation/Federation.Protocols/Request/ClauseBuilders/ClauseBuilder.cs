@@ -8,7 +8,8 @@ namespace Federation.Protocols.Request.ClauseBuilders
     {
         public void Build(AuthnRequest request, FederationPartyContext federationParty)
         {
-            this.BuildInternal(request, federationParty.RequestConfiguration);
+            var configuration = federationParty.GetRequestConfigurationFromContext();
+            this.BuildInternal(request, configuration);
         }
 
         protected abstract void BuildInternal(AuthnRequest request, AuthnRequestConfiguration configuration);
