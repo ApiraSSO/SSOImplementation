@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Kernel.Federation.Protocols;
+using Kernel.Serialisation;
 using Serialisation.Xml;
 using Shared.Federtion.Constants;
 
@@ -33,12 +34,7 @@ namespace Federation.Protocols.Request
             throw new NotImplementedException();
         }
 
-        public void Serialize(Stream stream, object[] o)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Serialize(object o)
+        public async Task<string> Serialize(object o)
         {
             this._serialiser.XmlNamespaces.Add("samlp", Saml20Constants.Protocol);
             this._serialiser.XmlNamespaces.Add("saml", Saml20Constants.Assertion);
@@ -49,11 +45,21 @@ namespace Federation.Protocols.Request
                 ms.Position = 0;
                 var streamReader = new StreamReader(ms);
                 var xmlString = streamReader.ReadToEnd();
-                var compressed = Task.Factory.StartNew<Task<string>>(async() => await this._messageEncoding.EncodeMessage<string>(xmlString));
-                compressed.Wait();
-                var encodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(compressed.Result.Result));
+                var compressed = await this._messageEncoding.EncodeMessage<string>(xmlString);
+                
+                var encodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(compressed));
                 return encodedEscaped;
             }
+        }
+
+        void ISerializer.Serialize(Stream stream, object[] o)
+        {
+            throw new NotImplementedException();
+        }
+
+        string ISerializer.Serialize(object o)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Federation.Protocols.Request;
 using Kernel.Federation.Protocols;
-using Serialisation.Xml;
 using Shared.Federtion.Constants;
 
 namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
@@ -27,7 +26,7 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
                 throw new InvalidOperationException(String.Format("Binding context must be of type:{0}. It was: {1}", typeof(HttpRedirectContext).Name, context.GetType().Name));
             var authnRequest = AuthnRequestHelper.BuildAuthnRequest(httpRedirectContext.AuthnRequestContext);
 
-            var serialised = this._authnRequestSerialiser.Serialize(authnRequest);//AuthnRequestHelper.Serialise(authnRequest, this._serialiser);
+            var serialised = await this._authnRequestSerialiser.Serialize(authnRequest);
             this.AppendRequest(context.ClauseBuilder, serialised);
         }
 
