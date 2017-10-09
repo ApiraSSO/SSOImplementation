@@ -22,11 +22,13 @@ namespace Federation.Protocols.Test
         {
             //ARRANGE
             var requestUri = new Uri("http://localhost:59611/");
-            var authnRequestContext = new AuthnRequestContext(requestUri, "local");
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
+            var federationContex = federationPartyContextBuilder.BuildContext("local");
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex);
+            
             var serialiser = new XMLSerialiser();
             var certManager = new CertificateManager();
-            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext, federationPartyContextBuilder);
+            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
             var compressor = new DeflateCompressor();
             var certContext = new X509CertificateContext
             {
@@ -87,11 +89,13 @@ namespace Federation.Protocols.Test
         {
             //ARRANGE
             var requestUri = new Uri("http://localhost:59611/");
-            var authnRequestContext = new AuthnRequestContext(requestUri, "local");
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
+            var federationContex = federationPartyContextBuilder.BuildContext("local");
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex);
+            
             var serialiser = new XMLSerialiser();
             var certManager = new CertificateManager();
-            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext, federationPartyContextBuilder);
+            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
 
             //ACT
             var request = AuthnRequestHelper.Serialise(authnRequest, serialiser);

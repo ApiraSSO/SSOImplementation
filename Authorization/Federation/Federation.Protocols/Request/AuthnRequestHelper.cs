@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Federation.Protocols.Request.ClauseBuilders;
 using Kernel.Compression;
 using Kernel.Cryptography.CertificateManagement;
-using Kernel.Federation.FederationPartner;
 using Kernel.Federation.Protocols;
 using Kernel.Reflection;
 using Serialisation.Xml;
@@ -20,9 +19,9 @@ namespace Federation.Protocols.Request
     internal class AuthnRequestHelper
     {
         private static Func<Type, bool> _condition = t => !t.IsAbstract && !t.IsInterface && typeof(IAuthnRequestClauseBuilder<AuthnRequest>).IsAssignableFrom(t);
-        internal static AuthnRequest BuildAuthnRequest(AuthnRequestContext authnRequestContext, IFederationPartyContextBuilder federationPartyContextBuilder)
+        internal static AuthnRequest BuildAuthnRequest(AuthnRequestContext authnRequestContext)
         {
-            var federationParty = federationPartyContextBuilder.BuildContext(authnRequestContext.FederationPartyId);
+            //var federationParty = federationPartyContextBuilder.BuildContext(authnRequestContext.FederationPartyId);
             var request = new AuthnRequest
             {
                 IsPassive = false,
@@ -31,39 +30,13 @@ namespace Federation.Protocols.Request
                 Version = authnRequestContext.Version,
                 IssueInstant = DateTime.UtcNow
             };
-            var requestConfig = federationParty.GetRequestConfigurationFromContext();
+            var requestConfig = authnRequestContext.FederationPartyContext.GetRequestConfigurationFromContext();
             var buiders = AuthnRequestHelper.GetBuilders();
             foreach(var b in buiders)
             {
                 b.Build(request, requestConfig);
             }
             return request;
-        }
-
-        internal static async Task<string> SerialiseAndSign(AuthnRequest request, AuthnRequestContext authnRequestContext, IXmlSerialiser serialiser, IFederationPartyContextBuilder federationPartyContextBuilder, ICertificateManager certificateManager, ICompression compression)
-        {
-            var federationParty = federationPartyContextBuilder.BuildContext(authnRequestContext.FederationPartyId);
-            var metadataContext = federationParty.MetadataContext;
-            var entityDescriptor = metadataContext.EntityDesriptorConfiguration;
-            var spDescriptor = entityDescriptor.SPSSODescriptors
-                .First();
-            var kd = spDescriptor.KeyDescriptors.First(x => x.IsDefault && x.Use == Kernel.Federation.MetaData.Configuration.Cryptography.KeyUsage.Signing)
-                .CertificateContext;
-            var sb = new StringBuilder();
-            var xmlString = AuthnRequestHelper.Serialise(request, serialiser);
-            
-            await AuthnRequestHelper.AppendRequest(sb, xmlString, compression);
-            
-            if(!String.IsNullOrWhiteSpace(authnRequestContext.RelyingState))
-            {
-                await AuthnRequestHelper.AppendRelyingState(sb, authnRequestContext, compression);
-            }
-
-            if (spDescriptor.AuthenticationRequestsSigned)
-            {
-                AuthnRequestHelper.SignRequest(sb, kd, certificateManager);
-            }
-            return sb.ToString();
         }
 
         internal static string Serialise(AuthnRequest request, IXmlSerialiser serialiser)
