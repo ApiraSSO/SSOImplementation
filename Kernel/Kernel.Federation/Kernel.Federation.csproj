@@ -49,7 +49,6 @@
     <Compile Include="Exceptions\TimeRestrictionViolationException.cs" />
     <Compile Include="FederationConfiguration\IAllowedAudienceConfiguration.cs" />
     <Compile Include="FederationPartner\AuthnRequestConfiguration.cs" />
-    <Compile Include="IRelayState.cs" />
     <Compile Include="MetaData\Configuration\Bindings.cs" />
     <Compile Include="MetaData\DispatcherContext.cs" />
     <Compile Include="MetaData\IFederationMetadataDispatcher.cs" />
