@@ -1,14 +1,13 @@
-﻿using System;
-using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
+﻿using Kernel.Federation.FederationPartner;
 using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Request.ClauseBuilders
 {
     internal class IdClauseBuilder : ClauseBuilder
     {
-        protected override void BuildInternal(AuthnRequest request, EntityDesriptorConfiguration entityDescriptor)
+        protected override void BuildInternal(AuthnRequest request, AuthnRequestConfiguration configuration)
         {
-            request.Id = String.Format("{0}_{1}", entityDescriptor.Id, Guid.NewGuid().ToString());
+            request.Id = configuration.RequestId;
         }
     }
 }

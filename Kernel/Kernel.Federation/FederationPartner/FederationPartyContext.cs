@@ -40,6 +40,7 @@ namespace Kernel.Federation.FederationPartner
         public string MetadataAddress { get; }
         public string FederationPartyId { get; }
         public MetadataContext MetadataContext { get; set; }
+        
         public TimeSpan AutomaticRefreshInterval
         {
             get
@@ -78,6 +79,10 @@ namespace Kernel.Federation.FederationPartner
             this.MetadataAddress = metadataAddress;
             this.AutomaticRefreshInterval = FederationPartyContext.DefaultAutomaticRefreshInterval;
             this.RefreshInterval = FederationPartyContext.DefaultRefreshInterval;
+        }
+        public AuthnRequestConfiguration GetRequestConfigurationFromContext()
+        {
+            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration);
         }
     }
 }

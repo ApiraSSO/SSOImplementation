@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens;
 using System.Security.Claims;
@@ -23,7 +24,10 @@ namespace Federation.Protocols.Tokens
         
         public async Task<TokenHandlingResponse> HandleToken(HandleTokenContext context)
         {
-            var partnerId = context.RelayState.ToString();
+            var relayState = context.RelayState as IDictionary<string, object>;
+            if (relayState == null)
+                throw new InvalidOperationException(String.Format("Expected relay state type of: {0}, but it was: {1}", typeof(IDictionary<string, object>).Name, context.RelayState.GetType().Name));
+            var partnerId = relayState["federationPartyId"].ToString();
             ClaimsIdentity identity = null;
             var token = this._tokenSerialiser.DeserialiseToken(context.Token, partnerId);
             var validationResult = new List<ValidationResult>();

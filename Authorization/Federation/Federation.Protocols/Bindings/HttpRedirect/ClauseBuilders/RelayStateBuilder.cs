@@ -19,7 +19,7 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
             if (context == null)
                 throw new ArgumentNullException("context");
 
-            if (String.IsNullOrWhiteSpace(context.RelayState))
+            if (context.RelayState == null || context.RelayState.Count == 0)
                 return;
 
             

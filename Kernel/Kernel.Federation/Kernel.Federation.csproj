@@ -48,6 +48,7 @@
     <Compile Include="Exceptions\FederationException.cs" />
     <Compile Include="Exceptions\TimeRestrictionViolationException.cs" />
     <Compile Include="FederationConfiguration\IAllowedAudienceConfiguration.cs" />
+    <Compile Include="FederationPartner\AuthnRequestConfiguration.cs" />
     <Compile Include="IRelayState.cs" />
     <Compile Include="MetaData\Configuration\Bindings.cs" />
     <Compile Include="MetaData\DispatcherContext.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="FederationPartner\IConfigurationManager.cs" />
     <Compile Include="FederationPartner\IConfigurationRetriever.cs" />
     <Compile Include="FederationPartner\IDocumentRetriever.cs" />
+    <Compile Include="Protocols\IAuthnRequestSerialiser.cs" />
     <Compile Include="Protocols\IBindingHandler.cs" />
     <Compile Include="Protocols\IMessageEncoding.cs" />
     <Compile Include="Protocols\IProtocolHandler.cs" />

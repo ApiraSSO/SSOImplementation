@@ -4,6 +4,6 @@ namespace Kernel.Federation.Protocols
 {
     public interface IAuthnRequestClauseBuilder<TRequest>
     {
-        void Build(TRequest request, FederationPartner.FederationPartyContext federationParty);
+        void Build(TRequest request, AuthnRequestConfiguration configuration);
     }
 }

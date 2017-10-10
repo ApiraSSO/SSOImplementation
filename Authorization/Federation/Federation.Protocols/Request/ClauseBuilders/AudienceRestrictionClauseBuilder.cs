@@ -1,14 +1,15 @@
-﻿using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
+﻿using System.Linq;
+using Kernel.Federation.FederationPartner;
 using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Request.ClauseBuilders
 {
     internal class AudienceRestrictionClauseBuilder : ClauseBuilder
     {
-        protected override void BuildInternal(AuthnRequest request, EntityDesriptorConfiguration entityDescriptor)
+        protected override void BuildInternal(AuthnRequest request, AuthnRequestConfiguration configuration)
         {
             var audienceRestriction = new AudienceRestriction();
-            audienceRestriction.Audience.Add(entityDescriptor.EntityId);
+            configuration.AudienceRestriction.Aggregate(audienceRestriction, (a, next) => { a.Audience.Add(next); return a; });
             request.Conditions.Items.Add(audienceRestriction);
         }
     }

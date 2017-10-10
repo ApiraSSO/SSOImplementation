@@ -5,6 +5,7 @@ using Federation.Protocols.Bindings.HttpRedirect;
 using Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders;
 using Federation.Protocols.Endocing;
 using Federation.Protocols.RelayState;
+using Federation.Protocols.Request;
 using Federation.Protocols.Response;
 using Federation.Protocols.Tokens;
 using Federation.Protocols.Tokens.Validation;
@@ -37,6 +38,7 @@ namespace Federation.Protocols.Initialisation
             dependencyResolver.RegisterType<SubjectConfirmationDataValidator>(Lifetime.Transient);
             dependencyResolver.RegisterType<TokenSerialiser>(Lifetime.Transient);
             dependencyResolver.RegisterType<SecurityTokenValidator>(Lifetime.Transient);
+            dependencyResolver.RegisterType<AuthnRequestSerialiser>(Lifetime.Transient);
 
             dependencyResolver.RegisterFactory<Func<Type, object>>(() => dependencyResolver.Resolve, Lifetime.Transient);
             dependencyResolver.RegisterFactory< Func<string, IProtocolHandler> >(() =>

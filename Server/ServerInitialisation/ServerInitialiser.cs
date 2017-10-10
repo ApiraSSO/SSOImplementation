@@ -18,6 +18,7 @@ using OAuthAuthorisationService.Initialisation;
 using ORMMetadataContextProvider.Initialisation;
 using Provider.EntityFramework.Initialisation;
 using SecurityManagement.Initialisation;
+using Serialisation.JSON.Initialisation;
 using Serialisation.Xml.Initialisation;
 using Shared.Initialisation;
 using WebClientMetadataWriter.Initialisation;
@@ -49,6 +50,7 @@ namespace ServerInitialisation
                 yield return typeof(FileSystemMetadataWriterInitialiser).Assembly;
                 yield return typeof(DeflateCompressorInitialiser).Assembly;
                 yield return typeof(ProtocolInitialiser).Assembly;
+                yield return typeof(JsonSerializerInitialiser).Assembly;
             }
         }
 

@@ -106,7 +106,10 @@ namespace SSOOwinMiddleware.Handlers
             var del = IdpMetadataHandlerFactory.GetDelegateForIdpLocation(metadataType);
             signInUrl = del(handler, this._configuration, new Uri(Bindings.Http_Redirect));
 
-            var requestContext = new AuthnRequestContext(signInUrl, federationPartyId);
+            var federationPartyContextBuilder = this._resolver.Resolve<IFederationPartyContextBuilder>();
+            var federationContext = federationPartyContextBuilder.BuildContext(federationPartyId);
+
+            var requestContext = new AuthnRequestContext(signInUrl, federationContext);
             var protocolContext = new SamlProtocolContext
             {
                 RequestContext = new HttpRedirectRequestContext

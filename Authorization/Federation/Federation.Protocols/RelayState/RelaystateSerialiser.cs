@@ -4,15 +4,17 @@ using System.IO;
 using System.Threading.Tasks;
 using Kernel.Federation.Protocols;
 using Kernel.Serialisation;
+using Serialisation.JSON;
 
 namespace Federation.Protocols.RelayState
 {
     internal class RelaystateSerialiser : IRelayStateSerialiser
     {
         private readonly IMessageEncoding _encoding;
-
-        public RelaystateSerialiser(IMessageEncoding encoding)
+        private readonly IJsonSerialiser _jsonSerialiser;
+        public RelaystateSerialiser(IJsonSerialiser jsonSerialiser, IMessageEncoding encoding)
         {
+            this._jsonSerialiser = jsonSerialiser;
             this._encoding = encoding;
         }
         public object[] Deserialize(Stream stream, IList<Type> messageTypes)
@@ -32,7 +34,8 @@ namespace Federation.Protocols.RelayState
 
         public async Task<string> Serialize(object data)
         {
-            var encoded = await this._encoding.EncodeMessage(data.ToString());
+            var jsonString = this._jsonSerialiser.Serialize(data);
+            var encoded = await this._encoding.EncodeMessage(jsonString);
             return encoded;
         }
 
@@ -44,7 +47,8 @@ namespace Federation.Protocols.RelayState
         async Task<object> IRelayStateSerialiser.Deserialize(string data)
         {
             var decoded = await this._encoding.DecodeMessage(data);
-            return decoded;
+            var deserialised = this._jsonSerialiser.Deserialize(decoded);
+            return deserialised;
         }
 
         string ISerializer.Serialize(object o)
