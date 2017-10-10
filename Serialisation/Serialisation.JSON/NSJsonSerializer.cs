@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Serialisation.JSON
 {
-    public class NSJsonSerializer : ISerializer
+    public class NSJsonSerializer : IJsonSerialiser
     {
         #region fields
 

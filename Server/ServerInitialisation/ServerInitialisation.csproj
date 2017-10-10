@@ -112,6 +112,10 @@
       <Project>{8CE800B3-084A-4900-BEC3-27B81707ADC9}</Project>
       <Name>Provider.EntityFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Serialisation\Serialisation.JSON\Serialisation.JSON.csproj">
+      <Project>{4EB8AB3B-2E70-410F-AA9B-8F1C9490FA3A}</Project>
+      <Name>Serialisation.JSON</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Serialisation\Serialisation.Xml\Serialisation.Xml.csproj">
       <Project>{CAAA3B30-55E9-4F50-8F09-89CA54DF9614}</Project>
       <Name>Serialisation.Xml</Name>

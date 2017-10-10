@@ -55,6 +55,7 @@
     <Compile Include="Mock\CertificateValidatorMock.cs" />
     <Compile Include="Mock\FederationPartyContextBuilderMock.cs" />
     <Compile Include="Mock\FileHelper.cs" />
+    <Compile Include="Mock\JsonSerialiserMock.cs" />
     <Compile Include="Mock\Saml2SecurityTokenHandlerMock.cs" />
     <Compile Include="Mock\Tokens\SecurityTokenHandlerMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,6 +94,10 @@
     <ProjectReference Include="..\..\..\Kernel\Kernel\Kernel.csproj">
       <Project>{E198C691-91A6-4082-9976-F5F006F24960}</Project>
       <Name>Kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Serialisation\Serialisation.JSON\Serialisation.JSON.csproj">
+      <Project>{4EB8AB3B-2E70-410F-AA9B-8F1C9490FA3A}</Project>
+      <Name>Serialisation.JSON</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Serialisation\Serialisation.Xml\Serialisation.Xml.csproj">
       <Project>{CAAA3B30-55E9-4F50-8F09-89CA54DF9614}</Project>
