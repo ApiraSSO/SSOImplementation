@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Kernel.Federation.Protocols
 {
     public class BindingContext
     {
-        public BindingContext(string relayState, Uri destinationUri)
+        public BindingContext(IDictionary<string, object> relayState, Uri destinationUri)
         {
             this.ClauseBuilder = new StringBuilder();
             this.DestinationUri = destinationUri;
@@ -13,7 +14,7 @@ namespace Kernel.Federation.Protocols
         }
         public Uri DestinationUri { get; }
         public StringBuilder ClauseBuilder { get; }
-        public string RelayState { get; }
+        public IDictionary<string, object> RelayState { get; }
         public virtual Uri GetDestinationUrl()
         {
             return this.DestinationUri;

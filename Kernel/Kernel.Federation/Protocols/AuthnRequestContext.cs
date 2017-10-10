@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Kernel.Federation.FederationPartner;
 
 namespace Kernel.Federation.Protocols
@@ -9,11 +10,11 @@ namespace Kernel.Federation.Protocols
         {
             this.FederationPartyContext = federationPartyContext;
             this.Destination = destination;
-            this.RelyingState = federationPartyContext.FederationPartyId;
+            this.RelyingState = new Dictionary<string, object> { {"federationPartyId", federationPartyContext.FederationPartyId } };
             this.Version = "2.0";
         }
         public string Version { get; set; }
-        public string RelyingState { get; set; }
+        public IDictionary<string, object> RelyingState { get; }
         public Uri Destination { get; private set; }
         public FederationPartyContext FederationPartyContext { get; }
     }

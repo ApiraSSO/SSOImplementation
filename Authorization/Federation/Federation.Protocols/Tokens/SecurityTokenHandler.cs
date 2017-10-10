@@ -23,7 +23,8 @@ namespace Federation.Protocols.Tokens
         
         public async Task<TokenHandlingResponse> HandleToken(HandleTokenContext context)
         {
-            var partnerId = context.RelayState.ToString();
+            var relayState = context.RelayState as IDictionary<string, object>;
+            var partnerId = relayState["federationPartyId"].ToString();
             ClaimsIdentity identity = null;
             var token = this._tokenSerialiser.DeserialiseToken(context.Token, partnerId);
             var validationResult = new List<ValidationResult>();
