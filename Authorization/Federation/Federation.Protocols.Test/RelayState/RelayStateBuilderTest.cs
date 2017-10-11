@@ -1,36 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DeflateCompression;
+using Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders;
 using Federation.Protocols.Endocing;
 using Federation.Protocols.RelayState;
 using Kernel.Federation.Protocols;
 using NUnit.Framework;
 using Serialisation.JSON;
 using Serialisation.JSON.SettingsProviders;
+using Shared.Federtion.Constants;
 
 namespace Federation.Protocols.Test.RelayState
 {
     [TestFixture]
-    internal class RelayStateHandlerTest
+    internal class RelayStateBuilderTest
     {
         [Test]
-        public async Task HandlerTest()
+        public async Task RelayStateBuilder_test()
         {
             //ARRANGE
-            var relayState = new Dictionary<string, object> { { "relayState", "Test state" } };
-            var form = new Dictionary<string, string>();
+            var relayState = new Dictionary<string, object> { { "relayState" ,"Test state" } };
             var compressor = new DeflateCompressor();
             var messageEncoder = new MessageEncoding(compressor);
             var jsonSerialiser = new NSJsonSerializer(new DefaultSettingsProvider());
             var serialiser = new RelaystateSerialiser(jsonSerialiser, messageEncoder) as IRelayStateSerialiser;
-            var handler = new RelayStateHandler(serialiser);
+            
+            var context = new BindingContext(relayState, new Uri("localhost:"));
+            var builder = new RelayStateBuilder(serialiser);
             //ACT
-            var serialised = await serialiser.Serialize(relayState);
-            form.Add("RelayState", serialised);
-            var deserialised = await handler.GetRelayStateFromFormData(form) as Dictionary<string, object>;
+            await builder.Build(context);
+            var result = context.ClauseBuilder.ToString();
             //ASSERT
-            Assert.AreEqual(relayState.Count, deserialised.Count);
-            Assert.AreEqual(relayState["relayState"], deserialised["relayState"]);
+            Assert.IsTrue(result.StartsWith(String.Format("&{0}", HttpRedirectBindingConstants.RelayState)));
         }
     }
 }

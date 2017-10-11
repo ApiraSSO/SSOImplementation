@@ -16,14 +16,24 @@ namespace Kernel.Federation.FederationPartner
             this.AssertionConsumerServiceIndex = (ushort)entityDesriptorConfiguration.SPSSODescriptors.SelectMany(x => x.AssertionConsumerServices)
                 .Single(x => x.IsDefault.GetValueOrDefault()).Index;
             this.AudienceRestriction = new List<string> { entityDesriptorConfiguration.EntityId };
+            this.ForceAuthn = false;
+            this.IsPassive = false;
+            this.Version = "2.0";
+            this.EncryptNameId = false;
+            this.AllowCreateNameIdPolicy = false;
+            this.SupportedNameIdentifierFormats = new List<Uri>();
         }
 
         public bool IsPassive { get; set; }
         public bool ForceAuthn { get; set; }
         public ICollection<string> AudienceRestriction { get; }
-        public string NamePolicy { get; }
+        public string NameIdPolicyFormat { get; }
+        public bool EncryptNameId { get; }
+        public bool AllowCreateNameIdPolicy { get; }
         public ushort AssertionConsumerServiceIndex { get; }
         public string RequestId { get; }
-        public string EntityId { get; private set; }
+        public string EntityId { get; }
+        public string Version { get; }
+        public ICollection<Uri> SupportedNameIdentifierFormats { get; }
     }
 }

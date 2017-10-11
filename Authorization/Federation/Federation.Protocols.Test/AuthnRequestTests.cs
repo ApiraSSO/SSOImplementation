@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using DeflateCompression;
+using Federation.Protocols.Endocing;
 using Federation.Protocols.Request;
 using Federation.Protocols.Test.Mock;
-using Kernel.Cryptography.CertificateManagement;
 using Kernel.Federation.Protocols;
 using NUnit.Framework;
-using SecurityManagement;
 using Serialisation.Xml;
+using Shared.Federtion.Constants;
+using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Test
 {
@@ -18,90 +18,60 @@ namespace Federation.Protocols.Test
     public class AuthnRequestTests
     {
         [Test]
-        public async Task BuildAuthnRequest_test()
+        public void BuildAuthnRequest_test()
         {
-            throw new NotImplementedException();
             //ARRANGE
-            //var requestUri = new Uri("http://localhost:59611/");
-            //var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
-            //var federationContex = federationPartyContextBuilder.BuildContext("local");
-            //var authnRequestContext = new AuthnRequestContext(requestUri, federationContex);
-            
-            //var serialiser = new XMLSerialiser();
-            //var certManager = new CertificateManager();
-            //var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
-            //var compressor = new DeflateCompressor();
-            //var certContext = new X509CertificateContext
-            //{
-            //    StoreLocation = StoreLocation.LocalMachine,
-            //    ValidOnly = false,
-            //    StoreName = "TestCertStore"
-            //};
-            //certContext.SearchCriteria.Add(new CertificateSearchCriteria
-            //{
-            //    SearchCriteriaType = X509FindType.FindBySubjectName,
-            //    SearchValue = "ApiraTestCertificate"
-            //});
-            ////ACT
-            //var sb = new StringBuilder();
-            ////serialise and append request
-            //var serialised =  AuthnRequestHelper.Serialise(authnRequest, serialiser);
-            //await AuthnRequestHelper.AppendRequest(sb, serialised, compressor);
+            var requestUri = new Uri("http://localhost:59611/");
+            var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
+            var federationContex = federationPartyContextBuilder.BuildContext("local");
+            var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
+            var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
 
-            ////append relying state
-            //await AuthnRequestHelper.AppendRelyingState(sb, authnRequestContext, compressor);
+            //ACT
+            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
+            var audience = ((AudienceRestriction)authnRequest.Conditions.Items.Single())
+                .Audience
+                .Single();
 
-            ////append signature alg
-            //AuthnRequestHelper.AppendSignarureAlgorithm(sb);
-
-            //var datataToSign = sb.ToString();
-
-            ////sign request
-            //AuthnRequestHelper.SignData(sb, certContext, certManager);
-            //var query = sb.ToString();
-            //var url = new Uri(String.Format("{0}?{1}", requestUri, query));
-            //var qsParsed = HttpUtility.ParseQueryString(url.Query);
-            ////request
-            //var requestEscaped = qsParsed[0];
-            //var requestUnescaped = Uri.UnescapeDataString(requestEscaped);
-            //var requestDecompressed = await Helper.DeflateDecompress(requestUnescaped, compressor);
-
-            ////relyingState
-            //var rsEscaped = qsParsed[1];
-            //var rsunescaped = Uri.UnescapeDataString(rsEscaped);
-            //var rsdecompressed = await Helper.DeflateDecompress(rsunescaped, compressor);
-            
-            ////signature alg
-            //var sigAlgEscaped = qsParsed[2];
-            //var sigAlgunescaped = Uri.UnescapeDataString(sigAlgEscaped);
-
-            ////signature
-            //var sigEscaped = qsParsed[3];
-            //var sigunescaped = Uri.UnescapeDataString(sigEscaped);
-
-            ////signed string
-            //var verified = certManager.VerifySignatureFromBase64(datataToSign, sigEscaped, certContext);
-            ////ASSERT
-            //Assert.True(verified);
+            //ASSERT
+            Assert.NotNull(authnRequest);
+            Assert.AreEqual(requestConfiguration.IsPassive, authnRequest.IsPassive);
+            Assert.AreEqual(requestConfiguration.ForceAuthn, authnRequest.ForceAuthn);
+            Assert.AreEqual("2.0", authnRequest.Version);
+            //issuer
+            Assert.AreEqual(requestConfiguration.EntityId, authnRequest.Issuer.Value);
+            Assert.AreEqual(NameIdentifierFormats.Entity, authnRequest.Issuer.Format);
+            //audience
+            Assert.AreEqual(requestConfiguration.AudienceRestriction.Count, authnRequest.Conditions.Items.Count);
+            Assert.AreEqual(requestConfiguration.AudienceRestriction.Single(), audience);
+            //nameIdPolicy
+            Assert.IsFalse(authnRequest.NameIdPolicy.AllowCreate);
+            Assert.AreEqual(authnRequest.NameIdPolicy.Format, NameIdentifierFormats.Transient);
         }
 
         [Test]
-        public void SerialiseRequest()
+        public async Task AuthnRequestSerialiser_test()
         {
-            throw new NotImplementedException();
             //ARRANGE
-            //var requestUri = new Uri("http://localhost:59611/");
-            //var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
-            //var federationContex = federationPartyContextBuilder.BuildContext("local");
-            //var authnRequestContext = new AuthnRequestContext(requestUri, federationContex);
-            
-            //var serialiser = new XMLSerialiser();
-            //var certManager = new CertificateManager();
-            //var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
+            var requestUri = new Uri("http://localhost:59611/");
+            var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
+            var federationContex = federationPartyContextBuilder.BuildContext("local");
+            var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
 
-            ////ACT
-            //var request = AuthnRequestHelper.Serialise(authnRequest, serialiser);
-            ////ASSERT
+            var xmlSerialiser = new XMLSerialiser();
+            var compressor = new DeflateCompressor();
+            var encoder = new MessageEncoding(compressor);
+            var serialiser = new AuthnRequestSerialiser(xmlSerialiser, encoder);
+            
+            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
+
+            //ACT
+            var request = await serialiser.Serialize(authnRequest);
+
+            //ASSERT
+            Assert.NotNull(request);
         }
     }
 }
