@@ -103,13 +103,20 @@ namespace SSOOwinMiddleware.Handlers
             var metadataType = this._configuration.GetType();
             var handlerType = typeof(IMetadataHandler<>).MakeGenericType(metadataType);
             var handler = this._resolver.Resolve(handlerType);
-            var del = IdpMetadataHandlerFactory.GetDelegateForIdpLocation(metadataType);
-            signInUrl = del(handler, this._configuration, new Uri(Bindings.Http_Redirect));
+
+            //ToDo: sort this one in phase3 when implementing owin middleware. 
+            //no need to have two methods in the handler. use GetDelegateForIdpDescriptors
+            var locationDel = IdpMetadataHandlerFactory.GetDelegateForIdpLocation(metadataType);
+            signInUrl = locationDel(handler, this._configuration, new Uri(Bindings.Http_Redirect));
+            
+            //the lines below are likely to do all what we need. 
+            var idpDel = IdpMetadataHandlerFactory.GetDelegateForIdpDescriptors(this._configuration.GetType(), typeof(IdentityProviderSingleSignOnDescriptor));
+            var idp = idpDel(handler, this._configuration).Cast<IdentityProviderSingleSignOnDescriptor>().First();
 
             var federationPartyContextBuilder = this._resolver.Resolve<IFederationPartyContextBuilder>();
             var federationContext = federationPartyContextBuilder.BuildContext(federationPartyId);
 
-            var requestContext = new AuthnRequestContext(signInUrl, federationContext);
+            var requestContext = new AuthnRequestContext(signInUrl, federationContext, idp.NameIdentifierFormats);
             var protocolContext = new SamlProtocolContext
             {
                 RequestContext = new HttpRedirectRequestContext

@@ -23,7 +23,15 @@ namespace Federation.Protocols.Request
                 Version = requestConfig.Version,
                 IssueInstant = DateTime.UtcNow
             };
-            
+            if(authnRequestContext.SupportedNameIdentifierFormats != null)
+            {
+                authnRequestContext.SupportedNameIdentifierFormats.Aggregate(requestConfig.SupportedNameIdentifierFormats, (t, next) => 
+                {
+                    t.Add(next);
+                    return t;
+                });
+            }
+
             var buiders = AuthnRequestHelper.GetBuilders();
             foreach(var b in buiders)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DeflateCompression;
@@ -23,7 +24,8 @@ namespace Federation.Protocols.Test
             var requestUri = new Uri("http://localhost:59611/");
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
             var federationContex = federationPartyContextBuilder.BuildContext("local");
-            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex);
+            var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
             var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
 
             //ACT
@@ -55,7 +57,8 @@ namespace Federation.Protocols.Test
             var requestUri = new Uri("http://localhost:59611/");
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
             var federationContex = federationPartyContextBuilder.BuildContext("local");
-            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex);
+            var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
 
             var xmlSerialiser = new XMLSerialiser();
             var compressor = new DeflateCompressor();

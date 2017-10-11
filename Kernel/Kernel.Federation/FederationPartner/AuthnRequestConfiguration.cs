@@ -21,6 +21,7 @@ namespace Kernel.Federation.FederationPartner
             this.Version = "2.0";
             this.EncryptNameId = false;
             this.AllowCreateNameIdPolicy = false;
+            this.SupportedNameIdentifierFormats = new List<Uri>();
         }
 
         public bool IsPassive { get; set; }
@@ -33,5 +34,6 @@ namespace Kernel.Federation.FederationPartner
         public string RequestId { get; }
         public string EntityId { get; }
         public string Version { get; }
+        public ICollection<Uri> SupportedNameIdentifierFormats { get; }
     }
 }
