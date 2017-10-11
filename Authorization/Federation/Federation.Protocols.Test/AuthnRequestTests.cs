@@ -27,7 +27,7 @@ namespace Federation.Protocols.Test
             var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };
             var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
             var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
-
+            AuthnRequestHelper.GetBuilders = AuthnRequestBuildersFactoryMock.GetBuildersFactory();
             //ACT
             var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
             var audience = ((AudienceRestriction)authnRequest.Conditions.Items.Single())
@@ -64,7 +64,7 @@ namespace Federation.Protocols.Test
             var compressor = new DeflateCompressor();
             var encoder = new MessageEncoding(compressor);
             var serialiser = new AuthnRequestSerialiser(xmlSerialiser, encoder);
-            
+            AuthnRequestHelper.GetBuilders = AuthnRequestBuildersFactoryMock.GetBuildersFactory();
             var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
 
             //ACT

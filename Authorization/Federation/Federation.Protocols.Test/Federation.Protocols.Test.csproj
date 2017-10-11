@@ -57,6 +57,7 @@
     <Compile Include="Mock\CertificateValidatorMock.cs" />
     <Compile Include="Mock\FederationPartyContextBuilderMock.cs" />
     <Compile Include="Mock\FileHelper.cs" />
+    <Compile Include="Mock\AuthnRequestBuildersFactoryMock.cs" />
     <Compile Include="Mock\Saml2SecurityTokenHandlerMock.cs" />
     <Compile Include="Mock\Tokens\SecurityTokenHandlerMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,6 +93,10 @@
     <ProjectReference Include="..\..\..\Kernel\Kernel.Federation\Kernel.Federation.csproj">
       <Project>{47FE8E9F-CCF6-46B7-BA75-CBA1D1F56D7A}</Project>
       <Name>Kernel.Federation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Reflection\Kernel.Reflection.csproj">
+      <Project>{2A6BA5FB-DBAA-457A-9CB3-9BA74A96551B}</Project>
+      <Name>Kernel.Reflection</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Kernel\Kernel\Kernel.csproj">
       <Project>{E198C691-91A6-4082-9976-F5F006F24960}</Project>
