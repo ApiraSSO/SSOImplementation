@@ -19,12 +19,16 @@ namespace Kernel.Federation.FederationPartner
             this.ForceAuthn = false;
             this.IsPassive = false;
             this.Version = "2.0";
+            this.EncryptNameId = false;
+            this.AllowCreateNameIdPolicy = false;
         }
 
         public bool IsPassive { get; set; }
         public bool ForceAuthn { get; set; }
         public ICollection<string> AudienceRestriction { get; }
-        public string NamePolicy { get; }
+        public string NameIdPolicyFormat { get; }
+        public bool EncryptNameId { get; }
+        public bool AllowCreateNameIdPolicy { get; }
         public ushort AssertionConsumerServiceIndex { get; }
         public string RequestId { get; }
         public string EntityId { get; }

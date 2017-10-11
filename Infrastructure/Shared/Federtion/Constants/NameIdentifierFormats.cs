@@ -44,5 +44,7 @@
         /// urn for Transient name identifier format
         /// </summary>
         public const string Transient = "urn:oasis:names:tc:SAML:2.0:nameid-format:transient";
+
+        public const string Encrypted = "urn:oasis:names:tc:SAML:2.0:nameid-format:encrypted";
     }
 }

@@ -40,8 +40,12 @@ namespace Federation.Protocols.Test
             //issuer
             Assert.AreEqual(requestConfiguration.EntityId, authnRequest.Issuer.Value);
             Assert.AreEqual(NameIdentifierFormats.Entity, authnRequest.Issuer.Format);
+            //audience
             Assert.AreEqual(requestConfiguration.AudienceRestriction.Count, authnRequest.Conditions.Items.Count);
             Assert.AreEqual(requestConfiguration.AudienceRestriction.Single(), audience);
+            //nameIdPolicy
+            Assert.IsFalse(authnRequest.NameIdPolicy.AllowCreate);
+            Assert.AreEqual(authnRequest.NameIdPolicy.Format, NameIdentifierFormats.Transient);
         }
 
         [Test]
