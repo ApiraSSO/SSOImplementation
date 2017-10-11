@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Federation.Protocols.Bindings.HttpPost;
 using Federation.Protocols.Bindings.HttpRedirect;
@@ -6,11 +8,14 @@ using Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders;
 using Federation.Protocols.Endocing;
 using Federation.Protocols.RelayState;
 using Federation.Protocols.Request;
+using Federation.Protocols.Request.ClauseBuilders;
 using Federation.Protocols.Response;
 using Federation.Protocols.Tokens;
 using Federation.Protocols.Tokens.Validation;
 using Kernel.DependancyResolver;
 using Kernel.Federation.Protocols;
+using Kernel.Reflection;
+using Shared.Federtion.Models;
 using Shared.Initialisation;
 
 namespace Federation.Protocols.Initialisation
@@ -40,6 +45,9 @@ namespace Federation.Protocols.Initialisation
             dependencyResolver.RegisterType<SecurityTokenValidator>(Lifetime.Transient);
             dependencyResolver.RegisterType<AuthnRequestSerialiser>(Lifetime.Transient);
 
+            AuthnRequestHelper.GetBuilders = () => dependencyResolver.ResolveAll<IAuthnRequestClauseBuilder<AuthnRequest>>();
+            this.GetBuilders().Aggregate(dependencyResolver, (r, next) => {r.RegisterType(next, Lifetime.Transient); return r; });
+
             dependencyResolver.RegisterFactory<Func<Type, object>>(() => dependencyResolver.Resolve, Lifetime.Transient);
             dependencyResolver.RegisterFactory< Func<string, IProtocolHandler> >(() =>
             {
@@ -60,6 +68,11 @@ namespace Federation.Protocols.Initialisation
             }, Lifetime.Singleton);
 
             return Task.CompletedTask;
+        }
+
+        private IEnumerable<Type> GetBuilders()
+        {
+            return ReflectionHelper.GetAllTypes(new[] { typeof(ClauseBuilder).Assembly }, t => AuthnRequestHelper.Condition(t));
         }
     }
 }
