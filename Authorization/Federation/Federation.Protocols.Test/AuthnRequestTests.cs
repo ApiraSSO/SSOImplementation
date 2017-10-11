@@ -8,6 +8,7 @@ using Federation.Protocols.Test.Mock;
 using Kernel.Federation.Protocols;
 using NUnit.Framework;
 using Serialisation.Xml;
+using Shared.Federtion.Constants;
 using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Test
@@ -36,7 +37,9 @@ namespace Federation.Protocols.Test
             Assert.AreEqual(requestConfiguration.IsPassive, authnRequest.IsPassive);
             Assert.AreEqual(requestConfiguration.ForceAuthn, authnRequest.ForceAuthn);
             Assert.AreEqual("2.0", authnRequest.Version);
+            //issuer
             Assert.AreEqual(requestConfiguration.EntityId, authnRequest.Issuer.Value);
+            Assert.AreEqual(NameIdentifierFormats.Entity, authnRequest.Issuer.Format);
             Assert.AreEqual(requestConfiguration.AudienceRestriction.Count, authnRequest.Conditions.Items.Count);
             Assert.AreEqual(requestConfiguration.AudienceRestriction.Single(), audience);
         }

@@ -8,16 +8,7 @@ namespace Shared.Federtion.Models
     /// All SAML requests are of types that are derived from the abstract RequestAbstractType complex type.
     /// This type defines common attributes and elements that are associated with all SAML requests
     /// </summary>
-    //[XmlInclude(typeof(NameIdMappingRequest))]
-    //[XmlInclude(typeof(LogoutRequest))]
-    //[XmlInclude(typeof(ManageNameIdRequest))]
-    //[XmlInclude(typeof(ArtifactResolve))]
     [XmlInclude(typeof(AuthnRequest))]
-    //[XmlInclude(typeof(SubjectQueryAbstract))]
-    //[XmlInclude(typeof(AuthzDecisionQuery))]
-    //[XmlInclude(typeof(AttributeQuery))]
-    //[XmlInclude(typeof(AuthnQuery))]
-    //[XmlInclude(typeof(AssertionIdRequest))]
     [Serializable]
     [XmlType(Namespace = Saml20Constants.Protocol)]
     public abstract class RequestAbstract
@@ -106,14 +97,6 @@ namespace Shared.Federtion.Models
         /// <value>The issuer.</value>
         [XmlElement("Issuer", Namespace = Saml20Constants.Assertion, Order = 1)]
         public NameId Issuer { get; set; }
-
-        /// <summary>
-        /// Gets or sets the signature.
-        /// An XML Signature that authenticates the requester and provides message integrity
-        /// </summary>
-        /// <value>The signature.</value>
-        //[XmlElement("Signature", Namespace = "http://www.w3.org/2000/09/xmldsig#", Order = 2)]
-        //public Signature Signature { get; set; }
 
         #endregion
     }
