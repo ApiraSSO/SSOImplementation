@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DeflateCompression;
 using Federation.Protocols.Endocing;
 using Federation.Protocols.RelayState;
@@ -16,16 +17,18 @@ namespace Federation.Protocols.Test.RelayState
         public async Task SerialiseDeserialiseTest()
         {
             //ARRANGE
-            var relayState = "Test state";
+            var relayState = new Dictionary<string, object> { { "relayState", "Test state" } };
             var compressor = new DeflateCompressor();
             var messageEncoder = new MessageEncoding(compressor);
             var jsonSerialiser = new NSJsonSerializer(new DefaultSettingsProvider());
             var serialiser = new RelaystateSerialiser(jsonSerialiser, messageEncoder) as IRelayStateSerialiser;
             //ACT
             var serialised = await serialiser.Serialize(relayState);
-            var deserialised = await serialiser.Deserialize(serialised);
+            var deserialised = await serialiser.Deserialize(serialised) as Dictionary<string, object>;
+
             //ASSERT
-            Assert.AreEqual(relayState, deserialised);
+            Assert.AreEqual(relayState.Count, deserialised.Count);
+            Assert.AreEqual(relayState["relayState"], deserialised["relayState"]);
         }
     }
 }

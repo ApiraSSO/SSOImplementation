@@ -59,6 +59,7 @@
     <Compile Include="Mock\Saml2SecurityTokenHandlerMock.cs" />
     <Compile Include="Mock\Tokens\SecurityTokenHandlerMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelayState\RelayStateBuilderTest.cs" />
     <Compile Include="RelayState\RelayStateHandlerTest.cs" />
     <Compile Include="RelayState\RelayStateSerialiserTest.cs" />
     <Compile Include="ResponseTest.cs" />
