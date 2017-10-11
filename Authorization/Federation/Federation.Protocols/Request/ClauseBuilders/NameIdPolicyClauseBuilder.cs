@@ -14,7 +14,7 @@ namespace Federation.Protocols.Request.ClauseBuilders
                 AllowCreate = configuration.AllowCreateNameIdPolicy,
                 Format = String.IsNullOrWhiteSpace(configuration.NameIdPolicyFormat) ? 
                 configuration.EncryptNameId ? 
-                NameIdentifierFormats.Encrypted : NameIdentifierFormats.Transient : configuration.NameIdPolicyFormat
+                NameIdentifierFormats.Encrypted : NameIdentifierFormats.Unspecified : configuration.NameIdPolicyFormat
             };
         }
     }
