@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthnRequestTests.cs" />
+    <Compile Include="Encoding\MessageEncodingTest.cs" />
     <Compile Include="HelperTests.cs" />
     <Compile Include="Mock\CertificateValidatorMock.cs" />
     <Compile Include="Mock\FederationPartyContextBuilderMock.cs" />

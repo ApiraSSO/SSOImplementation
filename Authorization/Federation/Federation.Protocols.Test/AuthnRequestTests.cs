@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using DeflateCompression;
+using Federation.Protocols.Endocing;
 using Federation.Protocols.Request;
 using Federation.Protocols.Test.Mock;
-using Kernel.Cryptography.CertificateManagement;
 using Kernel.Federation.Protocols;
 using NUnit.Framework;
-using SecurityManagement;
 using Serialisation.Xml;
 
 namespace Federation.Protocols.Test
@@ -86,22 +82,26 @@ namespace Federation.Protocols.Test
         }
 
         [Test]
-        public void SerialiseRequest()
+        public async Task AuthnRequestSerialiser_test()
         {
-            throw new NotImplementedException();
             //ARRANGE
-            //var requestUri = new Uri("http://localhost:59611/");
-            //var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
-            //var federationContex = federationPartyContextBuilder.BuildContext("local");
-            //var authnRequestContext = new AuthnRequestContext(requestUri, federationContex);
-            
-            //var serialiser = new XMLSerialiser();
-            //var certManager = new CertificateManager();
-            //var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
+            var requestUri = new Uri("http://localhost:59611/");
+            var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
+            var federationContex = federationPartyContextBuilder.BuildContext("local");
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex);
 
-            ////ACT
-            //var request = AuthnRequestHelper.Serialise(authnRequest, serialiser);
-            ////ASSERT
+            var xmlSerialiser = new XMLSerialiser();
+            var compressor = new DeflateCompressor();
+            var encoder = new MessageEncoding(compressor);
+            var serialiser = new AuthnRequestSerialiser(xmlSerialiser, encoder);
+            
+            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
+
+            //ACT
+            var request = await serialiser.Serialize(authnRequest);
+
+            //ASSERT
+            Assert.NotNull(request);
         }
     }
 }
