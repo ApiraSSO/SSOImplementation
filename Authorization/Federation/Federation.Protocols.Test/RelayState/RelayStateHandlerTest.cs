@@ -3,9 +3,10 @@ using System.Threading.Tasks;
 using DeflateCompression;
 using Federation.Protocols.Endocing;
 using Federation.Protocols.RelayState;
-using Federation.Protocols.Test.Mock;
 using Kernel.Federation.Protocols;
 using NUnit.Framework;
+using Serialisation.JSON;
+using Serialisation.JSON.SettingsProviders;
 
 namespace Federation.Protocols.Test.RelayState
 {
@@ -20,7 +21,7 @@ namespace Federation.Protocols.Test.RelayState
             var form = new Dictionary<string, string>();
             var compressor = new DeflateCompressor();
             var messageEncoder = new MessageEncoding(compressor);
-            var jsonSerialiser = new JsonSerialiserMock();
+            var jsonSerialiser = new NSJsonSerializer(new DefaultSettingsProvider());
             var serialiser = new RelaystateSerialiser(jsonSerialiser, messageEncoder) as IRelayStateSerialiser;
             var handler = new RelayStateHandler(serialiser);
             //ACT
