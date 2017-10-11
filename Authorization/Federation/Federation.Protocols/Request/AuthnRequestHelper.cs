@@ -13,15 +13,17 @@ namespace Federation.Protocols.Request
         private static Func<Type, bool> _condition = t => !t.IsAbstract && !t.IsInterface && typeof(IAuthnRequestClauseBuilder<AuthnRequest>).IsAssignableFrom(t);
         internal static AuthnRequest BuildAuthnRequest(AuthnRequestContext authnRequestContext)
         {
+            var requestConfig = authnRequestContext.FederationPartyContext.GetRequestConfigurationFromContext();
+
             var request = new AuthnRequest
             {
-                IsPassive = false,
-                ForceAuthn = false,
+                IsPassive = requestConfig.IsPassive,
+                ForceAuthn = requestConfig.ForceAuthn,
                 Destination = authnRequestContext.Destination.AbsoluteUri,
-                Version = authnRequestContext.Version,
+                Version = requestConfig.Version,
                 IssueInstant = DateTime.UtcNow
             };
-            var requestConfig = authnRequestContext.FederationPartyContext.GetRequestConfigurationFromContext();
+            
             var buiders = AuthnRequestHelper.GetBuilders();
             foreach(var b in buiders)
             {

@@ -8,14 +8,18 @@ namespace Kernel.Federation.Protocols
     {
         public AuthnRequestContext(Uri destination, FederationPartyContext federationPartyContext)
         {
+            if (destination == null)
+                throw new ArgumentNullException("destination");
+            if (federationPartyContext == null)
+                throw new ArgumentNullException("federationPartyContext");
+
             this.FederationPartyContext = federationPartyContext;
             this.Destination = destination;
             this.RelyingState = new Dictionary<string, object> { {"federationPartyId", federationPartyContext.FederationPartyId } };
-            this.Version = "2.0";
         }
-        public string Version { get; set; }
+        
         public IDictionary<string, object> RelyingState { get; }
-        public Uri Destination { get; private set; }
+        public Uri Destination { get; }
         public FederationPartyContext FederationPartyContext { get; }
     }
 }

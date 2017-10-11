@@ -16,6 +16,9 @@ namespace Kernel.Federation.FederationPartner
             this.AssertionConsumerServiceIndex = (ushort)entityDesriptorConfiguration.SPSSODescriptors.SelectMany(x => x.AssertionConsumerServices)
                 .Single(x => x.IsDefault.GetValueOrDefault()).Index;
             this.AudienceRestriction = new List<string> { entityDesriptorConfiguration.EntityId };
+            this.ForceAuthn = false;
+            this.IsPassive = false;
+            this.Version = "2.0";
         }
 
         public bool IsPassive { get; set; }
@@ -24,6 +27,7 @@ namespace Kernel.Federation.FederationPartner
         public string NamePolicy { get; }
         public ushort AssertionConsumerServiceIndex { get; }
         public string RequestId { get; }
-        public string EntityId { get; private set; }
+        public string EntityId { get; }
+        public string Version { get; }
     }
 }
