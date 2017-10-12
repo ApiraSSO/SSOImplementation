@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Xml;
 using Shared.Federtion.Constants;
-using System.Text;
 
 namespace Federation.Protocols.Response
 {
@@ -67,8 +67,9 @@ namespace Federation.Protocols.Response
                 b.AppendFormat("Status code: {0}\r\n", next);
                 return b;
             });
-                var msg = String.Format("{0}.\r\n Additional information:{1}, {2}", sb.ToString(), statusMessage, messageDetails);
-                throw new Exception(msg);
+
+            var msg = String.Format("{0}\r\nAdditional information:{1} {2}", sb.ToString(), statusMessage, messageDetails);
+            throw new Exception(msg);
             
         }
     }
