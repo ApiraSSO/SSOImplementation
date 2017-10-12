@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using Shared.Federtion.Constants;
 
@@ -26,7 +22,8 @@ namespace Federation.Protocols.Response
         {
             var statusMessage = String.Empty;
             var messageDetails = String.Empty;
-
+            var statusCode = String.Empty;
+            var statusCodeSub = String.Empty;
             while (!reader.IsStartElement("Status", Saml20Constants.Protocol))
             {
                 if (!reader.Read())
@@ -36,22 +33,35 @@ namespace Federation.Protocols.Response
             if (!reader.IsStartElement("StatusCode", Saml20Constants.Protocol))
                 throw new InvalidOperationException("Excpected element StatusCode");
 
-            var status = reader.GetAttribute("Value");
-            if (String.IsNullOrWhiteSpace(status) || !String.Equals(status, StatusCodes.Success))
+            statusCode = reader.GetAttribute("Value");
+            if (!String.IsNullOrWhiteSpace(statusCode) && String.Equals(statusCode, StatusCodes.Success))
+                return;
+
+            reader.Read();
+            if (reader.IsStartElement("StatusCode", Saml20Constants.Protocol))
             {
-                throw new Exception(status);
+                statusCodeSub = reader.GetAttribute("Value");
+                reader.Read();
             }
             reader.Read();
             if (reader.IsStartElement("StatusMessage", Saml20Constants.Protocol))
             {
+                reader.Read();
                 statusMessage = reader.Value;
                 reader.Read();
             }
+            reader.Read();
             if (reader.IsStartElement("StatusDetail", Saml20Constants.Protocol))
             {
+                reader.Read();
                 statusMessage = reader.Value;
             }
-            reader.ReadEndElement();
+            
+            if (String.IsNullOrWhiteSpace(statusCode) || !String.Equals(statusCode, StatusCodes.Success))
+            {
+                var msg = String.Format("{0}.\r\n Additional information:{1}, {2}, {3}", statusCode, statusCodeSub, statusMessage, messageDetails);
+                throw new Exception(msg);
+            }
         }
     }
 }
