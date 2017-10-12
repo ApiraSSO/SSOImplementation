@@ -122,7 +122,6 @@ namespace ORMMetadataContextProvider
                 ErrorUrl = new Uri(sPDescriptor.ErrorUrl)
             };
 
-            //sort this out missing in the models
             sPDescriptor.NameIdFormats.Aggregate(sPSSODescriptorConfiguration, (c, next) =>
             {
                 c.NameIdentifierFormats.Add(new Uri(next.Uri));
