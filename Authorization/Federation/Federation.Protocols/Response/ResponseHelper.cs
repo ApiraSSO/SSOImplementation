@@ -24,14 +24,34 @@ namespace Federation.Protocols.Response
         
         internal static void ValidateResponseSuccess(XmlReader reader)
         {
-            while (!reader.IsStartElement("StatusCode", Saml20Constants.Protocol))
+            var statusMessage = String.Empty;
+            var messageDetails = String.Empty;
+
+            while (!reader.IsStartElement("Status", Saml20Constants.Protocol))
             {
                 if (!reader.Read())
                     throw new InvalidOperationException("Can't find status code element.");
             }
+            reader.Read();
+            if (!reader.IsStartElement("StatusCode", Saml20Constants.Protocol))
+                throw new InvalidOperationException("Excpected element StatusCode");
+
             var status = reader.GetAttribute("Value");
             if (String.IsNullOrWhiteSpace(status) || !String.Equals(status, StatusCodes.Success))
+            {
                 throw new Exception(status);
+            }
+            reader.Read();
+            if (reader.IsStartElement("StatusMessage", Saml20Constants.Protocol))
+            {
+                statusMessage = reader.Value;
+                reader.Read();
+            }
+            if (reader.IsStartElement("StatusDetail", Saml20Constants.Protocol))
+            {
+                statusMessage = reader.Value;
+            }
+            reader.ReadEndElement();
         }
     }
 }
