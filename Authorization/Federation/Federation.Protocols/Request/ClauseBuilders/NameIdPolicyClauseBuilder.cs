@@ -12,9 +12,9 @@ namespace Federation.Protocols.Request.ClauseBuilders
             request.NameIdPolicy = new NameIdPolicy
             {
                 AllowCreate = configuration.AllowCreateNameIdPolicy,
-                Format = String.IsNullOrWhiteSpace(configuration.NameIdPolicyFormat) ? 
+                Format = configuration.DefaultNameIdFormat == null ? 
                 configuration.EncryptNameId ? 
-                NameIdentifierFormats.Encrypted : NameIdentifierFormats.Unspecified : configuration.NameIdPolicyFormat
+                NameIdentifierFormats.Encrypted : NameIdentifierFormats.Unspecified : configuration.DefaultNameIdFormat.AbsoluteUri
             };
         }
     }

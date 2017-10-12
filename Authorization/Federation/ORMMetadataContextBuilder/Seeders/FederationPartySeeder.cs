@@ -1,4 +1,6 @@
-﻿using Kernel.Data.ORM;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Kernel.Data.ORM;
 using ORMMetadataContextProvider.Models;
 using ORMMetadataContextProvider.Models.GlobalConfiguration;
 
@@ -19,6 +21,11 @@ namespace ORMMetadataContextProvider.Seeders
         {
             var metadata = Seeder._cache[Seeder.Metadata] as MetadataSettings;
             var security = Seeder._cache[Seeder.Security] as SecuritySettings;
+            var nameIds = Seeder._cache[Seeder.NameIdKey] as IEnumerable<NameIdFormat>;
+            var persistentNameId = nameIds
+                .First(x => x.Key == "Persistent");
+            var transientNameId = nameIds
+                .First(x => x.Key == "Transient");
 
             var imperialFederationParty = new FederationPartySettings
             {
@@ -30,6 +37,7 @@ namespace ORMMetadataContextProvider.Seeders
             };
             imperialFederationParty.MetadataSettings = metadata;
             imperialFederationParty.SecuritySettings = security;
+            imperialFederationParty.DefaultNameIdFormat = persistentNameId;
 
             //shibboleth test metadata settings
             var testFederationParty = new FederationPartySettings
@@ -42,6 +50,7 @@ namespace ORMMetadataContextProvider.Seeders
             };
             testFederationParty.MetadataSettings = metadata;
             testFederationParty.SecuritySettings = security;
+            testFederationParty.DefaultNameIdFormat = transientNameId;
 
             //local
             var localFederationParty = new FederationPartySettings
@@ -54,6 +63,7 @@ namespace ORMMetadataContextProvider.Seeders
             };
             localFederationParty.MetadataSettings = metadata;
             localFederationParty.SecuritySettings = security;
+            localFederationParty.DefaultNameIdFormat = persistentNameId;
 
             context.Add<FederationPartySettings>(imperialFederationParty);
             context.Add<FederationPartySettings>(testFederationParty);
