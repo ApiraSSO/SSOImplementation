@@ -27,6 +27,10 @@ namespace ORMMetadataContextProvider.FederationParty
                 .FirstOrDefault(x => x.FederationPartyId == federationPartyId);
 
             var context = new FederationPartyContext(federationPartyId, federationPartyContext.MetadataPath);
+
+            if (federationPartyContext.DefaultNameIdFormat != null)
+                context.DefaultNameIdFormat = new Uri(federationPartyContext.DefaultNameIdFormat.Uri);
+
             context.RefreshInterval = TimeSpan.FromSeconds(federationPartyContext.RefreshInterval);
             context.AutomaticRefreshInterval = TimeSpan.FromDays(federationPartyContext.AutoRefreshInterval);
             this.BuildMetadataContext(context, federationPartyContext.MetadataSettings);

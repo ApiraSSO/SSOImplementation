@@ -68,6 +68,7 @@
     <Compile Include="Request\ClauseBuilders\IdClauseBuilder.cs" />
     <Compile Include="Request\ClauseBuilders\AudienceRestrictionClauseBuilder.cs" />
     <Compile Include="Request\ClauseBuilders\IssuerClauseBuilder.cs" />
+    <Compile Include="Response\ResponseHelper.cs" />
     <Compile Include="Tokens\TokenHelper.cs" />
     <Compile Include="Response\ResponseHandler.cs" />
     <Compile Include="Tokens\SecurityTokenHandler.cs" />

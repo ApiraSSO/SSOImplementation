@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +10,8 @@ using Kernel.Federation.Protocols;
 using Kernel.Federation.Protocols.Bindings.HttpPostBinding;
 using Kernel.Federation.Protocols.Response;
 using Kernel.Federation.Tokens;
-using Shared.Federtion.Constants;
 using Kernel.Logging;
+using Shared.Federtion.Constants;
 
 namespace Federation.Protocols.Response
 {
@@ -37,13 +37,7 @@ namespace Federation.Protocols.Response
 #if(DEBUG)
             LoggerManager.WriteInformationToEventLog(String.Format("Response recieved:\r\n {0}", responseText));
 #endif
-            using (var reader = new StringReader(responseText))
-            {
-                using (var xmlReader = XmlReader.Create(reader))
-                {
-                    this.ValidateResponseSuccess(xmlReader);
-                }
-            }
+            ResponseHelper.EnsureSuccess(responseText);
             using (var reader = new StringReader(responseText))
             {
                 using (var xmlReader = XmlReader.Create(reader))
@@ -55,19 +49,6 @@ namespace Federation.Protocols.Response
                     return response.Identity;
                 }
             }
-        }
-
-        //ToDo: sort this out clean up
-        private void ValidateResponseSuccess(XmlReader reader)
-        {
-            while (!reader.IsStartElement("StatusCode", Saml20Constants.Protocol))
-            {
-                if (!reader.Read())
-                    throw new InvalidOperationException("Can't find status code element.");
-            }
-            var status = reader.GetAttribute("Value");
-            if (String.IsNullOrWhiteSpace(status) || !String.Equals(status, StatusCodes.Success))
-                throw new Exception(status);
         }
     }
 }

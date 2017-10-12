@@ -51,6 +51,7 @@
     <Compile Include="Models\Datapart.cs" />
     <Compile Include="Models\DatepartValue.cs" />
     <Compile Include="Models\GlobalConfiguration\CertificateValidationRule.cs" />
+    <Compile Include="Models\NameIdFormat.cs" />
     <Compile Include="Models\PersonContact.cs" />
     <Compile Include="Models\EndPointSetting.cs" />
     <Compile Include="Models\GlobalConfiguration\SecuritySettings.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FederationParty\FederationPartyContextBuilder.cs" />
     <Compile Include="Security\CertificateValidationConfigurationProvider.cs" />
+    <Compile Include="Seeders\NameIdFormatSeeder.cs" />
     <Compile Include="Seeders\EntityDescriptorSeeder.cs" />
     <Compile Include="Seeders\MetadataSettingsSeeder.cs" />
     <Compile Include="Seeders\OrganisationSeeder.cs" />

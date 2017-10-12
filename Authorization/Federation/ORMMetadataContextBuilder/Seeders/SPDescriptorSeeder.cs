@@ -20,6 +20,18 @@ namespace ORMMetadataContextProvider.Seeders
                 ValidUntil = DateTimeOffset.Now.AddDays(90),
                 ErrorUrl = "http://localhost:60879/api/Account/Error"
             };
+
+            //nameids
+            var nameIds = Seeder._cache[Seeder.NameIdKey] as IEnumerable<NameIdFormat>;
+            nameIds
+                .Where(x => x.Key == "Transient" || x.Key == "Persistent")
+                .Aggregate(descriptor, (d, next) =>
+                {
+                    next.SSODescriptorSettings.Add(descriptor);
+                    d.NameIdFormats.Add(next);
+                    return d;
+                });
+
             //role descriptor protocols
             var protocols = Seeder._cache[Seeder.ProtocolsKey] as IEnumerable<Protocol>;
             protocols.Aggregate(descriptor, (d, next) => 

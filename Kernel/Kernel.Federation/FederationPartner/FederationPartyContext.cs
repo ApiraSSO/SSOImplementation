@@ -67,7 +67,7 @@ namespace Kernel.Federation.FederationPartner
                 this._refreshInterval = value;
             }
         }
-
+        public Uri DefaultNameIdFormat { get; set; }
         public FederationPartyContext(string federationPartyId, string metadataAddress)
         {
             if (String.IsNullOrWhiteSpace(federationPartyId))
@@ -79,10 +79,11 @@ namespace Kernel.Federation.FederationPartner
             this.MetadataAddress = metadataAddress;
             this.AutomaticRefreshInterval = FederationPartyContext.DefaultAutomaticRefreshInterval;
             this.RefreshInterval = FederationPartyContext.DefaultRefreshInterval;
+            this.DefaultNameIdFormat = new Uri("urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified");
         }
         public AuthnRequestConfiguration GetRequestConfigurationFromContext()
         {
-            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration);
+            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat);
         }
     }
 }

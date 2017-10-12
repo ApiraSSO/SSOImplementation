@@ -8,7 +8,7 @@ namespace Kernel.Federation.FederationPartner
     public class AuthnRequestConfiguration
     {
         private readonly EntityDesriptorConfiguration _entityDesriptorConfiguration;
-        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration)
+        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid)
         {
             this._entityDesriptorConfiguration = entityDesriptorConfiguration;
             this.EntityId = entityDesriptorConfiguration.EntityId;
@@ -22,12 +22,13 @@ namespace Kernel.Federation.FederationPartner
             this.EncryptNameId = false;
             this.AllowCreateNameIdPolicy = false;
             this.SupportedNameIdentifierFormats = new List<Uri>();
+            this.DefaultNameIdFormat = defaultNameid;
         }
 
         public bool IsPassive { get; set; }
         public bool ForceAuthn { get; set; }
         public ICollection<string> AudienceRestriction { get; }
-        public string NameIdPolicyFormat { get; }
+        public Uri DefaultNameIdFormat { get; }
         public bool EncryptNameId { get; }
         public bool AllowCreateNameIdPolicy { get; }
         public ushort AssertionConsumerServiceIndex { get; }
