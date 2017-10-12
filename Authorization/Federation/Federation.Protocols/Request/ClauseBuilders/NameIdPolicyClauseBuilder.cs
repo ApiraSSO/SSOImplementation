@@ -21,7 +21,7 @@ namespace Federation.Protocols.Request.ClauseBuilders
         private string ResolveFormat(AuthnRequestConfiguration configuration)
         {
             var format = NameIdentifierFormats.Unspecified;
-            if (configuration.EncryptNameId)
+            if (configuration.EncryptNameId || configuration.DefaultNameIdFormat == new Uri(NameIdentifierFormats.Encrypted))
                 return NameIdentifierFormats.Encrypted;
             if(configuration.DefaultNameIdFormat != null)
             {

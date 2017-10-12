@@ -18,12 +18,12 @@ namespace Federation.Protocols.Test
     public class AuthnRequestTests
     {
         [Test]
-        public void BuildAuthnRequest_test()
+        public void BuildAuthnRequest_test_nameid_fortmat_match()
         {
             //ARRANGE
             var requestUri = new Uri("http://localhost:59611/");
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
-            var federationContex = federationPartyContextBuilder.BuildContext("local");
+            var federationContex = federationPartyContextBuilder.BuildContext("local", NameIdentifierFormats.Transient);
             var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };
             var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
             var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
@@ -48,6 +48,138 @@ namespace Federation.Protocols.Test
             //nameIdPolicy
             Assert.IsFalse(authnRequest.NameIdPolicy.AllowCreate);
             Assert.AreEqual(authnRequest.NameIdPolicy.Format, NameIdentifierFormats.Transient);
+        }
+
+        [Test]
+        public void BuildAuthnRequest_test_nameid_fortmat_match_from_many_entries_supported()
+        {
+            //ARRANGE
+            var requestUri = new Uri("http://localhost:59611/");
+            var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
+            var federationContex = federationPartyContextBuilder.BuildContext("local", NameIdentifierFormats.Persistent);
+            var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient), new Uri(NameIdentifierFormats.Persistent) };
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
+            var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
+            AuthnRequestHelper.GetBuilders = AuthnRequestBuildersFactoryMock.GetBuildersFactory();
+            //ACT
+            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
+            var audience = ((AudienceRestriction)authnRequest.Conditions.Items.Single())
+                .Audience
+                .Single();
+
+            //ASSERT
+            Assert.NotNull(authnRequest);
+            Assert.AreEqual(requestConfiguration.IsPassive, authnRequest.IsPassive);
+            Assert.AreEqual(requestConfiguration.ForceAuthn, authnRequest.ForceAuthn);
+            Assert.AreEqual("2.0", authnRequest.Version);
+            //issuer
+            Assert.AreEqual(requestConfiguration.EntityId, authnRequest.Issuer.Value);
+            Assert.AreEqual(NameIdentifierFormats.Entity, authnRequest.Issuer.Format);
+            //audience
+            Assert.AreEqual(requestConfiguration.AudienceRestriction.Count, authnRequest.Conditions.Items.Count);
+            Assert.AreEqual(requestConfiguration.AudienceRestriction.Single(), audience);
+            //nameIdPolicy
+            Assert.IsFalse(authnRequest.NameIdPolicy.AllowCreate);
+            Assert.AreEqual(authnRequest.NameIdPolicy.Format, NameIdentifierFormats.Persistent);
+        }
+
+        [Test]
+        public void BuildAuthnRequest_test_nameid_fortmat_no_match_from_many_entries_supported()
+        {
+            //ARRANGE
+            var requestUri = new Uri("http://localhost:59611/");
+            var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
+            var federationContex = federationPartyContextBuilder.BuildContext("local", NameIdentifierFormats.Windows);
+            var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient), new Uri(NameIdentifierFormats.Persistent) };
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
+            var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
+            AuthnRequestHelper.GetBuilders = AuthnRequestBuildersFactoryMock.GetBuildersFactory();
+            //ACT
+            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
+            var audience = ((AudienceRestriction)authnRequest.Conditions.Items.Single())
+                .Audience
+                .Single();
+
+            //ASSERT
+            Assert.NotNull(authnRequest);
+            Assert.AreEqual(requestConfiguration.IsPassive, authnRequest.IsPassive);
+            Assert.AreEqual(requestConfiguration.ForceAuthn, authnRequest.ForceAuthn);
+            Assert.AreEqual("2.0", authnRequest.Version);
+            //issuer
+            Assert.AreEqual(requestConfiguration.EntityId, authnRequest.Issuer.Value);
+            Assert.AreEqual(NameIdentifierFormats.Entity, authnRequest.Issuer.Format);
+            //audience
+            Assert.AreEqual(requestConfiguration.AudienceRestriction.Count, authnRequest.Conditions.Items.Count);
+            Assert.AreEqual(requestConfiguration.AudienceRestriction.Single(), audience);
+            //nameIdPolicy
+            Assert.IsFalse(authnRequest.NameIdPolicy.AllowCreate);
+            Assert.AreEqual(authnRequest.NameIdPolicy.Format, NameIdentifierFormats.Unspecified);
+        }
+
+        [Test]
+        public void BuildAuthnRequest_test_nameid_fortmat_no_match_none_supported()
+        {
+            //ARRANGE
+            var requestUri = new Uri("http://localhost:59611/");
+            var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
+            var federationContex = federationPartyContextBuilder.BuildContext("local", NameIdentifierFormats.Persistent);
+            var supportedNameIdentifierFormats = new List<Uri>();
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
+            var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
+            AuthnRequestHelper.GetBuilders = AuthnRequestBuildersFactoryMock.GetBuildersFactory();
+            //ACT
+            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
+            var audience = ((AudienceRestriction)authnRequest.Conditions.Items.Single())
+                .Audience
+                .Single();
+
+            //ASSERT
+            Assert.NotNull(authnRequest);
+            Assert.AreEqual(requestConfiguration.IsPassive, authnRequest.IsPassive);
+            Assert.AreEqual(requestConfiguration.ForceAuthn, authnRequest.ForceAuthn);
+            Assert.AreEqual("2.0", authnRequest.Version);
+            //issuer
+            Assert.AreEqual(requestConfiguration.EntityId, authnRequest.Issuer.Value);
+            Assert.AreEqual(NameIdentifierFormats.Entity, authnRequest.Issuer.Format);
+            //audience
+            Assert.AreEqual(requestConfiguration.AudienceRestriction.Count, authnRequest.Conditions.Items.Count);
+            Assert.AreEqual(requestConfiguration.AudienceRestriction.Single(), audience);
+            //nameIdPolicy
+            Assert.IsFalse(authnRequest.NameIdPolicy.AllowCreate);
+            Assert.AreEqual(authnRequest.NameIdPolicy.Format, NameIdentifierFormats.Unspecified);
+        }
+
+        [Test]
+        public void BuildAuthnRequest_test_nameid_fortmat_encrypted()
+        {
+            //ARRANGE
+            var requestUri = new Uri("http://localhost:59611/");
+            var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
+            var federationContex = federationPartyContextBuilder.BuildContext("local", NameIdentifierFormats.Encrypted);
+            var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient), new Uri(NameIdentifierFormats.Persistent) };
+            var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
+            var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
+            AuthnRequestHelper.GetBuilders = AuthnRequestBuildersFactoryMock.GetBuildersFactory();
+            //ACT
+            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
+            var audience = ((AudienceRestriction)authnRequest.Conditions.Items.Single())
+                .Audience
+                .Single();
+
+            //ASSERT
+            Assert.NotNull(authnRequest);
+            Assert.AreEqual(requestConfiguration.IsPassive, authnRequest.IsPassive);
+            Assert.AreEqual(requestConfiguration.ForceAuthn, authnRequest.ForceAuthn);
+            Assert.AreEqual("2.0", authnRequest.Version);
+            //issuer
+            Assert.AreEqual(requestConfiguration.EntityId, authnRequest.Issuer.Value);
+            Assert.AreEqual(NameIdentifierFormats.Entity, authnRequest.Issuer.Format);
+            //audience
+            Assert.AreEqual(requestConfiguration.AudienceRestriction.Count, authnRequest.Conditions.Items.Count);
+            Assert.AreEqual(requestConfiguration.AudienceRestriction.Single(), audience);
+            //nameIdPolicy
+            Assert.IsFalse(authnRequest.NameIdPolicy.AllowCreate);
+            Assert.AreEqual(authnRequest.NameIdPolicy.Format, NameIdentifierFormats.Encrypted);
         }
 
         [Test]

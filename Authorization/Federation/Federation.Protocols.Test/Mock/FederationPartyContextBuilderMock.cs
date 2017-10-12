@@ -1,6 +1,8 @@
 ﻿using InlineMetadataContextProvider;
 using Kernel.Federation.MetaData;
 using Kernel.Federation.FederationPartner;
+using Shared.Federtion.Constants;
+using System;
 
 namespace Federation.Protocols.Test.Mock
 {
@@ -10,8 +12,14 @@ namespace Federation.Protocols.Test.Mock
 
         public FederationPartyContext BuildContext(string federationPartyId)
         {
+            return this.BuildContext(federationPartyId, NameIdentifierFormats.Unspecified);
+        }
+
+        public FederationPartyContext BuildContext(string federationPartyId, string defaultNameIdFormat)
+        {
             return new FederationPartyContext("local", "https://dg-mfb/idp/shibboleth")
             {
+                DefaultNameIdFormat = new Uri(defaultNameIdFormat),
                 MetadataContext = this._inlineMetadataContextBuilder.BuildContext(new MetadataGenerateRequest(MetadataType.SP, "local")),
             };
         }
