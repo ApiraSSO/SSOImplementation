@@ -123,8 +123,11 @@ namespace ORMMetadataContextProvider
             };
 
             //sort this out missing in the models
-            sPSSODescriptorConfiguration.NameIdentifierFormats.Add(new Uri("urn:oasis:names:tc:SAML:2.0:nameid-format:transient"));
-            sPSSODescriptorConfiguration.NameIdentifierFormats.Add(new Uri("urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"));
+            sPDescriptor.NameIdFormats.Aggregate(sPSSODescriptorConfiguration, (c, next) =>
+            {
+                c.NameIdentifierFormats.Add(new Uri(next.Uri));
+                return c;
+            });
 
             //logout services
             sPDescriptor.LogoutServices.Aggregate(sPSSODescriptorConfiguration.SingleLogoutServices, (t, next) =>
