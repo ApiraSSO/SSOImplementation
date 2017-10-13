@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Xml;
 using Shared.Federtion.Constants;
 
@@ -22,46 +25,52 @@ namespace Federation.Protocols.Response
         {
             var statusMessage = String.Empty;
             var messageDetails = String.Empty;
-            var statusCode = String.Empty;
-            var statusCodeSub = String.Empty;
+            var statusCodes = new List<string>();
+
             while (!reader.IsStartElement("Status", Saml20Constants.Protocol))
             {
                 if (!reader.Read())
                     throw new InvalidOperationException("Can't find status code element.");
             }
-            reader.Read();
-            if (!reader.IsStartElement("StatusCode", Saml20Constants.Protocol))
-                throw new InvalidOperationException("Excpected element StatusCode");
+            
+            while (reader.Read() && !(reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "Status"))
+            {
+                if (reader.IsStartElement("StatusCode", Saml20Constants.Protocol))
+                {
+                    var statusCode = reader.GetAttribute("Value");
+                    if (!String.IsNullOrWhiteSpace(statusCode))
+                        statusCodes.Add(statusCode);
+                    continue;
+                }
+                
+                if (reader.IsStartElement("StatusMessage", Saml20Constants.Protocol))
+                {
+                    reader.Read();
+                    statusMessage = reader.Value;
+                    continue;
+                }
 
-            statusCode = reader.GetAttribute("Value");
-            if (!String.IsNullOrWhiteSpace(statusCode) && String.Equals(statusCode, StatusCodes.Success))
+                if (reader.IsStartElement("StatusDetail", Saml20Constants.Protocol))
+                {
+                    reader.Read();
+                    statusMessage = reader.Value;
+                    continue;
+                }
+            }
+
+            if (statusCodes.Count == 1 && statusCodes.SingleOrDefault(x => x == StatusCodes.Success) != null)
                 return;
 
-            reader.Read();
-            if (reader.IsStartElement("StatusCode", Saml20Constants.Protocol))
+            var sb = new StringBuilder();
+            statusCodes.Aggregate(sb, (b, next) =>
             {
-                statusCodeSub = reader.GetAttribute("Value");
-                reader.Read();
-            }
-            reader.Read();
-            if (reader.IsStartElement("StatusMessage", Saml20Constants.Protocol))
-            {
-                reader.Read();
-                statusMessage = reader.Value;
-                reader.Read();
-            }
-            reader.Read();
-            if (reader.IsStartElement("StatusDetail", Saml20Constants.Protocol))
-            {
-                reader.Read();
-                statusMessage = reader.Value;
-            }
+                b.AppendFormat("Status code: {0}\r\n", next);
+                return b;
+            });
+
+            var msg = String.Format("{0}\r\nAdditional information:{1} {2}", sb.ToString(), statusMessage, messageDetails);
+            throw new Exception(msg);
             
-            if (String.IsNullOrWhiteSpace(statusCode) || !String.Equals(statusCode, StatusCodes.Success))
-            {
-                var msg = String.Format("{0}.\r\n Additional information:{1}, {2}, {3}", statusCode, statusCodeSub, statusMessage, messageDetails);
-                throw new Exception(msg);
-            }
         }
     }
 }
