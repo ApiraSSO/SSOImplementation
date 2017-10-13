@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using Kernel.Logging;
 using Shared.Federtion.Constants;
 
 namespace Federation.Protocols.Response
@@ -58,9 +59,6 @@ namespace Federation.Protocols.Response
                 }
             }
 
-            if (statusCodes.Count == 1 && statusCodes.SingleOrDefault(x => x == StatusCodes.Success) != null)
-                return;
-
             var sb = new StringBuilder();
             statusCodes.Aggregate(sb, (b, next) =>
             {
@@ -68,7 +66,12 @@ namespace Federation.Protocols.Response
                 return b;
             });
 
-            var msg = String.Format("{0}\r\nAdditional information:{1} {2}", sb.ToString(), statusMessage, messageDetails);
+            var msg = String.Format("{0}Additional information: {1} {2}", sb.ToString(), statusMessage, messageDetails);
+            LoggerManager.WriteInformationToEventLog(msg);
+
+            if (statusCodes.Count == 1 && statusCodes.SingleOrDefault(x => x == StatusCodes.Success) != null)
+                return;
+
             throw new Exception(msg);
             
         }
