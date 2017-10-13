@@ -22,7 +22,7 @@ namespace ORMMetadataContextProvider.Seeders
             contact.Organisations.Add(organisation);
             organisation.Contacts.Add(contact);
             Seeder._cache.Add(Seeder.Organisation, organisation);
-            context.Add<OrganisationSettings>(organisation);  
+            context.Add<OrganisationSettings>(organisation);
         }
     }
 }
