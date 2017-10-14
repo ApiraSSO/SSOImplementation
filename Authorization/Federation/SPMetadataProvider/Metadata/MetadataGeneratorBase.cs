@@ -22,8 +22,8 @@ namespace WsFederationMetadataProvider.Metadata
 
         protected readonly ICertificateManager _certificateManager;
         protected readonly IMetadataSerialiser<MetadataBase> _serialiser;
-        protected readonly Func<MetadataGenerateRequest, FederationPartyContext> _contextFactory;
-        public MetadataGeneratorBase(IFederationMetadataDispatcher metadataDispatcher, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, FederationPartyContext> contextFactory)
+        protected readonly Func<MetadataGenerateRequest, FederationPartyConfiguration> _contextFactory;
+        public MetadataGeneratorBase(IFederationMetadataDispatcher metadataDispatcher, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, FederationPartyConfiguration> contextFactory)
         {
             this._metadataDispatcher = metadataDispatcher;
             this._certificateManager = certificateManager;
@@ -46,7 +46,7 @@ namespace WsFederationMetadataProvider.Metadata
             await this._metadataDispatcher.Dispatch(dispatcherContext);
         }
 
-        Task IMetadataGenerator.CreateMetadata(FederationPartyContext federationPartyContext, XmlWriter xmlWriter)
+        Task IMetadataGenerator.CreateMetadata(FederationPartyConfiguration federationPartyContext, XmlWriter xmlWriter)
         {
             try
             {

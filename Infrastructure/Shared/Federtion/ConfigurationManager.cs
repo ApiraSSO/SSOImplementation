@@ -52,7 +52,7 @@ namespace Shared.Federtion
             context.SyncAfter = utcNow;
         }
 
-        private async Task<T> GetConfiguration(FederationPartyContext context, CancellationToken cancel)
+        private async Task<T> GetConfiguration(FederationPartyConfiguration context, CancellationToken cancel)
         {
             var now = DateTimeOffset.UtcNow;
 

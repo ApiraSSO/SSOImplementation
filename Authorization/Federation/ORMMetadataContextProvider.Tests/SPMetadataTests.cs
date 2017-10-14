@@ -60,7 +60,7 @@ namespace ORMMetadataContextProvider.Tests
             var metadataContextBuilder = new MetadataContextBuilder((IDbContext)dbcontext, cacheProvider);
             var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
             var metadatContext = metadataContextBuilder.BuildContext(metadataRequest);
-            var context = new FederationPartyContext(metadataRequest.FederationPartyId, "localhost") { MetadataContext = metadatContext };
+            var context = new FederationPartyConfiguration(metadataRequest.FederationPartyId, "localhost") { MetadataContext = metadatContext };
            
 
             var configurationProvider = new CertificateValidationConfigurationProvider((IDbContext)dbcontext, cacheProvider);

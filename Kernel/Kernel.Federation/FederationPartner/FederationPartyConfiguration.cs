@@ -3,7 +3,7 @@ using Kernel.Federation.MetaData.Configuration;
 
 namespace Kernel.Federation.FederationPartner
 {
-    public class FederationPartyContext
+    public class FederationPartyConfiguration
     {
         public static readonly TimeSpan DefaultAutomaticRefreshInterval = new TimeSpan(1, 0, 0, 0);
         public static readonly TimeSpan DefaultRefreshInterval = new TimeSpan(0, 0, 0, 30);
@@ -49,8 +49,8 @@ namespace Kernel.Federation.FederationPartner
             }
             set
             {
-                if (value < FederationPartyContext.MinimumAutomaticRefreshInterval)
-                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10107: When setting AutomaticRefreshInterval, the value must be greater than MinimumAutomaticRefreshInterval: '{0}'. value: '{1}'.", FederationPartyContext.MinimumAutomaticRefreshInterval, value));
+                if (value < FederationPartyConfiguration.MinimumAutomaticRefreshInterval)
+                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10107: When setting AutomaticRefreshInterval, the value must be greater than MinimumAutomaticRefreshInterval: '{0}'. value: '{1}'.", FederationPartyConfiguration.MinimumAutomaticRefreshInterval, value));
                 this._automaticRefreshInterval = value;
             }
         }
@@ -62,8 +62,8 @@ namespace Kernel.Federation.FederationPartner
             }
             set
             {
-                if (value < FederationPartyContext.MinimumRefreshInterval)
-                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10106: When setting RefreshInterval, the value must be greater than MinimumRefreshInterval: '{0}'. value: '{1}'.", FederationPartyContext.MinimumRefreshInterval, value));
+                if (value < FederationPartyConfiguration.MinimumRefreshInterval)
+                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10106: When setting RefreshInterval, the value must be greater than MinimumRefreshInterval: '{0}'. value: '{1}'.", FederationPartyConfiguration.MinimumRefreshInterval, value));
                 this._refreshInterval = value;
             }
         }
@@ -71,7 +71,7 @@ namespace Kernel.Federation.FederationPartner
         public RequestedAuthnContextConfiguration RequestedAuthnContextConfiguration { get; set; }
         public ScopingConfiguration ScopingConfiguration { get; set; }
 
-        public FederationPartyContext(string federationPartyId, string metadataAddress)
+        public FederationPartyConfiguration(string federationPartyId, string metadataAddress)
         {
             if (String.IsNullOrWhiteSpace(federationPartyId))
                 throw new ArgumentNullException("federationParty");
@@ -80,8 +80,8 @@ namespace Kernel.Federation.FederationPartner
                 throw new ArgumentNullException("metadataContext");
             this.FederationPartyId = federationPartyId;
             this.MetadataAddress = metadataAddress;
-            this.AutomaticRefreshInterval = FederationPartyContext.DefaultAutomaticRefreshInterval;
-            this.RefreshInterval = FederationPartyContext.DefaultRefreshInterval;
+            this.AutomaticRefreshInterval = FederationPartyConfiguration.DefaultAutomaticRefreshInterval;
+            this.RefreshInterval = FederationPartyConfiguration.DefaultRefreshInterval;
             this.DefaultNameIdFormat = new Uri("urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified");
             var requestedAuthnContextConfiguration = new RequestedAuthnContextConfiguration("Exact");
             requestedAuthnContextConfiguration.RequestedAuthnContexts.Add(new Protocols.AuthnContext("AuthnContextClassRef", new Uri("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport")));

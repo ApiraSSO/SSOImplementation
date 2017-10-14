@@ -10,14 +10,14 @@ namespace Federation.Protocols.Test.Mock
     {
         private InlineMetadataContextBuilder _inlineMetadataContextBuilder = new InlineMetadataContextBuilder();
 
-        public FederationPartyContext BuildContext(string federationPartyId)
+        public FederationPartyConfiguration BuildContext(string federationPartyId)
         {
             return this.BuildContext(federationPartyId, NameIdentifierFormats.Unspecified);
         }
 
-        public FederationPartyContext BuildContext(string federationPartyId, string defaultNameIdFormat)
+        public FederationPartyConfiguration BuildContext(string federationPartyId, string defaultNameIdFormat)
         {
-            return new FederationPartyContext("local", "https://dg-mfb/idp/shibboleth")
+            return new FederationPartyConfiguration("local", "https://dg-mfb/idp/shibboleth")
             {
                 DefaultNameIdFormat = new Uri(defaultNameIdFormat),
                 MetadataContext = this._inlineMetadataContextBuilder.BuildContext(new MetadataGenerateRequest(MetadataType.SP, "local")),

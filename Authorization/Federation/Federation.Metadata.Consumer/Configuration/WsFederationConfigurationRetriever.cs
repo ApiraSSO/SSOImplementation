@@ -27,12 +27,12 @@ namespace Federation.Metadata.FederationPartner.Configuration
 
         public Action<MetadataBase> MetadataReceivedCallback { get; set; }
 
-        public Task<MetadataBase> GetAsync(FederationPartyContext context, CancellationToken cancel)
+        public Task<MetadataBase> GetAsync(FederationPartyConfiguration context, CancellationToken cancel)
         {
             return this.GetAsync(context, this._retriever, cancel);
         }
 
-        private async Task<MetadataBase> GetAsync(FederationPartyContext context, IDocumentRetriever retriever, CancellationToken cancel)
+        private async Task<MetadataBase> GetAsync(FederationPartyConfiguration context, IDocumentRetriever retriever, CancellationToken cancel)
         {
             this._metadataSerialiser.Validator.SetFederationPartyId(context.FederationPartyId);
             if (string.IsNullOrWhiteSpace(context.MetadataAddress))

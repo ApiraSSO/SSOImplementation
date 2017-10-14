@@ -51,7 +51,7 @@ namespace Federation.Metadata.Consumer.Tests
 
             //ACT
             //var baseMetadata = await WsFederationConfigurationRetriever.GetAsync("https://dg-mfb/idp/shibboleth", documentRetrieer, new CancellationToken());
-            var context = new FederationPartyContext("local", "https://www.testshib.org/metadata/testshib-providers.xml");
+            var context = new FederationPartyConfiguration("local", "https://www.testshib.org/metadata/testshib-providers.xml");
             var baseMetadata = await configurationRetriever.GetAsync(context, new CancellationToken());
             var metadata = baseMetadata as EntitiesDescriptor;
             //ASSERT

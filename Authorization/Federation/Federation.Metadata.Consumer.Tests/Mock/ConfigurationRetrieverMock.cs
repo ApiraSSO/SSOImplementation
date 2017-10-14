@@ -10,7 +10,7 @@ namespace Federation.Metadata.Consumer.Tests.Mock
     {
         public Action<MetadataBase> MetadataReceivedCallback { get; set; }
 
-        public Task<MetadataBase> GetAsync(FederationPartyContext context, CancellationToken cancel)
+        public Task<MetadataBase> GetAsync(FederationPartyConfiguration context, CancellationToken cancel)
         {
             var metadata = this.GetMetadata();
             return Task.FromResult(metadata);

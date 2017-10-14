@@ -8,7 +8,7 @@ namespace WsFederationMetadataProvider.Metadata
 {
     public class SPSSOMetadataProvider : MetadataGeneratorBase, ISPMetadataGenerator
     {
-        public SPSSOMetadataProvider(IFederationMetadataDispatcher metadataDispatcher, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, FederationPartyContext> configuration)
+        public SPSSOMetadataProvider(IFederationMetadataDispatcher metadataDispatcher, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, FederationPartyConfiguration> configuration)
             :base(metadataDispatcher, certificateManager, serialiser, configuration)
         { }
     }

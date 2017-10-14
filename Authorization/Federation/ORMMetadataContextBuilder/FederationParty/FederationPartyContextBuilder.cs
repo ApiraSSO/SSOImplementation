@@ -18,15 +18,15 @@ namespace ORMMetadataContextProvider.FederationParty
             this._dbContext = dbContext;
             this._cacheProvider = cacheProvider;
         }
-        public FederationPartyContext BuildContext(string federationPartyId)
+        public FederationPartyConfiguration BuildContext(string federationPartyId)
         {
             if (this._cacheProvider.Contains(federationPartyId))
-                return this._cacheProvider.Get<FederationPartyContext>(federationPartyId);
+                return this._cacheProvider.Get<FederationPartyConfiguration>(federationPartyId);
 
             var federationPartyContext = this._dbContext.Set<FederationPartySettings>()
                 .FirstOrDefault(x => x.FederationPartyId == federationPartyId);
 
-            var context = new FederationPartyContext(federationPartyId, federationPartyContext.MetadataPath);
+            var context = new FederationPartyConfiguration(federationPartyId, federationPartyContext.MetadataPath);
 
             if (federationPartyContext.DefaultNameIdFormat != null)
                 context.DefaultNameIdFormat = new Uri(federationPartyContext.DefaultNameIdFormat.Uri);
@@ -40,7 +40,7 @@ namespace ORMMetadataContextProvider.FederationParty
             return context;
         }
 
-        private void BuildMetadataContext(FederationPartyContext federationPartyContext, MetadataSettings metadataSettings)
+        private void BuildMetadataContext(FederationPartyConfiguration federationPartyContext, MetadataSettings metadataSettings)
         {
             var metadataContextBuilder = new MetadataContextBuilder(this._dbContext, this._cacheProvider);
             var metadata = metadataContextBuilder.BuildFromDbSettings(metadataSettings);
