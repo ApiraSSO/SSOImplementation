@@ -14,6 +14,7 @@ namespace Federation.Logging.Initialisation
         protected override Task InitialiseInternal(IDependencyResolver dependencyResolver)
         {
             dependencyResolver.RegisterType<WindowsEventLogLogger>(Lifetime.Transient);
+            dependencyResolver.RegisterType<WindowsEventLogWriter>(Lifetime.Transient);
             
             return Task.CompletedTask;
         }

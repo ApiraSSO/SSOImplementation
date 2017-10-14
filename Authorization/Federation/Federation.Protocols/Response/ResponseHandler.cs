@@ -59,7 +59,8 @@ namespace Federation.Protocols.Response
             {
                 Exception innerEx;
                 this._logProvider.TryLogException(ex, out innerEx);
-                throw innerEx;
+                if(innerEx != null)
+                    throw innerEx;
             }
         }
     }
