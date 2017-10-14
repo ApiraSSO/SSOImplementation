@@ -49,6 +49,7 @@
     <Compile Include="Exceptions\TimeRestrictionViolationException.cs" />
     <Compile Include="FederationConfiguration\IAllowedAudienceConfiguration.cs" />
     <Compile Include="FederationPartner\AuthnRequestConfiguration.cs" />
+    <Compile Include="FederationPartner\RequestedAuthnContextConfiguration.cs" />
     <Compile Include="MetaData\Configuration\Bindings.cs" />
     <Compile Include="MetaData\DispatcherContext.cs" />
     <Compile Include="MetaData\IFederationMetadataDispatcher.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="MetaData\MetadataGenerateRequest.cs" />
     <Compile Include="MetaData\MetadataPublishContext.cs" />
     <Compile Include="MetaData\MetadataPublishProtocol.cs" />
+    <Compile Include="Protocols\AuthnContext.cs" />
     <Compile Include="Protocols\BindingContext.cs" />
     <Compile Include="Protocols\Bindings\HttpPostBinding\HttpPostResponseContext.cs" />
     <Compile Include="Protocols\Bindings\HttpRedirectBinding\HttpRedirectRequestContext.cs" />

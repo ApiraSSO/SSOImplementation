@@ -68,6 +68,7 @@ namespace Kernel.Federation.FederationPartner
             }
         }
         public Uri DefaultNameIdFormat { get; set; }
+        public RequestedAuthnContextConfiguration RequestedAuthnContextConfiguration { get; set; }
         public FederationPartyContext(string federationPartyId, string metadataAddress)
         {
             if (String.IsNullOrWhiteSpace(federationPartyId))
@@ -80,10 +81,13 @@ namespace Kernel.Federation.FederationPartner
             this.AutomaticRefreshInterval = FederationPartyContext.DefaultAutomaticRefreshInterval;
             this.RefreshInterval = FederationPartyContext.DefaultRefreshInterval;
             this.DefaultNameIdFormat = new Uri("urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified");
+            var requestedAuthnContextConfiguration = new RequestedAuthnContextConfiguration("Exact");
+            requestedAuthnContextConfiguration.RequestedAuthnContexts.Add(new Protocols.AuthnContext("AuthnContextClassRef", new Uri("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport")));
+            this.RequestedAuthnContextConfiguration = requestedAuthnContextConfiguration;
         }
         public AuthnRequestConfiguration GetRequestConfigurationFromContext()
-        {
-            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat);
+        { 
+            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat, this.RequestedAuthnContextConfiguration);
         }
     }
 }

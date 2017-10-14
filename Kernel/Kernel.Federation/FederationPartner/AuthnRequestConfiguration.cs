@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
+using Kernel.Federation.Protocols;
 
 namespace Kernel.Federation.FederationPartner
 {
     public class AuthnRequestConfiguration
     {
         private readonly EntityDesriptorConfiguration _entityDesriptorConfiguration;
-        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid)
+        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid, RequestedAuthnContextConfiguration requestedAuthnContextConfiguration)
         {
             this._entityDesriptorConfiguration = entityDesriptorConfiguration;
             this.EntityId = entityDesriptorConfiguration.EntityId;
@@ -23,6 +24,7 @@ namespace Kernel.Federation.FederationPartner
             this.AllowCreateNameIdPolicy = false;
             this.SupportedNameIdentifierFormats = new List<Uri>();
             this.DefaultNameIdFormat = defaultNameid;
+            this.RequestedAuthnContextConfiguration = requestedAuthnContextConfiguration;
         }
 
         public bool IsPassive { get; set; }
@@ -36,5 +38,6 @@ namespace Kernel.Federation.FederationPartner
         public string EntityId { get; }
         public string Version { get; }
         public ICollection<Uri> SupportedNameIdentifierFormats { get; }
+        public RequestedAuthnContextConfiguration RequestedAuthnContextConfiguration { get; }
     }
 }
