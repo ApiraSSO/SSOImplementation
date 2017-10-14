@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Kernel.Cryptography.CertificateManagement;
 using Kernel.Federation.Protocols;
+using Kernel.Logging;
 using Shared.Federtion.Constants;
 
 namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
@@ -12,10 +13,12 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
     internal class SignatureBuilder : ISamlClauseBuilder
     {
         private readonly ICertificateManager _certificateManager;
-        
-        public SignatureBuilder(ICertificateManager certificateManager)
+        readonly ILogProvider _logProvider;
+
+        public SignatureBuilder(ICertificateManager certificateManager, ILogProvider logProvider)
         {
             this._certificateManager = certificateManager;
+            this._logProvider = logProvider;
         }
         public uint Order { get { return 2; } }
 
@@ -46,6 +49,7 @@ namespace Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders
         }
         internal void SignData(StringBuilder sb, CertificateContext certContext)
         {
+            this._logProvider.LogMessage(String.Format("Signing request with certificate from context: {0}", certContext.ToString()));
             var base64 = this._certificateManager.SignToBase64(sb.ToString(), certContext);
             var escaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(base64));
             sb.AppendFormat("&{0}={1}", HttpRedirectBindingConstants.Signature, escaped);
