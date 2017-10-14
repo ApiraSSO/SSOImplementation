@@ -1,36 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
 using NUnit.Framework;
-using Shared.Federtion.Constants;
-using Shared.Federtion.Models;
 
-namespace Federation.Protocols.Test
+namespace Federation.Protocols.Test.Response
 {
     [TestFixture]
     internal class ResponseTest
     {
-    //    [Test]
-    //    [Ignore("Redundant")]
-    //    public void T1()
-    //    {
-    //        //ARRANGE
-           
-    //        var doc = new XmlDocument();
-    //        doc.Load(@"D:\Dan\Software\Apira\a.xml");
-    //        var el = doc.DocumentElement;
-    //        var encryptedList = el.GetElementsByTagName(EncryptedAssertion.ElementName, Saml20Constants.Assertion);
-    //        if (encryptedList.Count == 1)
-    //        {
-
-    //            var encryptedAssertion = (XmlElement)encryptedList[0];
-    //            this.Decrypt(encryptedAssertion);
-    //        }
-    //    }
-        
         [Test]
         [Ignore("Redundant")]
         public void T3()

@@ -64,7 +64,8 @@
     <Compile Include="RelayState\RelayStateBuilderTest.cs" />
     <Compile Include="RelayState\RelayStateHandlerTest.cs" />
     <Compile Include="RelayState\RelayStateSerialiserTest.cs" />
-    <Compile Include="ResponseTest.cs" />
+    <Compile Include="Response\ResponseStatusTests.cs" />
+    <Compile Include="Response\ResponseTest.cs" />
     <Compile Include="Mock\Tokens\SubjectConfirmationDataValidatorMock.cs" />
     <Compile Include="Tokens\TokenHelperTests.cs" />
     <Compile Include="Tokens\TokenSerialiserTests.cs" />

@@ -42,7 +42,7 @@ namespace Shared.Federtion.Response
                     throw new ArgumentNullException("statusCodes");
                 if (this.StatusCodes.Count == 0)
                     throw new InvalidOperationException("No status code available. Parse the response status.");
-                return this.StatusCodes.Count == 2 ? this.StatusCodes.ElementAt(2) : null;
+                return this.StatusCodes.Count == 2 ? this.StatusCodes.ElementAt(1) : null;
             }
         }
 
@@ -54,12 +54,12 @@ namespace Shared.Federtion.Response
                 sb.AppendFormat("StatusCode: {0}\r\n", this.StatusCodeMain);
 
                 if (!String.IsNullOrWhiteSpace(this.AdittionalStatusCode))
-                    sb.AppendFormat("Additional status code: {0}", this.AdittionalStatusCode);
+                    sb.AppendFormat("Additional status code: {0}\r\n", this.AdittionalStatusCode);
 
                 if (!String.IsNullOrWhiteSpace(this.StatusMessage))
-                    sb.AppendFormat("Message status: {0}", this.StatusMessage);
+                    sb.AppendFormat("Message status: {0}\r\n", this.StatusMessage);
 
-                if (!String.IsNullOrWhiteSpace(this.AdittionalStatusCode))
+                if (!String.IsNullOrWhiteSpace(this.MessageDetails))
                     sb.AppendFormat("Message details: {0}", this.MessageDetails);
                 
                 return sb.ToString();
