@@ -75,6 +75,7 @@ namespace SecurityManagement
 
         public string SignToBase64(string dataToSign, CertificateContext certContext)
         {
+            this._logProvider.LogMessage(String.Format("Signing data with certificate from context: {0}", certContext.ToString()));
             var data = Encoding.UTF8.GetBytes(dataToSign);
             var cert = this.GetCertificateFromContext(certContext);
             var signed = RSADataProtection.SignDataSHA1((RSA)cert.PrivateKey, data);
