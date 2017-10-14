@@ -89,7 +89,7 @@ namespace WsFederationMetadataProvider.Metadata
 
             if (signMetadataKey == null)
                 throw new Exception("No default certificate found");
-
+            this._logProvider.LogMessage(String.Format("Trying to resolve certificate from context: {0}", signMetadataKey.CertificateContext.ToString()));
             var certificate = this._certificateManager.GetCertificateFromContext(signMetadataKey.CertificateContext);
             var signingCredentials = new SigningCredentials(new X509AsymmetricSecurityKey(certificate), context.MetadataSigningContext.SignatureAlgorithm, context.MetadataSigningContext.DigestAlgorithm, new SecurityKeyIdentifier(new X509RawDataKeyIdentifierClause(certificate)));
             metadata.SigningCredentials = signingCredentials;
