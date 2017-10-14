@@ -17,7 +17,7 @@ namespace Federation.Protocols.Test.Mock
 
         public FederationPartyContext BuildContext(string federationPartyId, string defaultNameIdFormat)
         {
-            return new FederationPartyContext("local", "https://dg-mfb/idp/shibboleth")
+            return new FederationPartyContext("local", "https://nadim/idp/shibboleth")
             {
                 DefaultNameIdFormat = new Uri(defaultNameIdFormat),
                 MetadataContext = this._inlineMetadataContextBuilder.BuildContext(new MetadataGenerateRequest(MetadataType.SP, "local")),

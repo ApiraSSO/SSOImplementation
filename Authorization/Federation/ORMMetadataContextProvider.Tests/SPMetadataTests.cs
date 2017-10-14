@@ -21,13 +21,13 @@ namespace ORMMetadataContextProvider.Tests
     public class SPMetadataTests
     {
         [Test]
-        [Ignore("Create file")]
+        //[Ignore("Create file")]
         public void SPMetadataGenerationTest_write_to_file()
         {
             ////ARRANGE
 
             var result = false;
-            var path = @"D:\Dan\Software\Apira\SPMetadata\SPMetadataTest.xml";
+            var path = @"C:\App\Apira\SPMetadataTest\SPMetadataTest.xml";
             var metadataWriter = new TestMetadatWriter(el =>
             {
                 if (File.Exists(path))
