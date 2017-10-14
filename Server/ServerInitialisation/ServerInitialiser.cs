@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using DeflateCompression.Initialisation;
+using Federation.Logging.Initialisation;
 using Federation.Metadata.FederationPartner.Initialisation;
 using Federation.Metadata.HttpRetriever.Initialisation;
 using Federation.Protocols.Initialisation;
@@ -51,6 +52,7 @@ namespace ServerInitialisation
                 yield return typeof(DeflateCompressorInitialiser).Assembly;
                 yield return typeof(ProtocolInitialiser).Assembly;
                 yield return typeof(JsonSerializerInitialiser).Assembly;
+                yield return typeof(WindowsEventLogLoggerInitialiser).Assembly;
             }
         }
 

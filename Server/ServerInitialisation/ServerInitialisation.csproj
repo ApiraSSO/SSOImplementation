@@ -44,6 +44,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Authorization\Federation\Federation.Logging\Federation.Logging.csproj">
+      <Project>{FABF809F-F00C-430C-AF7A-5639240A641F}</Project>
+      <Name>Federation.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Authorization\Federation\Federation.Metadata.Consumer\Federation.Metadata.FederationPartner.csproj">
       <Project>{EEC53E9A-3970-4EEC-8FFC-6B1AEA371A77}</Project>
       <Name>Federation.Metadata.FederationPartner</Name>

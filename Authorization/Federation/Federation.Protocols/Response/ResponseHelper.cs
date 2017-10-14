@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using Kernel.Logging;
 using Shared.Federtion.Constants;
@@ -12,14 +9,14 @@ namespace Federation.Protocols.Response
 {
     internal class ResponseHelper
     {
-        internal static ResponseStatus ParseResponseStatus(string response)
+        internal static ResponseStatus ParseResponseStatus(string response, ILogProvider logProvider)
         {
             using (var reader = new StringReader(response))
             {
                 using (var xmlReader = XmlReader.Create(reader))
                 {
                     var responseStatus = ResponseHelper.ReadResponseStatus(xmlReader);
-                    LoggerManager.WriteInformationToEventLog(responseStatus.AggregatedMessage);
+                    logProvider.LogMessage(responseStatus.AggregatedMessage);
                     return responseStatus;
                 }
             }
