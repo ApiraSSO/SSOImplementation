@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Kernel.Federation.Protocols;
+using Kernel.Logging;
 using Kernel.Serialisation;
 using Serialisation.Xml;
 using Shared.Federtion.Constants;
@@ -13,10 +14,13 @@ namespace Federation.Protocols.Request
     {
         private readonly IXmlSerialiser _serialiser;
         private readonly IMessageEncoding _messageEncoding;
-        public AuthnRequestSerialiser(IXmlSerialiser serialiser, IMessageEncoding messageEncoding)
+        private readonly ILogProvider _logProvider;
+
+        public AuthnRequestSerialiser(IXmlSerialiser serialiser, IMessageEncoding messageEncoding, ILogProvider logProvider)
         {
             this._serialiser = serialiser;
             this._messageEncoding = messageEncoding;
+            this._logProvider = logProvider;
         }
 
         public object[] Deserialize(Stream stream, IList<Type> messageTypes)
@@ -45,8 +49,8 @@ namespace Federation.Protocols.Request
                 ms.Position = 0;
                 var streamReader = new StreamReader(ms);
                 var xmlString = streamReader.ReadToEnd();
+                this._logProvider.LogMessage(String.Format("AuthnRequest serialised:\r\n {0}", xmlString));
                 var compressed = await this._messageEncoding.EncodeMessage<string>(xmlString);
-                
                 var encodedEscaped = Uri.EscapeDataString(Helper.UpperCaseUrlEncode(compressed));
                 return encodedEscaped;
             }

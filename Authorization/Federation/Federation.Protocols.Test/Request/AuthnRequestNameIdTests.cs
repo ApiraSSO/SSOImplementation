@@ -195,7 +195,8 @@ namespace Federation.Protocols.Test.Request
             var xmlSerialiser = new XMLSerialiser();
             var compressor = new DeflateCompressor();
             var encoder = new MessageEncoding(compressor);
-            var serialiser = new AuthnRequestSerialiser(xmlSerialiser, encoder);
+            var logger = new LogProviderMock();
+            var serialiser = new AuthnRequestSerialiser(xmlSerialiser, encoder, logger);
             AuthnRequestHelper.GetBuilders = AuthnRequestBuildersFactoryMock.GetBuildersFactory();
             var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
 
