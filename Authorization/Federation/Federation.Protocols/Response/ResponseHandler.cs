@@ -34,10 +34,12 @@ namespace Federation.Protocols.Response
             var responseText = Encoding.UTF8.GetString(responseBytes);
             
             var relayState = await this._relayStateHandler.GetRelayStateFromFormData(elements);
-#if(DEBUG)
+
             LoggerManager.WriteInformationToEventLog(String.Format("Response recieved:\r\n {0}", responseText));
-#endif
-            ResponseHelper.EnsureSuccess(responseText);
+
+            var responseStatus = ResponseHelper.ParseResponseStatus(responseText);
+            ResponseHelper.EnsureSuccessAndThrow(responseStatus);
+
             using (var reader = new StringReader(responseText))
             {
                 using (var xmlReader = XmlReader.Create(reader))

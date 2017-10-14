@@ -84,6 +84,7 @@
     <Compile Include="Federtion\Models\ProxyRestriction.cs" />
     <Compile Include="Federtion\Models\RequestAbstract.cs" />
     <Compile Include="Federtion\Constants\Saml20Constants.cs" />
+    <Compile Include="Federtion\Response\ResponseStatus.cs" />
     <Compile Include="Initialisation\Initialiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

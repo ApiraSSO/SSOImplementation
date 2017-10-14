@@ -6,28 +6,29 @@ using System.Text;
 using System.Xml;
 using Kernel.Logging;
 using Shared.Federtion.Constants;
+using Shared.Federtion.Response;
 
 namespace Federation.Protocols.Response
 {
     internal class ResponseHelper
     {
-        internal static void EnsureSuccess(string response)
+        internal static ResponseStatus ParseResponseStatus(string response)
         {
             using (var reader = new StringReader(response))
             {
                 using (var xmlReader = XmlReader.Create(reader))
                 {
-                    ResponseHelper.ValidateResponseSuccess(xmlReader);
+                    var responseStatus = ResponseHelper.ReadResponseStatus(xmlReader);
+                    LoggerManager.WriteInformationToEventLog(responseStatus.AggregatedMessage);
+                    return responseStatus;
                 }
             }
         }
         
-        internal static void ValidateResponseSuccess(XmlReader reader)
+        internal static ResponseStatus ReadResponseStatus(XmlReader reader)
         {
-            var statusMessage = String.Empty;
-            var messageDetails = String.Empty;
-            var statusCodes = new List<string>();
-
+            var responseStatus = new ResponseStatus();
+            
             while (!reader.IsStartElement("Status", Saml20Constants.Protocol))
             {
                 if (!reader.Read())
@@ -40,40 +41,34 @@ namespace Federation.Protocols.Response
                 {
                     var statusCode = reader.GetAttribute("Value");
                     if (!String.IsNullOrWhiteSpace(statusCode))
-                        statusCodes.Add(statusCode);
+                        responseStatus.StatusCodes.Add(statusCode);
                     continue;
                 }
                 
                 if (reader.IsStartElement("StatusMessage", Saml20Constants.Protocol))
                 {
                     reader.Read();
-                    statusMessage = reader.Value;
+                    responseStatus.StatusMessage = reader.Value;
                     continue;
                 }
 
                 if (reader.IsStartElement("StatusDetail", Saml20Constants.Protocol))
                 {
                     reader.Read();
-                    statusMessage = reader.Value;
+                    responseStatus.MessageDetails = reader.Value;
                     continue;
                 }
             }
 
-            var sb = new StringBuilder();
-            statusCodes.Aggregate(sb, (b, next) =>
-            {
-                b.AppendFormat("Status code: {0}\r\n", next);
-                return b;
-            });
+            return responseStatus;
+        }
 
-            var msg = String.Format("{0}Additional information: {1} {2}", sb.ToString(), statusMessage, messageDetails);
-            LoggerManager.WriteInformationToEventLog(msg);
-
-            if (statusCodes.Count == 1 && statusCodes.SingleOrDefault(x => x == StatusCodes.Success) != null)
+        internal static void EnsureSuccessAndThrow(ResponseStatus status)
+        {
+            if (status.IsSuccess)
                 return;
-
+            var msg = status.AggregatedMessage;
             throw new Exception(msg);
-            
         }
     }
 }
