@@ -61,12 +61,12 @@ namespace ORMMetadataContextProvider.Tests
             var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
             var metadatContext = metadataContextBuilder.BuildContext(metadataRequest);
             var context = new FederationPartyConfiguration(metadataRequest.FederationPartyId, "localhost") { MetadataContext = metadatContext };
-           
+            var logger = new LogProviderMock();
 
             var configurationProvider = new CertificateValidationConfigurationProvider((IDbContext)dbcontext, cacheProvider);
             var certificateValidator = new CertificateValidator(configurationProvider);
-            var ssoCryptoProvider = new CertificateManager();
-            var logger = new LogProviderMock();
+            var ssoCryptoProvider = new CertificateManager(logger);
+            
             var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator, logger);
             var metadataDispatcher = new FederationMetadataDispatcherMock(() => new[] { metadataWriter });
             

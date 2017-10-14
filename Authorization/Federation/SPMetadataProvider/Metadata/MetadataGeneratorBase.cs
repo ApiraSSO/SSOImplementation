@@ -36,6 +36,8 @@ namespace WsFederationMetadataProvider.Metadata
         public async Task CreateMetadata(MetadataGenerateRequest context)
         {
             var configuration = this._contextFactory(context);
+            this._logProvider.LogMessage(String.Format("Metadata create request recieved on {0} for federation party: {1}", DateTimeOffset.Now, configuration.FederationPartyId));
+
             var sb = new StringBuilder();
 
             using (var xmlWriter = XmlWriter.Create(sb))

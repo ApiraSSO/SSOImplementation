@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using Kernel.Cryptography.CertificateManagement;
 using NUnit.Framework;
+using SecurityManagement.Tests.Mock;
 
 namespace SecurityManagement.Tests.Manager
 {
@@ -12,7 +13,8 @@ namespace SecurityManagement.Tests.Manager
         {
             //ARRANGE
             var data = "Data to sign";
-            var manager = new CertificateManager();
+            var logger = new LogProviderMock();
+            var manager = new CertificateManager(logger);
             var certContext = new X509CertificateContext
             {
                 StoreLocation = StoreLocation.LocalMachine,
