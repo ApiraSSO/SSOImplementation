@@ -61,6 +61,8 @@
     <Compile Include="RelayState\RelaystateSerialiser.cs" />
     <Compile Include="Request\AuthnRequestHelper.cs" />
     <Compile Include="Request\AuthnRequestSerialiser.cs" />
+    <Compile Include="Request\ClauseBuilders\ScopingBuilder.cs" />
+    <Compile Include="Request\ClauseBuilders\RequestedAuthContextBuilder.cs" />
     <Compile Include="Request\ClauseBuilders\SubjectClauseBuilder.cs" />
     <Compile Include="Request\ClauseBuilders\NameIdPolicyClauseBuilder.cs" />
     <Compile Include="Request\ClauseBuilders\ClauseBuilder.cs" />

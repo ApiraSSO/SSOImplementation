@@ -17,14 +17,7 @@ namespace Shared.Federtion.Models
         /// The XML Element name of this class
         /// </summary>
         public const string ElementName = "RequestedAuthnContext";
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [comparison specified].
-        /// </summary>
-        /// <value><c>true</c> if [comparison specified]; otherwise, <c>false</c>.</value>
-        [XmlIgnore]
-        public bool ComparisonSpecified { get; set; }
-
+        
         #region Attributes
 
         /// <summary>

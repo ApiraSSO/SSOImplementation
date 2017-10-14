@@ -154,7 +154,7 @@ namespace ORMMetadataContextProvider
                 return t;
             });
 
-            //assertinon service
+            //assertion service
             sPDescriptor.AssertionServices.Aggregate(sPSSODescriptorConfiguration.AssertionConsumerServices, (t, next) =>
             {
                 var indexedEndPointConfiguration = new IndexedEndPointConfiguration
@@ -170,9 +170,7 @@ namespace ORMMetadataContextProvider
 
             return sPSSODescriptorConfiguration;
         }
-
         
-
         private static TimeSpan TimeSpanFromDatapartEntry(DatepartValue datepart)
         {
             switch(datepart.Datepart)
