@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
-using Kernel.Federation.Protocols;
 
 namespace Kernel.Federation.FederationPartner
 {
