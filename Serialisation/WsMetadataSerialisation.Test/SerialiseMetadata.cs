@@ -34,7 +34,8 @@ namespace WsMetadataSerialisation.Test
             var descriptor = descriptorBuilder.BuildDescriptor(spDescriptorConfigurtion);
             var entityDescriptor = new EntityDescriptor(new EntityId("EntityIdTest"));
             entityDescriptor.RoleDescriptors.Add(descriptor);
-            var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator);
+            var logger = new LogProviderMock();
+            var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator, logger);
             //ACT
             var sb = new StringBuilder();
 

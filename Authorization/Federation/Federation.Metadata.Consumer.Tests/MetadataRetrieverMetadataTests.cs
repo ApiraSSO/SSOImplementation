@@ -44,7 +44,8 @@ namespace Federation.Metadata.Consumer.Tests
             var documentRetrieer = new HttpDocumentRetriever(() => httpClient);
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certValidator = new CertificateValidator(configurationProvider);
-            var serialiser = new FederationMetadataSerialiser(certValidator);
+            var logger = new LogProviderMock();
+            var serialiser = new FederationMetadataSerialiser(certValidator, logger);
             var configurationRetriever = new WsFederationConfigurationRetriever(documentRetrieer, serialiser);
 
 

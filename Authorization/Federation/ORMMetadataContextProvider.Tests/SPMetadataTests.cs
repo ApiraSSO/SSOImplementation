@@ -66,10 +66,11 @@ namespace ORMMetadataContextProvider.Tests
             var configurationProvider = new CertificateValidationConfigurationProvider((IDbContext)dbcontext, cacheProvider);
             var certificateValidator = new CertificateValidator(configurationProvider);
             var ssoCryptoProvider = new CertificateManager();
-            
-            var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator);
+            var logger = new LogProviderMock();
+            var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator, logger);
             var metadataDispatcher = new FederationMetadataDispatcherMock(() => new[] { metadataWriter });
-            var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataDispatcher, ssoCryptoProvider, metadataSerialiser, g => context);
+            
+            var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataDispatcher, ssoCryptoProvider, metadataSerialiser, g => context, logger);
             
             //ACT
             sPSSOMetadataProvider.CreateMetadata(metadataRequest).Wait();

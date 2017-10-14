@@ -56,6 +56,7 @@
     <Compile Include="Mock\ConfigurationRetrieverMock.cs" />
     <Compile Include="Mock\EntityDescriptorProviderMock.cs" />
     <Compile Include="Mock\FederationPartyContextBuilderMock.cs" />
+    <Compile Include="Mock\LogProviderMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +74,10 @@
     <ProjectReference Include="..\..\..\Kernel\Kernel.Federation\Kernel.Federation.csproj">
       <Project>{47FE8E9F-CCF6-46B7-BA75-CBA1D1F56D7A}</Project>
       <Name>Kernel.Federation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Logging\Kernel.Logging.csproj">
+      <Project>{7DA939D6-5443-498F-AAA1-3CE3134BC3EB}</Project>
+      <Name>Kernel.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Serialisation\WsMetadataSerialisation\WsMetadataSerialisation.csproj">
       <Project>{D63B92B8-863B-493D-8117-0960DB06B554}</Project>

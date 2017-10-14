@@ -4,16 +4,19 @@ using System.IO;
 using System.Xml;
 using Kernel.Cryptography.Validation;
 using Kernel.Federation.MetaData;
+using Kernel.Logging;
 
 namespace WsMetadataSerialisation.Serialisation
 {
     public class FederationMetadataSerialiser : MetadataSerializer, IMetadataSerialiser<MetadataBase>
     {
         private readonly ICertificateValidator _certificateValidator;
-        public FederationMetadataSerialiser(ICertificateValidator certificateValidator)
+        private readonly ILogProvider _logProvider;
+        public FederationMetadataSerialiser(ICertificateValidator certificateValidator, ILogProvider logProvider)
         {
             this._certificateValidator = certificateValidator;
             base.CertificateValidator = (X509CertificateValidator)certificateValidator;
+            this._logProvider = logProvider;
         }
         public ICertificateValidator Validator { get { return base.CertificateValidator as ICertificateValidator; } }
         public void Serialise(XmlWriter writer, MetadataBase metadata)
