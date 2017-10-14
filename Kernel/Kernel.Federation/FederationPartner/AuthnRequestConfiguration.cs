@@ -9,7 +9,7 @@ namespace Kernel.Federation.FederationPartner
     public class AuthnRequestConfiguration
     {
         private readonly EntityDesriptorConfiguration _entityDesriptorConfiguration;
-        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid, RequestedAuthnContextConfiguration requestedAuthnContextConfiguration)
+        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid, RequestedAuthnContextConfiguration requestedAuthnContextConfiguration, ScopingConfiguration scopingConfiguration)
         {
             this._entityDesriptorConfiguration = entityDesriptorConfiguration;
             this.EntityId = entityDesriptorConfiguration.EntityId;
@@ -25,6 +25,7 @@ namespace Kernel.Federation.FederationPartner
             this.SupportedNameIdentifierFormats = new List<Uri>();
             this.DefaultNameIdFormat = defaultNameid;
             this.RequestedAuthnContextConfiguration = requestedAuthnContextConfiguration;
+            this.ScopingConfiguration = scopingConfiguration;
         }
 
         public bool IsPassive { get; set; }
@@ -39,5 +40,6 @@ namespace Kernel.Federation.FederationPartner
         public string Version { get; }
         public ICollection<Uri> SupportedNameIdentifierFormats { get; }
         public RequestedAuthnContextConfiguration RequestedAuthnContextConfiguration { get; }
+        public ScopingConfiguration ScopingConfiguration { get; }
     }
 }

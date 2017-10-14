@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Kernel.Federation.FederationPartner;
-using Shared.Federtion.Constants;
 using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Request.ClauseBuilders

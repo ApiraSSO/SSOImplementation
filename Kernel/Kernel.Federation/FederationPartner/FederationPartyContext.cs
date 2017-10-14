@@ -69,6 +69,8 @@ namespace Kernel.Federation.FederationPartner
         }
         public Uri DefaultNameIdFormat { get; set; }
         public RequestedAuthnContextConfiguration RequestedAuthnContextConfiguration { get; set; }
+        public ScopingConfiguration ScopingConfiguration { get; set; }
+
         public FederationPartyContext(string federationPartyId, string metadataAddress)
         {
             if (String.IsNullOrWhiteSpace(federationPartyId))
@@ -84,10 +86,14 @@ namespace Kernel.Federation.FederationPartner
             var requestedAuthnContextConfiguration = new RequestedAuthnContextConfiguration("Exact");
             requestedAuthnContextConfiguration.RequestedAuthnContexts.Add(new Protocols.AuthnContext("AuthnContextClassRef", new Uri("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport")));
             this.RequestedAuthnContextConfiguration = requestedAuthnContextConfiguration;
+            this.ScopingConfiguration = new ScopingConfiguration();
         }
         public AuthnRequestConfiguration GetRequestConfigurationFromContext()
-        { 
-            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat, this.RequestedAuthnContextConfiguration);
+        {
+            if (this.MetadataContext == null)
+                throw new ArgumentNullException("metadataContext");
+
+            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat, this.RequestedAuthnContextConfiguration, this.ScopingConfiguration);
         }
     }
 }
