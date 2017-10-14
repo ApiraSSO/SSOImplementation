@@ -12,10 +12,10 @@ using Serialisation.Xml;
 using Shared.Federtion.Constants;
 using Shared.Federtion.Models;
 
-namespace Federation.Protocols.Test
+namespace Federation.Protocols.Test.Request
 {
     [TestFixture]
-    public class AuthnRequestTests
+    public class AuthnRequestNameIdTests
     {
         [Test]
         public void BuildAuthnRequest_test_nameid_fortmat_match()

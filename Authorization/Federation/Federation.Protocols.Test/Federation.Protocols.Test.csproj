@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthnRequestTests.cs" />
+    <Compile Include="Request\AuthnRequestNameIdTests.cs" />
     <Compile Include="Encoding\MessageEncodingTest.cs" />
     <Compile Include="HelperTests.cs" />
     <Compile Include="Mock\CertificateValidatorMock.cs" />
@@ -64,6 +64,7 @@
     <Compile Include="RelayState\RelayStateBuilderTest.cs" />
     <Compile Include="RelayState\RelayStateHandlerTest.cs" />
     <Compile Include="RelayState\RelayStateSerialiserTest.cs" />
+    <Compile Include="Request\AuthnRequestRequestedContextTests.cs" />
     <Compile Include="Response\ResponseStatusTests.cs" />
     <Compile Include="Response\ResponseTest.cs" />
     <Compile Include="Mock\Tokens\SubjectConfirmationDataValidatorMock.cs" />
