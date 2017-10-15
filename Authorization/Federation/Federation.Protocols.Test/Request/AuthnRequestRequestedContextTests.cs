@@ -39,7 +39,7 @@ namespace Federation.Protocols.Test.Request
             
             var requestedAuthnContextConfiguration = new Kernel.Federation.FederationPartner.RequestedAuthnContextConfiguration(AuthnContextComparisonType.Minimum.ToString());
             requestedAuthnContextConfiguration.RequestedAuthnContexts.Add((new Kernel.Federation.Protocols.AuthnContext(AuthnContextType.AuthnContextClassRef.ToString(), new Uri(AuthnticationContexts.Password))));
-            var federationPartyAuthnRequestConfiguration = new FederationPartyAuthnRequestConfiguration(requestedAuthnContextConfiguration);
+            var federationPartyAuthnRequestConfiguration = new FederationPartyAuthnRequestConfiguration(requestedAuthnContextConfiguration, new DefaultNameId(new Uri(NameIdentifierFormats.Transient)));
             federationContex.FederationPartyAuthnRequestConfiguration = federationPartyAuthnRequestConfiguration;
 
             var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };
@@ -69,7 +69,7 @@ namespace Federation.Protocols.Test.Request
             var requestedAuthnContextConfiguration = new Kernel.Federation.FederationPartner.RequestedAuthnContextConfiguration(AuthnContextComparisonType.Minimum.ToString());
             requestedAuthnContextConfiguration.RequestedAuthnContexts.Add((new Kernel.Federation.Protocols.AuthnContext(AuthnContextType.AuthnContextClassRef.ToString(), new Uri(AuthnticationContexts.Password))));
             requestedAuthnContextConfiguration.RequestedAuthnContexts.Add((new Kernel.Federation.Protocols.AuthnContext(AuthnContextType.AuthnContextClassRef.ToString(), new Uri(AuthnticationContexts.PasswordProtectedTransport))));
-            var federationPartyAuthnRequestConfiguration = new FederationPartyAuthnRequestConfiguration(requestedAuthnContextConfiguration);
+            var federationPartyAuthnRequestConfiguration = new FederationPartyAuthnRequestConfiguration(requestedAuthnContextConfiguration, new DefaultNameId(new Uri(NameIdentifierFormats.Transient)));
             federationContex.FederationPartyAuthnRequestConfiguration = federationPartyAuthnRequestConfiguration;
             
             var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };

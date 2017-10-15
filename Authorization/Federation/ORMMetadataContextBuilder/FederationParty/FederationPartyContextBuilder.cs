@@ -29,9 +29,7 @@ namespace ORMMetadataContextProvider.FederationParty
             var context = new FederationPartyConfiguration(federationPartyId, federationPartyContext.MetadataPath);
             var federationPartyAuthnRequestConfiguration = this.BuildFederationPartyAuthnRequestConfiguration(federationPartyContext.AutnRequestSettings);
             context.FederationPartyAuthnRequestConfiguration = federationPartyAuthnRequestConfiguration;
-            if (federationPartyContext.DefaultNameIdFormat != null)
-                context.DefaultNameIdFormat = new Uri(federationPartyContext.DefaultNameIdFormat.Uri);
-
+            
             context.RefreshInterval = TimeSpan.FromSeconds(federationPartyContext.RefreshInterval);
             context.AutomaticRefreshInterval = TimeSpan.FromDays(federationPartyContext.AutoRefreshInterval);
             this.BuildMetadataContext(context, federationPartyContext.MetadataSettings);
@@ -61,7 +59,15 @@ namespace ORMMetadataContextProvider.FederationParty
                 t.Add(new Kernel.Federation.Protocols.AuthnContext(next.RefType.ToString(), new Uri(next.Value)));
                 return t;
             });
-            var configuration = new FederationPartyAuthnRequestConfiguration(requestedAuthnContextConfiguration)
+            if (autnRequestSettings.NameIdConfiguration == null)
+                throw new ArgumentNullException("nameIdConfiguration");
+
+            var defaultNameId = new DefaultNameId(new Uri(autnRequestSettings.NameIdConfiguration.DefaultNameIdFormat.Uri))
+            {
+                AllowCreate = autnRequestSettings.NameIdConfiguration.AllowCreate,
+                EncryptNameId = autnRequestSettings.NameIdConfiguration.EncryptNameId
+            };
+            var configuration = new FederationPartyAuthnRequestConfiguration(requestedAuthnContextConfiguration, defaultNameId)
             {
                 ForceAuthn = autnRequestSettings.ForceAuthn,
                 IsPassive = autnRequestSettings.IsPassive,

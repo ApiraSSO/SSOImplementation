@@ -48,6 +48,7 @@
     <Compile Include="Initialisation\ORMMetadataContextProviderInitialiser.cs" />
     <Compile Include="MetadataContextBuilder.cs" />
     <Compile Include="MetadataHelper.cs" />
+    <Compile Include="Models\NameIdConfiguration.cs" />
     <Compile Include="Models\SamlAutnContext.cs" />
     <Compile Include="Models\AutnRequestSettings.cs" />
     <Compile Include="Models\Datapart.cs" />

@@ -67,7 +67,6 @@ namespace Kernel.Federation.FederationPartner
                 this._refreshInterval = value;
             }
         }
-        public Uri DefaultNameIdFormat { get; set; }
         
         public ScopingConfiguration ScopingConfiguration { get; set; }
 
@@ -82,7 +81,7 @@ namespace Kernel.Federation.FederationPartner
             this.MetadataAddress = metadataAddress;
             this.AutomaticRefreshInterval = FederationPartyConfiguration.DefaultAutomaticRefreshInterval;
             this.RefreshInterval = FederationPartyConfiguration.DefaultRefreshInterval;
-            this.DefaultNameIdFormat = new Uri("urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified");
+            
             this.ScopingConfiguration = new ScopingConfiguration();
         }
         public AuthnRequestConfiguration GetRequestConfigurationFromContext()
@@ -90,7 +89,7 @@ namespace Kernel.Federation.FederationPartner
             if (this.MetadataContext == null)
                 throw new ArgumentNullException("metadataContext");
 
-            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat, this.ScopingConfiguration, this.FederationPartyAuthnRequestConfiguration);
+            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.ScopingConfiguration, this.FederationPartyAuthnRequestConfiguration);
         }
     }
 }

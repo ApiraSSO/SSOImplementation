@@ -8,12 +8,11 @@ namespace Kernel.Federation.FederationPartner
     public class AuthnRequestConfiguration
     {
         private readonly EntityDesriptorConfiguration _entityDesriptorConfiguration;
-        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid, ScopingConfiguration scopingConfiguration, FederationPartyAuthnRequestConfiguration federationPartyAuthnRequestConfiguration)
+        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, ScopingConfiguration scopingConfiguration, FederationPartyAuthnRequestConfiguration federationPartyAuthnRequestConfiguration)
         {
             if (entityDesriptorConfiguration == null)
                 throw new ArgumentNullException("entityDesriptorConfiguration");
-            if (defaultNameid == null)
-                throw new ArgumentNullException("defaultNameid");
+           
             if (federationPartyAuthnRequestConfiguration == null)
                 throw new ArgumentNullException("federationPartyAuthnRequestConfiguration");
             if (federationPartyAuthnRequestConfiguration.RequestedAuthnContextConfiguration == null)
@@ -28,10 +27,10 @@ namespace Kernel.Federation.FederationPartner
             this.ForceAuthn = federationPartyAuthnRequestConfiguration.ForceAuthn;
             this.IsPassive = federationPartyAuthnRequestConfiguration.IsPassive;
             this.Version = federationPartyAuthnRequestConfiguration.Version;
-            this.EncryptNameId = false;
-            this.AllowCreateNameIdPolicy = false;
+            this.EncryptNameId = federationPartyAuthnRequestConfiguration.DefaultNameId.EncryptNameId;
+            this.AllowCreateNameIdPolicy = federationPartyAuthnRequestConfiguration.DefaultNameId.AllowCreate;
             this.SupportedNameIdentifierFormats = new List<Uri>();
-            this.DefaultNameIdFormat = defaultNameid;
+            this.DefaultNameIdFormat = federationPartyAuthnRequestConfiguration.DefaultNameId.NameIdFormat;
             this.RequestedAuthnContextConfiguration = federationPartyAuthnRequestConfiguration.RequestedAuthnContextConfiguration;
             this.ScopingConfiguration = scopingConfiguration;
         }

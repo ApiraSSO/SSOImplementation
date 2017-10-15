@@ -22,12 +22,7 @@ namespace ORMMetadataContextProvider.Seeders
         {
             var metadata = Seeder._cache[Seeder.Metadata] as MetadataSettings;
             var security = Seeder._cache[Seeder.Security] as SecuritySettings;
-            var nameIds = Seeder._cache[Seeder.NameIdKey] as IEnumerable<NameIdFormat>;
             
-            var persistentNameId = nameIds
-                .First(x => x.Key == "Persistent");
-            var transientNameId = nameIds
-                .First(x => x.Key == "Transient");
             var authnRequestSettings = this.GetAutnRequestSettings();
 
             var imperialFederationParty = new FederationPartySettings
@@ -40,7 +35,6 @@ namespace ORMMetadataContextProvider.Seeders
             };
             imperialFederationParty.MetadataSettings = metadata;
             imperialFederationParty.SecuritySettings = security;
-            imperialFederationParty.DefaultNameIdFormat = persistentNameId;
             imperialFederationParty.AutnRequestSettings = authnRequestSettings;
 
             //shibboleth test metadata settings
@@ -54,7 +48,6 @@ namespace ORMMetadataContextProvider.Seeders
             };
             testFederationParty.MetadataSettings = metadata;
             testFederationParty.SecuritySettings = security;
-            testFederationParty.DefaultNameIdFormat = transientNameId;
             testFederationParty.AutnRequestSettings = authnRequestSettings;
 
             //local
@@ -68,7 +61,6 @@ namespace ORMMetadataContextProvider.Seeders
             };
             localFederationParty.MetadataSettings = metadata;
             localFederationParty.SecuritySettings = security;
-            localFederationParty.DefaultNameIdFormat = persistentNameId;
             localFederationParty.AutnRequestSettings = authnRequestSettings;
 
             context.Add<FederationPartySettings>(imperialFederationParty);
@@ -87,6 +79,13 @@ namespace ORMMetadataContextProvider.Seeders
         private AutnRequestSettings GetAutnRequestSettings()
         {
             var authnContexts = Seeder._cache[Seeder.SamlAutnContextKey] as IEnumerable<SamlAutnContext>;
+            var nameIds = Seeder._cache[Seeder.NameIdKey] as IEnumerable<NameIdFormat>;
+
+            var persistentNameId = nameIds
+                .First(x => x.Key == "Persistent");
+            var transientNameId = nameIds
+                .First(x => x.Key == "Transient");
+
             var settings = new AutnRequestSettings
             {
                 ForceAuthn = false,
@@ -95,6 +94,12 @@ namespace ORMMetadataContextProvider.Seeders
                 RequitedAutnContext = new RequitedAutnContext
                 {
                     Comparison = AuthnContextComparisonType.Exact
+                },
+                NameIdConfiguration = new NameIdConfiguration
+                {
+                    AllowCreate = false,
+                    EncryptNameId = false,
+                    DefaultNameIdFormat = transientNameId
                 }
             };
 
