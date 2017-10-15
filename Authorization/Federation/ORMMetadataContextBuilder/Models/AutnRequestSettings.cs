@@ -10,7 +10,7 @@ namespace ORMMetadataContextProvider.Models
         }
         public bool IsPassive { get; set; }
         public bool ForceAuthn { get; set; }
-        public bool Version { get; set; }
+        public string Version { get; set; }
         public virtual RequitedAutnContext RequitedAutnContext { get; set; }
     }
 }

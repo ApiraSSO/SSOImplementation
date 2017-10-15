@@ -91,6 +91,7 @@ namespace ORMMetadataContextProvider.Seeders
             {
                 ForceAuthn = false,
                 IsPassive = false,
+                Version = "2.0",
                 RequitedAutnContext = new RequitedAutnContext
                 {
                     Comparison = AuthnContextComparisonType.Exact

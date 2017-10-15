@@ -27,7 +27,8 @@ namespace ORMMetadataContextProvider.FederationParty
                 .FirstOrDefault(x => x.FederationPartyId == federationPartyId);
 
             var context = new FederationPartyConfiguration(federationPartyId, federationPartyContext.MetadataPath);
-
+            var federationPartyAuthnRequestConfiguration = this.BuildFederationPartyAuthnRequestConfiguration(federationPartyContext.AutnRequestSettings);
+            context.FederationPartyAuthnRequestConfiguration = federationPartyAuthnRequestConfiguration;
             if (federationPartyContext.DefaultNameIdFormat != null)
                 context.DefaultNameIdFormat = new Uri(federationPartyContext.DefaultNameIdFormat.Uri);
 
@@ -47,6 +48,27 @@ namespace ORMMetadataContextProvider.FederationParty
             federationPartyContext.MetadataContext = metadata;
         }
 
+        private FederationPartyAuthnRequestConfiguration BuildFederationPartyAuthnRequestConfiguration(AutnRequestSettings autnRequestSettings)
+        {
+            if (autnRequestSettings == null)
+                throw new ArgumentNullException("autnRequestSettings");
+            if (autnRequestSettings.RequitedAutnContext == null)
+                throw new ArgumentNullException("requitedAutnContext");
+
+            var requestedAuthnContextConfiguration = new RequestedAuthnContextConfiguration(autnRequestSettings.RequitedAutnContext.Comparison.ToString());
+            autnRequestSettings.RequitedAutnContext.RequitedAuthnContexts.Aggregate(requestedAuthnContextConfiguration.RequestedAuthnContexts, (t, next) =>
+            {
+                t.Add(new Kernel.Federation.Protocols.AuthnContext(next.RefType.ToString(), new Uri(next.Value)));
+                return t;
+            });
+            var configuration = new FederationPartyAuthnRequestConfiguration(requestedAuthnContextConfiguration)
+            {
+                ForceAuthn = autnRequestSettings.ForceAuthn,
+                IsPassive = autnRequestSettings.IsPassive,
+                Version = autnRequestSettings.Version ?? "2.0"
+            };
+            return configuration;
+        }
         public void Dispose()
         {
             if(this._dbContext != null)

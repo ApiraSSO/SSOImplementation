@@ -8,7 +8,7 @@ namespace Kernel.Federation.FederationPartner
     public class AuthnRequestConfiguration
     {
         private readonly EntityDesriptorConfiguration _entityDesriptorConfiguration;
-        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid, RequestedAuthnContextConfiguration requestedAuthnContextConfiguration, ScopingConfiguration scopingConfiguration)
+        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid, RequestedAuthnContextConfiguration requestedAuthnContextConfiguration, ScopingConfiguration scopingConfiguration, FederationPartyAuthnRequestConfiguration federationPartyAuthnRequestConfiguration)
         {
             this._entityDesriptorConfiguration = entityDesriptorConfiguration;
             this.EntityId = entityDesriptorConfiguration.EntityId;
@@ -16,9 +16,9 @@ namespace Kernel.Federation.FederationPartner
             this.AssertionConsumerServiceIndex = (ushort)entityDesriptorConfiguration.SPSSODescriptors.SelectMany(x => x.AssertionConsumerServices)
                 .Single(x => x.IsDefault.GetValueOrDefault()).Index;
             this.AudienceRestriction = new List<string> { entityDesriptorConfiguration.EntityId };
-            this.ForceAuthn = false;
-            this.IsPassive = false;
-            this.Version = "2.0";
+            this.ForceAuthn = federationPartyAuthnRequestConfiguration.ForceAuthn;
+            this.IsPassive = federationPartyAuthnRequestConfiguration.IsPassive;
+            this.Version = federationPartyAuthnRequestConfiguration.Version;
             this.EncryptNameId = false;
             this.AllowCreateNameIdPolicy = false;
             this.SupportedNameIdentifierFormats = new List<Uri>();

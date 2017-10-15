@@ -40,7 +40,7 @@ namespace Kernel.Federation.FederationPartner
         public string MetadataAddress { get; }
         public string FederationPartyId { get; }
         public MetadataContext MetadataContext { get; set; }
-        
+        public FederationPartyAuthnRequestConfiguration FederationPartyAuthnRequestConfiguration { get; set; }
         public TimeSpan AutomaticRefreshInterval
         {
             get
@@ -93,7 +93,7 @@ namespace Kernel.Federation.FederationPartner
             if (this.MetadataContext == null)
                 throw new ArgumentNullException("metadataContext");
 
-            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat, this.RequestedAuthnContextConfiguration, this.ScopingConfiguration);
+            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat, this.RequestedAuthnContextConfiguration, this.ScopingConfiguration, this.FederationPartyAuthnRequestConfiguration);
         }
     }
 }
