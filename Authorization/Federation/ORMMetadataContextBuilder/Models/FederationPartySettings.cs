@@ -1,4 +1,5 @@
-﻿using Kernel.Data;
+﻿using System.Collections.Generic;
+using Kernel.Data;
 using ORMMetadataContextProvider.Models.GlobalConfiguration;
 
 namespace ORMMetadataContextProvider.Models
@@ -13,5 +14,7 @@ namespace ORMMetadataContextProvider.Models
         public virtual SecuritySettings SecuritySettings { get; set; }
         public virtual MetadataSettings MetadataSettings { get; set; }
         public virtual NameIdFormat DefaultNameIdFormat { get; set; }
+        public virtual AutnRequestSettings AutnRequestSettings { get; set; }
+        
     }
 }

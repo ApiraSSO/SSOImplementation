@@ -62,6 +62,7 @@ namespace Federation.Protocols.Response
                 if(innerEx != null)
                     throw innerEx;
             }
+            return null;
         }
     }
 }
