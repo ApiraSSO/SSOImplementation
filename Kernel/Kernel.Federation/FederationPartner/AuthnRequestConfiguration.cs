@@ -10,6 +10,15 @@ namespace Kernel.Federation.FederationPartner
         private readonly EntityDesriptorConfiguration _entityDesriptorConfiguration;
         public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid, ScopingConfiguration scopingConfiguration, FederationPartyAuthnRequestConfiguration federationPartyAuthnRequestConfiguration)
         {
+            if (entityDesriptorConfiguration == null)
+                throw new ArgumentNullException("entityDesriptorConfiguration");
+            if (defaultNameid == null)
+                throw new ArgumentNullException("defaultNameid");
+            if (federationPartyAuthnRequestConfiguration == null)
+                throw new ArgumentNullException("federationPartyAuthnRequestConfiguration");
+            if (federationPartyAuthnRequestConfiguration.RequestedAuthnContextConfiguration == null)
+                throw new ArgumentNullException("requestedAuthnContextConfiguration");
+
             this._entityDesriptorConfiguration = entityDesriptorConfiguration;
             this.EntityId = entityDesriptorConfiguration.EntityId;
             this.RequestId = String.Format("{0}_{1}", entityDesriptorConfiguration.Id, Guid.NewGuid().ToString());

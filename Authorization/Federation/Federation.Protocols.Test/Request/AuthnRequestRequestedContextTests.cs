@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Federation.Protocols.Request;
 using Federation.Protocols.Test.Mock;
+using Kernel.Federation.FederationPartner;
 using Kernel.Federation.Protocols;
 using NUnit.Framework;
 using Shared.Federtion.Constants;
@@ -21,19 +22,11 @@ namespace Federation.Protocols.Test.Request
             var federationContex = federationPartyContextBuilder.BuildContext("local", NameIdentifierFormats.Transient);
             var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };
             var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
-            var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
-            AuthnRequestHelper.GetBuilders = AuthnRequestBuildersFactoryMock.GetBuildersFactory();
+            
             //ACT
-            var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
-
+            
             //ASSERT
-            Assert.NotNull(authnRequest);
-            Assert.IsNotNull(authnRequest.RequestedAuthnContext);
-            Assert.AreEqual(AuthnContextComparisonType.Exact, authnRequest.RequestedAuthnContext.Comparison);
-            Assert.AreEqual(1, authnRequest.RequestedAuthnContext.Items.Length);
-            Assert.AreEqual(1, authnRequest.RequestedAuthnContext.ItemsElementName.Length);
-            Assert.AreEqual(AuthnContextType.AuthnContextClassRef, authnRequest.RequestedAuthnContext.ItemsElementName[0]);
-            Assert.AreEqual("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport", authnRequest.RequestedAuthnContext.Items[0]);
+            Assert.Throws<ArgumentNullException>(() => federationContex.GetRequestConfigurationFromContext());
         }
 
         [Test]
@@ -43,8 +36,12 @@ namespace Federation.Protocols.Test.Request
             var requestUri = new Uri("http://localhost:59611/");
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
             var federationContex = federationPartyContextBuilder.BuildContext("local", NameIdentifierFormats.Transient);
-            federationContex.RequestedAuthnContextConfiguration = new Kernel.Federation.FederationPartner.RequestedAuthnContextConfiguration(AuthnContextComparisonType.Minimum.ToString());
-            federationContex.RequestedAuthnContextConfiguration.RequestedAuthnContexts.Add(new Kernel.Federation.Protocols.AuthnContext(AuthnContextType.AuthnContextClassRef.ToString(), new Uri(AuthnticationContexts.Password)));
+            
+            var requestedAuthnContextConfiguration = new Kernel.Federation.FederationPartner.RequestedAuthnContextConfiguration(AuthnContextComparisonType.Minimum.ToString());
+            requestedAuthnContextConfiguration.RequestedAuthnContexts.Add((new Kernel.Federation.Protocols.AuthnContext(AuthnContextType.AuthnContextClassRef.ToString(), new Uri(AuthnticationContexts.Password))));
+            var federationPartyAuthnRequestConfiguration = new FederationPartyAuthnRequestConfiguration(requestedAuthnContextConfiguration);
+            federationContex.FederationPartyAuthnRequestConfiguration = federationPartyAuthnRequestConfiguration;
+
             var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };
             var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
             var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
@@ -69,10 +66,12 @@ namespace Federation.Protocols.Test.Request
             var requestUri = new Uri("http://localhost:59611/");
             var federationPartyContextBuilder = new FederationPartyContextBuilderMock();
             var federationContex = federationPartyContextBuilder.BuildContext("local", NameIdentifierFormats.Transient);
-            federationContex.RequestedAuthnContextConfiguration = new Kernel.Federation.FederationPartner.RequestedAuthnContextConfiguration(AuthnContextComparisonType.Minimum.ToString());
-            federationContex.RequestedAuthnContextConfiguration.RequestedAuthnContexts.Add(new Kernel.Federation.Protocols.AuthnContext(AuthnContextType.AuthnContextClassRef.ToString(), new Uri(AuthnticationContexts.Password)));
-            federationContex.RequestedAuthnContextConfiguration.RequestedAuthnContexts.Add(new Kernel.Federation.Protocols.AuthnContext(AuthnContextType.AuthnContextClassRef.ToString(), new Uri(AuthnticationContexts.PasswordProtectedTransport)));
-
+            var requestedAuthnContextConfiguration = new Kernel.Federation.FederationPartner.RequestedAuthnContextConfiguration(AuthnContextComparisonType.Minimum.ToString());
+            requestedAuthnContextConfiguration.RequestedAuthnContexts.Add((new Kernel.Federation.Protocols.AuthnContext(AuthnContextType.AuthnContextClassRef.ToString(), new Uri(AuthnticationContexts.Password))));
+            requestedAuthnContextConfiguration.RequestedAuthnContexts.Add((new Kernel.Federation.Protocols.AuthnContext(AuthnContextType.AuthnContextClassRef.ToString(), new Uri(AuthnticationContexts.PasswordProtectedTransport))));
+            var federationPartyAuthnRequestConfiguration = new FederationPartyAuthnRequestConfiguration(requestedAuthnContextConfiguration);
+            federationContex.FederationPartyAuthnRequestConfiguration = federationPartyAuthnRequestConfiguration;
+            
             var supportedNameIdentifierFormats = new List<Uri> { new Uri(NameIdentifierFormats.Transient) };
             var authnRequestContext = new AuthnRequestContext(requestUri, federationContex, supportedNameIdentifierFormats);
             var requestConfiguration = federationContex.GetRequestConfigurationFromContext();
