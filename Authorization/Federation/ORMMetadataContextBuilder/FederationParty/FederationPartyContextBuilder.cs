@@ -18,19 +18,18 @@ namespace ORMMetadataContextProvider.FederationParty
             this._dbContext = dbContext;
             this._cacheProvider = cacheProvider;
         }
-        public FederationPartyContext BuildContext(string federationPartyId)
+        public FederationPartyConfiguration BuildContext(string federationPartyId)
         {
             if (this._cacheProvider.Contains(federationPartyId))
-                return this._cacheProvider.Get<FederationPartyContext>(federationPartyId);
+                return this._cacheProvider.Get<FederationPartyConfiguration>(federationPartyId);
 
             var federationPartyContext = this._dbContext.Set<FederationPartySettings>()
                 .FirstOrDefault(x => x.FederationPartyId == federationPartyId);
 
-            var context = new FederationPartyContext(federationPartyId, federationPartyContext.MetadataPath);
-
-            if (federationPartyContext.DefaultNameIdFormat != null)
-                context.DefaultNameIdFormat = new Uri(federationPartyContext.DefaultNameIdFormat.Uri);
-
+            var context = new FederationPartyConfiguration(federationPartyId, federationPartyContext.MetadataPath);
+            var federationPartyAuthnRequestConfiguration = this.BuildFederationPartyAuthnRequestConfiguration(federationPartyContext.AutnRequestSettings);
+            context.FederationPartyAuthnRequestConfiguration = federationPartyAuthnRequestConfiguration;
+            
             context.RefreshInterval = TimeSpan.FromSeconds(federationPartyContext.RefreshInterval);
             context.AutomaticRefreshInterval = TimeSpan.FromDays(federationPartyContext.AutoRefreshInterval);
             this.BuildMetadataContext(context, federationPartyContext.MetadataSettings);
@@ -40,13 +39,42 @@ namespace ORMMetadataContextProvider.FederationParty
             return context;
         }
 
-        private void BuildMetadataContext(FederationPartyContext federationPartyContext, MetadataSettings metadataSettings)
+        private void BuildMetadataContext(FederationPartyConfiguration federationPartyContext, MetadataSettings metadataSettings)
         {
             var metadataContextBuilder = new MetadataContextBuilder(this._dbContext, this._cacheProvider);
             var metadata = metadataContextBuilder.BuildFromDbSettings(metadataSettings);
             federationPartyContext.MetadataContext = metadata;
         }
 
+        private FederationPartyAuthnRequestConfiguration BuildFederationPartyAuthnRequestConfiguration(AutnRequestSettings autnRequestSettings)
+        {
+            if (autnRequestSettings == null)
+                throw new ArgumentNullException("autnRequestSettings");
+            if (autnRequestSettings.RequitedAutnContext == null)
+                throw new ArgumentNullException("requitedAutnContext");
+
+            var requestedAuthnContextConfiguration = new RequestedAuthnContextConfiguration(autnRequestSettings.RequitedAutnContext.Comparison.ToString());
+            autnRequestSettings.RequitedAutnContext.RequitedAuthnContexts.Aggregate(requestedAuthnContextConfiguration.RequestedAuthnContexts, (t, next) =>
+            {
+                t.Add(new Kernel.Federation.Protocols.AuthnContext(next.RefType.ToString(), new Uri(next.Value)));
+                return t;
+            });
+            if (autnRequestSettings.NameIdConfiguration == null)
+                throw new ArgumentNullException("nameIdConfiguration");
+
+            var defaultNameId = new DefaultNameId(new Uri(autnRequestSettings.NameIdConfiguration.DefaultNameIdFormat.Uri))
+            {
+                AllowCreate = autnRequestSettings.NameIdConfiguration.AllowCreate,
+                EncryptNameId = autnRequestSettings.NameIdConfiguration.EncryptNameId
+            };
+            var configuration = new FederationPartyAuthnRequestConfiguration(requestedAuthnContextConfiguration, defaultNameId)
+            {
+                ForceAuthn = autnRequestSettings.ForceAuthn,
+                IsPassive = autnRequestSettings.IsPassive,
+                Version = autnRequestSettings.Version ?? "2.0"
+            };
+            return configuration;
+        }
         public void Dispose()
         {
             if(this._dbContext != null)

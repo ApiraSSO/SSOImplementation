@@ -6,7 +6,7 @@ namespace Kernel.Federation.Protocols
 {
     public class AuthnRequestContext
     {
-        public AuthnRequestContext(Uri destination, FederationPartyContext federationPartyContext, ICollection<Uri> supportedNameIdentifierFormats)
+        public AuthnRequestContext(Uri destination, FederationPartyConfiguration federationPartyContext, ICollection<Uri> supportedNameIdentifierFormats)
         {
             if (destination == null)
                 throw new ArgumentNullException("destination");
@@ -24,6 +24,6 @@ namespace Kernel.Federation.Protocols
         public IDictionary<string, object> RelyingState { get; }
         public Uri Destination { get; }
         public ICollection<Uri> SupportedNameIdentifierFormats { get; }
-        public FederationPartyContext FederationPartyContext { get; }
+        public FederationPartyConfiguration FederationPartyContext { get; }
     }
 }

@@ -58,6 +58,7 @@
     <Compile Include="Mock\CertificateValidationRuleFailedMock.cs" />
     <Compile Include="Mock\CertificateValidationRuleMock1.cs" />
     <Compile Include="Mock\CertificateValidationRuleMock.cs" />
+    <Compile Include="Mock\LogProviderMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +72,10 @@
     <ProjectReference Include="..\..\..\Kernel\Kernel.Federation\Kernel.Federation.csproj">
       <Project>{47FE8E9F-CCF6-46B7-BA75-CBA1D1F56D7A}</Project>
       <Name>Kernel.Federation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Logging\Kernel.Logging.csproj">
+      <Project>{7DA939D6-5443-498F-AAA1-3CE3134BC3EB}</Project>
+      <Name>Kernel.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\SecurityManagement\SecurityManagement.csproj">
       <Project>{f194d759-ae81-488c-8230-ef63836b44c9}</Project>

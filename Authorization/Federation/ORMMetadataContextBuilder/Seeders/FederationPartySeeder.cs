@@ -3,6 +3,7 @@ using System.Linq;
 using Kernel.Data.ORM;
 using ORMMetadataContextProvider.Models;
 using ORMMetadataContextProvider.Models.GlobalConfiguration;
+using Shared.Federtion.Models;
 
 namespace ORMMetadataContextProvider.Seeders
 {
@@ -21,11 +22,8 @@ namespace ORMMetadataContextProvider.Seeders
         {
             var metadata = Seeder._cache[Seeder.Metadata] as MetadataSettings;
             var security = Seeder._cache[Seeder.Security] as SecuritySettings;
-            var nameIds = Seeder._cache[Seeder.NameIdKey] as IEnumerable<NameIdFormat>;
-            var persistentNameId = nameIds
-                .First(x => x.Key == "Persistent");
-            var transientNameId = nameIds
-                .First(x => x.Key == "Transient");
+            
+            var authnRequestSettings = this.GetAutnRequestSettings();
 
             var imperialFederationParty = new FederationPartySettings
             {
@@ -37,7 +35,7 @@ namespace ORMMetadataContextProvider.Seeders
             };
             imperialFederationParty.MetadataSettings = metadata;
             imperialFederationParty.SecuritySettings = security;
-            imperialFederationParty.DefaultNameIdFormat = persistentNameId;
+            imperialFederationParty.AutnRequestSettings = authnRequestSettings;
 
             //shibboleth test metadata settings
             var testFederationParty = new FederationPartySettings
@@ -50,7 +48,7 @@ namespace ORMMetadataContextProvider.Seeders
             };
             testFederationParty.MetadataSettings = metadata;
             testFederationParty.SecuritySettings = security;
-            testFederationParty.DefaultNameIdFormat = transientNameId;
+            testFederationParty.AutnRequestSettings = authnRequestSettings;
 
             //local
             var localFederationParty = new FederationPartySettings
@@ -63,7 +61,7 @@ namespace ORMMetadataContextProvider.Seeders
             };
             localFederationParty.MetadataSettings = metadata;
             localFederationParty.SecuritySettings = security;
-            localFederationParty.DefaultNameIdFormat = persistentNameId;
+            localFederationParty.AutnRequestSettings = authnRequestSettings;
 
             context.Add<FederationPartySettings>(imperialFederationParty);
             context.Add<FederationPartySettings>(testFederationParty);
@@ -76,6 +74,42 @@ namespace ORMMetadataContextProvider.Seeders
             security.RelyingParties.Add(imperialFederationParty);
             security.RelyingParties.Add(localFederationParty);
             security.RelyingParties.Add(testFederationParty);
+        }
+
+        private AutnRequestSettings GetAutnRequestSettings()
+        {
+            var authnContexts = Seeder._cache[Seeder.SamlAutnContextKey] as IEnumerable<SamlAutnContext>;
+            var nameIds = Seeder._cache[Seeder.NameIdKey] as IEnumerable<NameIdFormat>;
+
+            var persistentNameId = nameIds
+                .First(x => x.Key == "Persistent");
+            var transientNameId = nameIds
+                .First(x => x.Key == "Transient");
+
+            var settings = new AutnRequestSettings
+            {
+                ForceAuthn = false,
+                IsPassive = false,
+                Version = "2.0",
+                RequitedAutnContext = new RequitedAutnContext
+                {
+                    Comparison = AuthnContextComparisonType.Exact
+                },
+                NameIdConfiguration = new NameIdConfiguration
+                {
+                    AllowCreate = false,
+                    EncryptNameId = false,
+                    DefaultNameIdFormat = transientNameId
+                }
+            };
+
+            authnContexts.Aggregate(settings.RequitedAutnContext.RequitedAuthnContexts, (t, next) => 
+            {
+                t.Add(next);
+                return t;
+            });
+
+            return settings;
         }
     }
 }

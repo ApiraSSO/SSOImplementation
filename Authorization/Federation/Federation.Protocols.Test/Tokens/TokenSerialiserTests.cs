@@ -107,6 +107,7 @@ namespace Federation.Protocols.Test.Tokens
         }
 
         [Test]
+        [Ignore("Access local file. To be used only as a cross reference.")]
         public void DeserialiseTokenTest_signed_only_assertion_manual_signature_verification()
         {
             //ARRANGE

@@ -6,7 +6,7 @@ namespace Kernel.Federation.MetaData
 {
     public interface IMetadataGenerator
     {
-        Task CreateMetadata(FederationPartyContext federationPartyContext, XmlWriter xmlWriter);
+        Task CreateMetadata(FederationPartyConfiguration federationPartyContext, XmlWriter xmlWriter);
         Task CreateMetadata(MetadataGenerateRequest context);
     }
 }

@@ -5,9 +5,9 @@ namespace Federation.Metadata.Consumer.Tests.Mock
 {
     internal class FederationPartyContextBuilderMock : IFederationPartyContextBuilder
     {
-        public FederationPartyContext BuildContext(string federationPartyId)
+        public FederationPartyConfiguration BuildContext(string federationPartyId)
         {
-            var context = new FederationPartyContext(federationPartyId, "C:\\");
+            var context = new FederationPartyConfiguration(federationPartyId, "C:\\");
 
             return context;
         }

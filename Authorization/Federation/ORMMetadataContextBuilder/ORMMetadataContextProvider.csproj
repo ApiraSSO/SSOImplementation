@@ -48,6 +48,9 @@
     <Compile Include="Initialisation\ORMMetadataContextProviderInitialiser.cs" />
     <Compile Include="MetadataContextBuilder.cs" />
     <Compile Include="MetadataHelper.cs" />
+    <Compile Include="Models\NameIdConfiguration.cs" />
+    <Compile Include="Models\SamlAutnContext.cs" />
+    <Compile Include="Models\AutnRequestSettings.cs" />
     <Compile Include="Models\Datapart.cs" />
     <Compile Include="Models\DatepartValue.cs" />
     <Compile Include="Models\GlobalConfiguration\CertificateValidationRule.cs" />
@@ -64,6 +67,7 @@
     <Compile Include="Models\Certificate.cs" />
     <Compile Include="Models\LocalisedName.cs" />
     <Compile Include="Models\OrganisationSettings.cs" />
+    <Compile Include="Models\RequitedAutnContext.cs" />
     <Compile Include="Models\SPDescriptorSettings.cs" />
     <Compile Include="Models\SSODescriptorSettings.cs" />
     <Compile Include="Models\RoleDescriptorSettings.cs" />
@@ -74,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FederationParty\FederationPartyContextBuilder.cs" />
     <Compile Include="Security\CertificateValidationConfigurationProvider.cs" />
+    <Compile Include="Seeders\AuthnContextSeeder.cs" />
     <Compile Include="Seeders\NameIdFormatSeeder.cs" />
     <Compile Include="Seeders\EntityDescriptorSeeder.cs" />
     <Compile Include="Seeders\MetadataSettingsSeeder.cs" />

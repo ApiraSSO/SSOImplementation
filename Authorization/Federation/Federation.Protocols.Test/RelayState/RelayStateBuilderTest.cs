@@ -5,6 +5,7 @@ using DeflateCompression;
 using Federation.Protocols.Bindings.HttpRedirect.ClauseBuilders;
 using Federation.Protocols.Endocing;
 using Federation.Protocols.RelayState;
+using Federation.Protocols.Test.Mock;
 using Kernel.Federation.Protocols;
 using NUnit.Framework;
 using Serialisation.JSON;
@@ -24,7 +25,8 @@ namespace Federation.Protocols.Test.RelayState
             var compressor = new DeflateCompressor();
             var messageEncoder = new MessageEncoding(compressor);
             var jsonSerialiser = new NSJsonSerializer(new DefaultSettingsProvider());
-            var serialiser = new RelaystateSerialiser(jsonSerialiser, messageEncoder) as IRelayStateSerialiser;
+            var logger = new LogProviderMock();
+            var serialiser = new RelaystateSerialiser(jsonSerialiser, messageEncoder, logger) as IRelayStateSerialiser;
             
             var context = new BindingContext(relayState, new Uri("localhost:"));
             var builder = new RelayStateBuilder(serialiser);

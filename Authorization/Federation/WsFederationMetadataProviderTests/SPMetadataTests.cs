@@ -33,19 +33,20 @@ namespace WsFederationMetadataProviderTests
 
             //});
 
-
+            var logger = new LogProviderMock();
             var contextBuilder = new InlineMetadataContextBuilder();
             var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
             var metadataContext = contextBuilder.BuildContext(metadataRequest);
-            var context = new FederationPartyContext(metadataRequest.FederationPartyId, "localhost");
+            var context = new FederationPartyConfiguration(metadataRequest.FederationPartyId, "localhost");
             context.MetadataContext = metadataContext;
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certificateValidator = new CertificateValidator(configurationProvider);
-            var ssoCryptoProvider = new CertificateManager();
+            var ssoCryptoProvider = new CertificateManager(logger);
             
-            var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator);
+            var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator, logger);
             var metadataDispatcher = new FederationMetadataDispatcherMock(() => new[] { metadataWriter });
-            var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataDispatcher, ssoCryptoProvider, metadataSerialiser, g => context);
+            
+            var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataDispatcher, ssoCryptoProvider, metadataSerialiser, g => context, logger);
             
             //ACT
             sPSSOMetadataProvider.CreateMetadata(metadataRequest);
@@ -74,19 +75,19 @@ namespace WsFederationMetadataProviderTests
                 result = true;
             });
 
-
+            var logger = new LogProviderMock();
             var contextBuilder = new InlineMetadataContextBuilder();
             var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
             var metadatContext = contextBuilder.BuildContext(metadataRequest);
-            var context = new FederationPartyContext(metadataRequest.FederationPartyId, "localhost");
+            var context = new FederationPartyConfiguration(metadataRequest.FederationPartyId, "localhost");
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certificateValidator = new CertificateValidator(configurationProvider);
-            var ssoCryptoProvider = new CertificateManager();
-
-            var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator);
-
+            var ssoCryptoProvider = new CertificateManager(logger);
+            
+            var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator, logger);
             var metadataDispatcher = new FederationMetadataDispatcherMock(() => new[] { metadataWriter });
-            var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataDispatcher, ssoCryptoProvider, metadataSerialiser, g => context);
+            
+            var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataDispatcher, ssoCryptoProvider, metadataSerialiser, g => context, logger);
 
             //ACT
             sPSSOMetadataProvider.CreateMetadata(metadataRequest);
@@ -98,24 +99,25 @@ namespace WsFederationMetadataProviderTests
         public void SPMetadata_serialise_deserialise_Test()
         {
             ////ARRANGE
-
+            var logger = new LogProviderMock();
             string metadataXml = String.Empty;
             var metadataWriter = new TestMetadatWriter(el => metadataXml = el.OuterXml);
             
             var contextBuilder = new InlineMetadataContextBuilder();
             var metadataRequest = new MetadataGenerateRequest(MetadataType.SP, "local");
             var metadataContext = contextBuilder.BuildContext(metadataRequest);
-            var context = new FederationPartyContext(metadataRequest.FederationPartyId, "localhost");
+            var context = new FederationPartyConfiguration(metadataRequest.FederationPartyId, "localhost");
             context.MetadataContext = metadataContext;
 
             var configurationProvider = new CertificateValidationConfigurationProvider();
             var certificateValidator = new CertificateValidator(configurationProvider);
-            var ssoCryptoProvider = new CertificateManager();
-
-            var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator);
+            var ssoCryptoProvider = new CertificateManager(logger);
+            
+            var metadataSerialiser = new FederationMetadataSerialiser(certificateValidator, logger);
 
             var metadataDispatcher = new FederationMetadataDispatcherMock(() => new[] { metadataWriter });
-            var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataDispatcher, ssoCryptoProvider, metadataSerialiser, g => context);
+            
+            var sPSSOMetadataProvider = new SPSSOMetadataProvider(metadataDispatcher, ssoCryptoProvider, metadataSerialiser, g => context, logger);
             
             //ACT
             sPSSOMetadataProvider.CreateMetadata(metadataRequest);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Kernel.Federation.Protocols;
+using Kernel.Logging;
 using Kernel.Serialisation;
 using Serialisation.JSON;
 
@@ -12,10 +13,12 @@ namespace Federation.Protocols.RelayState
     {
         private readonly IMessageEncoding _encoding;
         private readonly IJsonSerialiser _jsonSerialiser;
-        public RelaystateSerialiser(IJsonSerialiser jsonSerialiser, IMessageEncoding encoding)
+        private readonly ILogProvider _logProvider;
+        public RelaystateSerialiser(IJsonSerialiser jsonSerialiser, IMessageEncoding encoding, ILogProvider logProvider)
         {
             this._jsonSerialiser = jsonSerialiser;
             this._encoding = encoding;
+            this._logProvider = logProvider;
         }
         public object[] Deserialize(Stream stream, IList<Type> messageTypes)
         {
@@ -35,6 +38,7 @@ namespace Federation.Protocols.RelayState
         public async Task<string> Serialize(object data)
         {
             var jsonString = this._jsonSerialiser.Serialize(data);
+            this._logProvider.LogMessage(String.Format("Relay state serialised:\r\n{0}", jsonString));
             var encoded = await this._encoding.EncodeMessage(jsonString);
             return encoded;
         }

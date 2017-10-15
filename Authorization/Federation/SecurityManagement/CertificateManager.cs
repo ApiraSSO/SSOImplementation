@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -6,11 +7,17 @@ using System.Text;
 using Kernel.Cryptography.CertificateManagement;
 using Kernel.Cryptography.DataProtection;
 using Kernel.Federation.MetaData.Configuration.Cryptography;
+using Kernel.Logging;
 
 namespace SecurityManagement
 {
     public class CertificateManager : ICertificateManager
     {
+        private readonly ILogProvider _logProvider;
+        public CertificateManager(ILogProvider logProvider)
+        {
+            this._logProvider = logProvider;
+        }
         public bool TryAddCertificateToStore(string storeName, StoreLocation location, X509Certificate2 certificate, bool createIfNotExist)
         {
             try
@@ -44,21 +51,31 @@ namespace SecurityManagement
         }
 
         public X509Certificate2 GetCertificateFromContext(CertificateContext certContext)
-        {
+        { 
             var store = this.GetStoreFromContext(certContext);
             return this.GetCertificate(store);
         }
 
         public ICertificateStore GetStoreFromContext(CertificateContext certContext)
         {
-            if (certContext is X509CertificateContext)
-                return new X509StoreCertificateConfiguration(certContext);
+            var sb = new StringBuilder();
+            var x509Context = certContext as X509CertificateContext;
+            if (x509Context == null)
+            {
+                sb.AppendFormat("Certificate context of type: {0} is not supported.", certContext.GetType().Name);
+                throw new NotSupportedException(sb.ToString());
+            }
 
-            throw new NotSupportedException(String.Format("Certificate context of type: {0} is not supported.", certContext.GetType().Name));
+            sb.AppendLine("Try to get certificate store from context. Certificate context details:");
+            sb.AppendLine(x509Context.ToString());
+            this._logProvider.LogMessage(sb.ToString());
+            
+            return new X509StoreCertificateConfiguration(x509Context);
         }
 
         public string SignToBase64(string dataToSign, CertificateContext certContext)
         {
+            this._logProvider.LogMessage(String.Format("Signing data with certificate from context: {0}", certContext.ToString()));
             var data = Encoding.UTF8.GetBytes(dataToSign);
             var cert = this.GetCertificateFromContext(certContext);
             var signed = RSADataProtection.SignDataSHA1((RSA)cert.PrivateKey, data);

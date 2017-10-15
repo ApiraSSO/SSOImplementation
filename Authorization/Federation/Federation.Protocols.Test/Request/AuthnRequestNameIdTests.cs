@@ -12,10 +12,10 @@ using Serialisation.Xml;
 using Shared.Federtion.Constants;
 using Shared.Federtion.Models;
 
-namespace Federation.Protocols.Test
+namespace Federation.Protocols.Test.Request
 {
     [TestFixture]
-    public class AuthnRequestTests
+    public class AuthnRequestNameIdTests
     {
         [Test]
         public void BuildAuthnRequest_test_nameid_fortmat_match()
@@ -195,7 +195,8 @@ namespace Federation.Protocols.Test
             var xmlSerialiser = new XMLSerialiser();
             var compressor = new DeflateCompressor();
             var encoder = new MessageEncoding(compressor);
-            var serialiser = new AuthnRequestSerialiser(xmlSerialiser, encoder);
+            var logger = new LogProviderMock();
+            var serialiser = new AuthnRequestSerialiser(xmlSerialiser, encoder, logger);
             AuthnRequestHelper.GetBuilders = AuthnRequestBuildersFactoryMock.GetBuildersFactory();
             var authnRequest = AuthnRequestHelper.BuildAuthnRequest(authnRequestContext);
 

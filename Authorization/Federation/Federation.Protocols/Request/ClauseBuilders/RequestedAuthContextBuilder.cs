@@ -1,5 +1,6 @@
-﻿using Kernel.Federation.FederationPartner;
-using Shared.Federtion.Constants;
+﻿using System;
+using System.Linq;
+using Kernel.Federation.FederationPartner;
 using Shared.Federtion.Models;
 
 namespace Federation.Protocols.Request.ClauseBuilders
@@ -8,11 +9,14 @@ namespace Federation.Protocols.Request.ClauseBuilders
     {
         protected override void BuildInternal(AuthnRequest request, AuthnRequestConfiguration configuration)
         {
+            if (configuration.RequestedAuthnContextConfiguration == null)
+                return;
+            var comparison = (AuthnContextComparisonType)Enum.Parse(typeof(AuthnContextComparisonType), configuration.RequestedAuthnContextConfiguration.Comparision);
             request.RequestedAuthnContext = new RequestedAuthnContext
             {
-                Comparison = AuthnContextComparisonType.Exact,
-                ItemsElementName = new[] { AuthnContextType.AuthnContextClassRef },
-                Items = new[] { AuthnticationContexts.PasswordProtectedTransport }
+                Comparison = comparison,
+                ItemsElementName = configuration.RequestedAuthnContextConfiguration.RequestedAuthnContexts.Select(x => (AuthnContextType)Enum.Parse(typeof(AuthnContextType), x.AuthnContextType)).ToArray(),
+                Items = configuration.RequestedAuthnContextConfiguration.RequestedAuthnContexts.Select(x => x.AuthnContextUri.AbsoluteUri).ToArray()
             };
         }
     }

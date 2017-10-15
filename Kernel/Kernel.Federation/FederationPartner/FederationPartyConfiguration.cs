@@ -3,7 +3,7 @@ using Kernel.Federation.MetaData.Configuration;
 
 namespace Kernel.Federation.FederationPartner
 {
-    public class FederationPartyContext
+    public class FederationPartyConfiguration
     {
         public static readonly TimeSpan DefaultAutomaticRefreshInterval = new TimeSpan(1, 0, 0, 0);
         public static readonly TimeSpan DefaultRefreshInterval = new TimeSpan(0, 0, 0, 30);
@@ -40,7 +40,7 @@ namespace Kernel.Federation.FederationPartner
         public string MetadataAddress { get; }
         public string FederationPartyId { get; }
         public MetadataContext MetadataContext { get; set; }
-        
+        public FederationPartyAuthnRequestConfiguration FederationPartyAuthnRequestConfiguration { get; set; }
         public TimeSpan AutomaticRefreshInterval
         {
             get
@@ -49,8 +49,8 @@ namespace Kernel.Federation.FederationPartner
             }
             set
             {
-                if (value < FederationPartyContext.MinimumAutomaticRefreshInterval)
-                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10107: When setting AutomaticRefreshInterval, the value must be greater than MinimumAutomaticRefreshInterval: '{0}'. value: '{1}'.", FederationPartyContext.MinimumAutomaticRefreshInterval, value));
+                if (value < FederationPartyConfiguration.MinimumAutomaticRefreshInterval)
+                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10107: When setting AutomaticRefreshInterval, the value must be greater than MinimumAutomaticRefreshInterval: '{0}'. value: '{1}'.", FederationPartyConfiguration.MinimumAutomaticRefreshInterval, value));
                 this._automaticRefreshInterval = value;
             }
         }
@@ -62,13 +62,15 @@ namespace Kernel.Federation.FederationPartner
             }
             set
             {
-                if (value < FederationPartyContext.MinimumRefreshInterval)
-                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10106: When setting RefreshInterval, the value must be greater than MinimumRefreshInterval: '{0}'. value: '{1}'.", FederationPartyContext.MinimumRefreshInterval, value));
+                if (value < FederationPartyConfiguration.MinimumRefreshInterval)
+                    throw new ArgumentOutOfRangeException("value", String.Format("IDX10106: When setting RefreshInterval, the value must be greater than MinimumRefreshInterval: '{0}'. value: '{1}'.", FederationPartyConfiguration.MinimumRefreshInterval, value));
                 this._refreshInterval = value;
             }
         }
-        public Uri DefaultNameIdFormat { get; set; }
-        public FederationPartyContext(string federationPartyId, string metadataAddress)
+        
+        public ScopingConfiguration ScopingConfiguration { get; set; }
+
+        public FederationPartyConfiguration(string federationPartyId, string metadataAddress)
         {
             if (String.IsNullOrWhiteSpace(federationPartyId))
                 throw new ArgumentNullException("federationParty");
@@ -77,13 +79,17 @@ namespace Kernel.Federation.FederationPartner
                 throw new ArgumentNullException("metadataContext");
             this.FederationPartyId = federationPartyId;
             this.MetadataAddress = metadataAddress;
-            this.AutomaticRefreshInterval = FederationPartyContext.DefaultAutomaticRefreshInterval;
-            this.RefreshInterval = FederationPartyContext.DefaultRefreshInterval;
-            this.DefaultNameIdFormat = new Uri("urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified");
+            this.AutomaticRefreshInterval = FederationPartyConfiguration.DefaultAutomaticRefreshInterval;
+            this.RefreshInterval = FederationPartyConfiguration.DefaultRefreshInterval;
+            
+            this.ScopingConfiguration = new ScopingConfiguration();
         }
         public AuthnRequestConfiguration GetRequestConfigurationFromContext()
         {
-            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat);
+            if (this.MetadataContext == null)
+                throw new ArgumentNullException("metadataContext");
+
+            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.ScopingConfiguration, this.FederationPartyAuthnRequestConfiguration);
         }
     }
 }

@@ -51,7 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthnRequestTests.cs" />
+    <Compile Include="Mock\LogProviderMock.cs" />
+    <Compile Include="Request\AuthnRequestNameIdTests.cs" />
     <Compile Include="Encoding\MessageEncodingTest.cs" />
     <Compile Include="HelperTests.cs" />
     <Compile Include="Mock\CertificateValidatorMock.cs" />
@@ -64,7 +65,10 @@
     <Compile Include="RelayState\RelayStateBuilderTest.cs" />
     <Compile Include="RelayState\RelayStateHandlerTest.cs" />
     <Compile Include="RelayState\RelayStateSerialiserTest.cs" />
-    <Compile Include="ResponseTest.cs" />
+    <Compile Include="Request\AuthnRequestRequestedContextTests.cs" />
+    <Compile Include="Request\AuthnRequestScopingTests.cs" />
+    <Compile Include="Response\ResponseStatusTests.cs" />
+    <Compile Include="Response\ResponseTest.cs" />
     <Compile Include="Mock\Tokens\SubjectConfirmationDataValidatorMock.cs" />
     <Compile Include="Tokens\TokenHelperTests.cs" />
     <Compile Include="Tokens\TokenSerialiserTests.cs" />
@@ -93,6 +97,10 @@
     <ProjectReference Include="..\..\..\Kernel\Kernel.Federation\Kernel.Federation.csproj">
       <Project>{47FE8E9F-CCF6-46B7-BA75-CBA1D1F56D7A}</Project>
       <Name>Kernel.Federation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Kernel\Kernel.Logging\Kernel.Logging.csproj">
+      <Project>{7DA939D6-5443-498F-AAA1-3CE3134BC3EB}</Project>
+      <Name>Kernel.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Kernel\Kernel.Reflection\Kernel.Reflection.csproj">
       <Project>{2A6BA5FB-DBAA-457A-9CB3-9BA74A96551B}</Project>

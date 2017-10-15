@@ -2,10 +2,10 @@
 
 namespace Kernel.Logging
 {
-	/// <summary>
-	/// Log providers members
-	/// </summary>
-	/// <seealso cref="System.IDisposable" />
+    /// <summary>
+    /// Log providers members
+    /// </summary>
+    /// <seealso cref="System.IDisposable" />
     public interface ILogProvider : IDisposable
     {
 		/// <summary>

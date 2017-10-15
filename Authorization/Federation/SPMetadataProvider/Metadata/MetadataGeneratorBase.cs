@@ -12,6 +12,7 @@ using Kernel.Federation.MetaData;
 using Kernel.Federation.MetaData.Configuration;
 using Kernel.Federation.MetaData.Configuration.EntityDescriptors;
 using Kernel.Federation.MetaData.Configuration.RoleDescriptors;
+using Kernel.Logging;
 using WsFederationMetadataProvider.Metadata.DescriptorBuilders;
 
 namespace WsFederationMetadataProvider.Metadata
@@ -19,21 +20,24 @@ namespace WsFederationMetadataProvider.Metadata
     public abstract class MetadataGeneratorBase : IMetadataGenerator
     {
         protected IFederationMetadataDispatcher _metadataDispatcher;
-
         protected readonly ICertificateManager _certificateManager;
         protected readonly IMetadataSerialiser<MetadataBase> _serialiser;
-        protected readonly Func<MetadataGenerateRequest, FederationPartyContext> _contextFactory;
-        public MetadataGeneratorBase(IFederationMetadataDispatcher metadataDispatcher, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, FederationPartyContext> contextFactory)
+        protected readonly Func<MetadataGenerateRequest, FederationPartyConfiguration> _contextFactory;
+        private readonly ILogProvider _logProvider;
+        public MetadataGeneratorBase(IFederationMetadataDispatcher metadataDispatcher, ICertificateManager certificateManager, IMetadataSerialiser<MetadataBase> serialiser, Func<MetadataGenerateRequest, FederationPartyConfiguration> contextFactory, ILogProvider logProvider)
         {
             this._metadataDispatcher = metadataDispatcher;
             this._certificateManager = certificateManager;
             this._serialiser = serialiser;
             this._contextFactory = contextFactory;
+            this._logProvider = logProvider;
         }
 
         public async Task CreateMetadata(MetadataGenerateRequest context)
         {
             var configuration = this._contextFactory(context);
+            this._logProvider.LogMessage(String.Format("Metadata create request recieved on {0} for federation party: {1}", DateTimeOffset.Now, configuration.FederationPartyId));
+
             var sb = new StringBuilder();
 
             using (var xmlWriter = XmlWriter.Create(sb))
@@ -42,11 +46,12 @@ namespace WsFederationMetadataProvider.Metadata
             }
             var metadata = new XmlDocument();
             metadata.LoadXml(sb.ToString());
+            this._logProvider.LogMessage(String.Format("SP matadata:\r\n{0}", sb.ToString()));
             var dispatcherContext = new DispatcherContext(metadata.DocumentElement, context.Target);
             await this._metadataDispatcher.Dispatch(dispatcherContext);
         }
 
-        Task IMetadataGenerator.CreateMetadata(FederationPartyContext federationPartyContext, XmlWriter xmlWriter)
+        Task IMetadataGenerator.CreateMetadata(FederationPartyConfiguration federationPartyContext, XmlWriter xmlWriter)
         {
             try
             {
@@ -63,10 +68,7 @@ namespace WsFederationMetadataProvider.Metadata
                 var entityDescriptor = BuildEntityDesciptor(configuration, descriptors);
                 this.SignMetadata(federationPartyContext.MetadataContext, entityDescriptor);
                 var sb = new StringBuilder();
-                
-               
                 this._serialiser.Serialise(xmlWriter, entityDescriptor);
-               
                 return Task.CompletedTask;
             }
             catch (Exception ex)
@@ -87,7 +89,7 @@ namespace WsFederationMetadataProvider.Metadata
 
             if (signMetadataKey == null)
                 throw new Exception("No default certificate found");
-
+            this._logProvider.LogMessage(String.Format("Trying to resolve certificate from context: {0}", signMetadataKey.CertificateContext.ToString()));
             var certificate = this._certificateManager.GetCertificateFromContext(signMetadataKey.CertificateContext);
             var signingCredentials = new SigningCredentials(new X509AsymmetricSecurityKey(certificate), context.MetadataSigningContext.SignatureAlgorithm, context.MetadataSigningContext.DigestAlgorithm, new SecurityKeyIdentifier(new X509RawDataKeyIdentifierClause(certificate)));
             metadata.SigningCredentials = signingCredentials;
