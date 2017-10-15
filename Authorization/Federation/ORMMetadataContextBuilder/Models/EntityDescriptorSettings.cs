@@ -9,7 +9,7 @@ namespace ORMMetadataContextProvider.Models
         public EntityDescriptorSettings()
         {
             this.RoleDescriptors = new List<RoleDescriptorSettings>();
-            this.IncludeOrganisationInfo = false;
+            this.IncludeOrganisationInfo = true;
         }
 
         public string EntityId { get; set; }
