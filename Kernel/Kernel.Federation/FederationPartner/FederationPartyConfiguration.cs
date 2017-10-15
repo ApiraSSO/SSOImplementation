@@ -93,7 +93,7 @@ namespace Kernel.Federation.FederationPartner
             if (this.MetadataContext == null)
                 throw new ArgumentNullException("metadataContext");
 
-            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat, this.RequestedAuthnContextConfiguration, this.ScopingConfiguration, this.FederationPartyAuthnRequestConfiguration);
+            return new AuthnRequestConfiguration(this.MetadataContext.EntityDesriptorConfiguration, this.DefaultNameIdFormat, this.ScopingConfiguration, this.FederationPartyAuthnRequestConfiguration);
         }
     }
 }

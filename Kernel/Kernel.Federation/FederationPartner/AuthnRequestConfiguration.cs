@@ -8,7 +8,7 @@ namespace Kernel.Federation.FederationPartner
     public class AuthnRequestConfiguration
     {
         private readonly EntityDesriptorConfiguration _entityDesriptorConfiguration;
-        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid, RequestedAuthnContextConfiguration requestedAuthnContextConfiguration, ScopingConfiguration scopingConfiguration, FederationPartyAuthnRequestConfiguration federationPartyAuthnRequestConfiguration)
+        public AuthnRequestConfiguration(EntityDesriptorConfiguration entityDesriptorConfiguration, Uri defaultNameid, ScopingConfiguration scopingConfiguration, FederationPartyAuthnRequestConfiguration federationPartyAuthnRequestConfiguration)
         {
             this._entityDesriptorConfiguration = entityDesriptorConfiguration;
             this.EntityId = entityDesriptorConfiguration.EntityId;
@@ -23,7 +23,7 @@ namespace Kernel.Federation.FederationPartner
             this.AllowCreateNameIdPolicy = false;
             this.SupportedNameIdentifierFormats = new List<Uri>();
             this.DefaultNameIdFormat = defaultNameid;
-            this.RequestedAuthnContextConfiguration = requestedAuthnContextConfiguration;
+            this.RequestedAuthnContextConfiguration = federationPartyAuthnRequestConfiguration.RequestedAuthnContextConfiguration;
             this.ScopingConfiguration = scopingConfiguration;
         }
 
